@@ -1,6 +1,6 @@
 # Portfolio assignment 3.1: CV
 
-Ik heb het template 'HTML resume' van {pagedown} gebruikt om met R Markdown een CV als [PDF bestand](...) te genereren.
+Ik heb het template 'HTML resume' van {pagedown} gebruikt om met R Markdown een CV als [PDF bestand](https://github.com/stephaniedewit/stephaniedewit.github.io/blob/main/test_cv_pagedown.pdf) te genereren.
 
 ## Template R Markdown syntax
 
