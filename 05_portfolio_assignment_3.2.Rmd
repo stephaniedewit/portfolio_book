@@ -1,8 +1,4 @@
-# Portfolio assignment 3
-
-## CV
-
-## Plan van Aanpak vrije besteding
+# Portfolio assignment 3.2: Plan van Aanpak vrije besteding
 
 Over twee jaar wil ik werkzaam zijn als biomedisch analist en bijdragen aan onderzoek naar de ontwikkeling, bestrijding en genezing van ziekten. Daarnaast wil ik vaardiger blijven worden in R zodat ik het vernuftig kan gebruiken om mijn onderzoeksresultaten te presenteren en analyseren. Ik ben goed opweg: op dit moment ben ik opzoek naar een afstudeerstage en heb ik al 15/30 EC behaald binnen de Data Science for Biology 1 & 2 minor. 
 

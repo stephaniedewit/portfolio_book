@@ -2,6 +2,5 @@ hello-world
 portfolio-assignment-1.1-c.-elegans-data
 portfolio-assignment-1.2-reproducibility
 portfolio-assignment-2-folder-trees
-portfolio-assignment-3
-cv
-plan-van-aanpak-vrije-besteding
+portfolio-assignment-3.1-cv
+portfolio-assignment-3.2-plan-van-aanpak-vrije-besteding
