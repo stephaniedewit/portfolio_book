@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Portfolio assignment 1.1: C. elegans data | Portfolio DSFB2</title>
+  <meta name="description" content="2 Portfolio assignment 1.1: C. elegans data | Portfolio DSFB2" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 Portfolio assignment 1.1: C. elegans data | Portfolio DSFB2" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 Portfolio assignment 1.1: C. elegans data | Portfolio DSFB2" />
+  
+  
+  
+
+<meta name="author" content="Stephanie de Wit" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="portfolio-assignment-1.2-reproducibility.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="portfolio_style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Hello World</a></li>
+<li class="chapter" data-level="2" data-path="portfolio-assignment-1.1-c.-elegans-data.html"><a href="portfolio-assignment-1.1-c.-elegans-data.html"><i class="fa fa-check"></i><b>2</b> Portfolio assignment 1.1: <em>C. elegans</em> data</a></li>
+<li class="chapter" data-level="3" data-path="portfolio-assignment-1.2-reproducibility.html"><a href="portfolio-assignment-1.2-reproducibility.html"><i class="fa fa-check"></i><b>3</b> Portfolio assignment 1.2: Reproducibility</a></li>
+<li class="chapter" data-level="4" data-path="portfolio-assignment-2-folder-trees.html"><a href="portfolio-assignment-2-folder-trees.html"><i class="fa fa-check"></i><b>4</b> Portfolio assignment 2: Folder trees</a></li>
+<li class="chapter" data-level="5" data-path="portfolio-assignment-3.html"><a href="portfolio-assignment-3.html"><i class="fa fa-check"></i><b>5</b> Portfolio assignment 3</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="portfolio-assignment-3.html"><a href="portfolio-assignment-3.html#cv"><i class="fa fa-check"></i><b>5.1</b> CV</a></li>
+<li class="chapter" data-level="5.2" data-path="portfolio-assignment-3.html"><a href="portfolio-assignment-3.html#plan-van-aanpak-vrije-besteding"><i class="fa fa-check"></i><b>5.2</b> Plan van Aanpak vrije besteding</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Portfolio DSFB2</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="portfolio-assignment-1.1-c.-elegans-data" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">2</span> Portfolio assignment 1.1: <em>C. elegans</em> data<a href="portfolio-assignment-1.1-c.-elegans-data.html#portfolio-assignment-1.1-c.-elegans-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><strong>Engelse namen aanpassen naar Nederlands, verschuif Y-as labels verder van as vandaan</strong></p>
+<p><strong>Het <em>C. elegans</em> kweekplaat experiment</strong></p>
+<p>Volwassen <em>C. elegans</em> nematoden zijn blootgesteld aan verschillende concentraties naftaleen, 2,6-di-isopropylnaftaleen en decaan, waarna is onderzocht of deze blootstellingen en negatief effect hebben op het aantal nakomelingen. S-medium dient als negatieve controle voor dit effect, 1,5% ethanol dient als positieve controle.</p>
+<p>De belangrijkste variabelen in de verkregen dataset (.data_raw/data01_assignment_1.1_c.elegans/CE.LIQ.FLOW.062_Tidydata.xlsx) zijn:</p>
+<p>expType: de behandelconditie.</p>
+<p>RawData: het aantal nakomelingen geteld na de incubatietijd.</p>
+<p>compName: de generieke naam van de stof.</p>
+<p>compConcentration: de concentratie van de stof.</p>
+<p>Gebruikte CRAN packages voor de analyse: {ggplot2}</p>
+<p><strong>A.</strong></p>
+<p>Het Excel bestand heeft een tidy opmaak, maar bevat verschillende variabelen die voor elke onderzochte vial hetzelfde zijn. Zoals: elegansStrain, bacterialStrain, incubateTemperature etc. Het bestand bevat één sheet waarin de aanpassingen aan de parameter ‘levels’ zijn gedocumenteerd en één sheet met alle unieke ‘level’ opties per parameter. Er staan ook ‘levels’ tussen die niet zijn gebruikt in dit experiment; zo is er geïncubeerd bij 20 (waarschijnlijk) graden Celsius maar 15, 16, 25 en RT(?) graden Celcius hadden ook gekund? Er mist een exacte beschrijven van de parameters en hun ‘levels’: zijn de graden inderdaad in Celsius? Betekent het pct ‘level’ van compConcentration procent?</p>
+<p>5 MISSENDE WAARDEN</p>
+<p><strong>B.</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Upload bestand CE.LIQ.FLOW.062_Tidydata.xlsx naar de ./data_raw/data01_assignment_1.1_c.elegans folder</span></span>
+<span id="cb1-2"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Lees het bestand in in R als tibble:</span></span>
+<span id="cb1-4"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb1-4" aria-hidden="true" tabindex="-1"></a>elegans<span class="ot">&lt;-</span><span class="fu">read_excel</span>(<span class="st">&quot;C:/Users/steph/DSFB2/workflows_portfolio_OPNIEUW/data_raw/data01_assignment_1.1/CE.LIQ.FLOW.062_Tidydata.xlsx&quot;</span>)</span>
+<span id="cb1-5"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(elegans)</span></code></pre></div>
+<pre><code>##  plateRow       plateColumn        vialNr        dropCode        
+##  Mode:logical   Mode:logical   Min.   :1.000   Length:360        
+##  NA&#39;s:360       NA&#39;s:360       1st Qu.:1.000   Class :character  
+##                                Median :2.000   Mode  :character  
+##                                Mean   :2.375                     
+##                                3rd Qu.:3.000                     
+##                                Max.   :6.000                     
+##                                                                  
+##    expType           expReplicate    expName             expDate          
+##  Length:360         Min.   :3.00   Length:360         Min.   :2020-11-30  
+##  Class :character   1st Qu.:3.00   Class :character   1st Qu.:2020-11-30  
+##  Mode  :character   Median :3.00   Mode  :character   Median :2020-11-30  
+##                     Mean   :3.75                      Mean   :2020-11-30  
+##                     3rd Qu.:3.75                      3rd Qu.:2020-11-30  
+##                     Max.   :6.00                      Max.   :2020-11-30  
+##                                                                           
+##  expResearcher         expTime     expUnit          expVolumeCounted
+##  Length:360         Min.   :68   Length:360         Min.   :50      
+##  Class :character   1st Qu.:68   Class :character   1st Qu.:50      
+##  Mode  :character   Median :68   Mode  :character   Median :50      
+##                     Mean   :68                      Mean   :50      
+##                     3rd Qu.:68                      3rd Qu.:50      
+##                     Max.   :68                      Max.   :50      
+##                                                                     
+##     RawData       compCASRN           compName         compConcentration 
+##  Min.   :  0.0   Length:360         Length:360         Length:360        
+##  1st Qu.: 51.5   Class :character   Class :character   Class :character  
+##  Median : 72.0   Mode  :character   Mode  :character   Mode  :character  
+##  Mean   : 68.1                                                           
+##  3rd Qu.: 88.0                                                           
+##  Max.   :124.0                                                           
+##  NA&#39;s   :5                                                               
+##    compUnit         compDelivery       compVehicle        elegansStrain     
+##  Length:360         Length:360         Length:360         Length:360        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##   elegansInput bacterialStrain    bacterialTreatment bacterialOD600 
+##  Min.   :25    Length:360         Length:360         Min.   :0.743  
+##  1st Qu.:25    Class :character   Class :character   1st Qu.:0.743  
+##  Median :25    Mode  :character   Mode  :character   Median :0.743  
+##  Mean   :25                                          Mean   :0.743  
+##  3rd Qu.:25                                          3rd Qu.:0.743  
+##  Max.   :25                                          Max.   :0.743  
+##                                                                     
+##  bacterialConcX bacterialVolume bacterialVolUnit   incubationVial    
+##  Min.   :8      Min.   :300     Length:360         Length:360        
+##  1st Qu.:8      1st Qu.:300     Class :character   Class :character  
+##  Median :8      Median :300     Mode  :character   Mode  :character  
+##  Mean   :8      Mean   :300                                          
+##  3rd Qu.:8      3rd Qu.:300                                          
+##  Max.   :8      Max.   :300                                          
+##                                                                      
+##  incubationVolume incubationUnit     incubationMethod   incubationRPM
+##  Min.   :1000     Length:360         Length:360         Min.   :35   
+##  1st Qu.:1000     Class :character   Class :character   1st Qu.:35   
+##  Median :1000     Mode  :character   Mode  :character   Median :35   
+##  Mean   :1000                                           Mean   :35   
+##  3rd Qu.:1000                                           3rd Qu.:35   
+##  Max.   :1000                                           Max.   :35   
+##                                                                      
+##   bubble        incubateTemperature
+##  Mode:logical   Min.   :20         
+##  NA&#39;s:360       1st Qu.:20         
+##                 Median :20         
+##                 Mean   :20         
+##                 3rd Qu.:20         
+##                 Max.   :20         
+## </code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Er missen 5 RawData waarden in het Excel bestand en dus ook in de tibble. De bijbehorende rijen kunnen uit de tibble verwijderd worden, maar {ggplot2} kan ze ook zelf weglaten: Warning: Removed 5 rows containing missing values (geom_point).</span></span></code></pre></div>
+<p><strong>C.</strong></p>
+<p>Na het importeren van de data naar R is variabele RawData van het data type double geworden, dit moet integer zijn. compName is van het data type character, dit is prima. De variabele moet wel tot factor gemaakt worden voor gebruik in een R ggplot grafiek. Variabele compConcentration is van het data type character, dit moet double zijn.</p>
+<p><strong>D.</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb4-1" aria-hidden="true" tabindex="-1"></a>elegans<span class="sc">%&gt;%</span><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.double</span>(compConcentration),<span class="at">y=</span><span class="fu">as.integer</span>(RawData)))<span class="sc">+</span></span>
+<span id="cb4-2"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour=</span><span class="fu">as.factor</span>(compName),<span class="at">shape=</span><span class="fu">as.factor</span>(expType)),<span class="at">size=</span><span class="fl">1.5</span>)<span class="sc">+</span> </span>
+<span id="cb4-3"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Stof concentratie (nM/pct)&quot;</span>,<span class="at">y=</span><span class="st">&quot;Aantal nakomelingen na blootstelling&quot;</span>,<span class="at">colour=</span><span class="st">&quot;Stof&quot;</span>,<span class="at">shape=</span><span class="st">&quot;Conditie&quot;</span>)<span class="sc">+</span></span>
+<span id="cb4-4"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="figure">
+<img src="_main_files/figure-html/1.1%20D-1.png" alt="__Figuur 1: Aantal _C. elegans_ nakomelingen na verschillende blootstellingen versie 1.__ Het aantal nakomelingen is geteld na incubatie voor een onbekende tijd van nematoden in S-medium en bij verschillende concentraties naftaleen, 2,6-di-isopropylnaftaleen, decaan en ethanol." width="672" />
+<p class="caption">
+(#fig:1.1 D)<strong>Figuur 1: Aantal <em>C. elegans</em> nakomelingen na verschillende blootstellingen versie 1.</strong> Het aantal nakomelingen is geteld na incubatie voor een onbekende tijd van nematoden in S-medium en bij verschillende concentraties naftaleen, 2,6-di-isopropylnaftaleen, decaan en ethanol.
+</p>
+</div>
+<p><strong>E.</strong></p>
+<p>Indien de compConcentration variabele, van het data type character, niet als double wordt opgegeven, ontstaat een foute X-as.</p>
+<p>Verder: de stof concentraties worden gegeven in nM maar de concentratie ethanol wordt gegeven in procent. Reken als volgt het percentage ethanol om naar nM:</p>
+<p>nMol/L = (percentage ethanol * dichtheid in g/L ) / (molaire massa in g/mol * 100) * 1000000</p>
+<p>*De dichtheid van het gebruikte ethanol is nodig om de percentages om te rekenen naar nM, maar niet gegeven. Daarom wordt uitgegaan van de standaard 789 g/L.</p>
+<p>1.5% ethanol = 256891.686564 nmol/L</p>
+<p>0.5% ethanol = 85630.562188 nmol/L</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Verander de ethanol concentraties van procent naar nM:</span></span>
+<span id="cb5-2"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb5-2" aria-hidden="true" tabindex="-1"></a>elegans_new<span class="ot">&lt;-</span>elegans</span>
+<span id="cb5-3"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb5-3" aria-hidden="true" tabindex="-1"></a>elegans_new<span class="sc">$</span>compConcentration<span class="ot">&lt;-</span>elegans_new<span class="sc">$</span>compConcentration<span class="sc">%&gt;%</span><span class="fu">str_replace_all</span>(<span class="st">&quot;1.5&quot;</span>,<span class="st">&quot;256891.686564&quot;</span>)</span>
+<span id="cb5-4"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb5-4" aria-hidden="true" tabindex="-1"></a>elegans_new<span class="sc">$</span>compConcentration<span class="ot">&lt;-</span>elegans_new<span class="sc">$</span>compConcentration<span class="sc">%&gt;%</span><span class="fu">str_replace_all</span>(<span class="st">&quot;0.5&quot;</span>,<span class="st">&quot;85630.562188&quot;</span>)</span>
+<span id="cb5-5"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb5-5" aria-hidden="true" tabindex="-1"></a>elegans_new<span class="sc">$</span>compUnit<span class="ot">&lt;-</span>elegans_new<span class="sc">$</span>compUnit<span class="sc">%&gt;%</span><span class="fu">str_replace_all</span>(<span class="st">&quot;pct&quot;</span>,<span class="st">&quot;nM&quot;</span>)</span></code></pre></div>
+<p><strong>F.</strong></p>
+<p>Zet de stof concentraties op een log10-schaal en voeg variatie toe aan de punten tegen overlap.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb6-1" aria-hidden="true" tabindex="-1"></a>elegans_new<span class="sc">%&gt;%</span><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">log10</span>(<span class="fu">as.double</span>(compConcentration)),<span class="at">y=</span><span class="fu">as.integer</span>(RawData)))<span class="sc">+</span></span>
+<span id="cb6-2"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour=</span><span class="fu">as.factor</span>(compName),<span class="at">shape=</span><span class="fu">as.factor</span>(expType)),<span class="at">size=</span><span class="fl">1.5</span>,<span class="at">position=</span><span class="st">&quot;jitter&quot;</span>)<span class="sc">+</span> <span class="co">#Jitter voegt wat variatie toe tegen overlap tussen de punten</span></span>
+<span id="cb6-3"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Log10(stof concentratie) (nM)&quot;</span>,<span class="at">y=</span><span class="st">&quot;Aantal nakomelingen na blootstelling&quot;</span>,<span class="at">colour=</span><span class="st">&quot;Stof&quot;</span>,<span class="at">shape=</span><span class="st">&quot;Conditie&quot;</span>)<span class="sc">+</span></span>
+<span id="cb6-4"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="figure">
+<img src="_main_files/figure-html/1.1%20F-1.png" alt="__Figuur 2: Aantal _C. elegans_ nakomelingen na verschillende blootstellingen versie 2.__" width="672" />
+<p class="caption">
+(#fig:1.1 F)<strong>Figuur 2: Aantal <em>C. elegans</em> nakomelingen na verschillende blootstellingen versie 2.</strong>
+</p>
+</div>
+<p><strong>G.</strong></p>
+<p>De positieve controle voor dit experiment is dus 1.5% ethanol, waarvan bekend is dat het zorgt voor minder nematode nakomelingen. De negatieve controle voor dit experiment is dus S-medium, met een compConcentration gezet op 0 pct. Vandaar dat S-medium niet meer in de versie 2 grafiek verschijnt, de log10 van 0 bestaat niet.</p>
+<p><strong>NOG MAKEN: I.</strong></p>
+<p><a href="https://storage.googleapis.com/plos-corpus-prod/10.1371/journal.pone.0146021/1/pone.0146021.s001.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&amp;X-Goog-Credential=wombat-sa%40plos-prod.iam.gserviceaccount.com%2F20220421%2Fauto%2Fstorage%2Fgoog4_request&amp;X-Goog-Date=20220421T100713Z&amp;X-Goog-Expires=86400&amp;X-Goog-SignedHeaders=host&amp;X-Goog-Signature=cc73877fc2f7c1cb9ea8b2a7eda54fa0dd715d217d2e519b9675b415a3afd033dc22a8adb909054571c061f572e8d5c2f94cb02a49bea0a22b7c50f73c6805208841900e70b8d4304699a41e258389c89a9caf680fa45c8e7357535c7a38eeb4dcefcc3421ff43ebd4bfe659d4c8de917fe6db19254b933559dc8fefee2e0d9f8d23323d3fd346cef07dbfc32b0cf6f1d46718523554c633f34f9386f9f7275818135d294c6b7da638a09a2cb4266c8529840a724294a57718f47fc8dbbec44753beaea71461427e7da74143fc8532b5d3748d8eb0201165de664484c263c8191a2ee226a9e6238c325020118ce513173fb488a0b23e44f587e135ecb4896da3" class="uri">https://storage.googleapis.com/plos-corpus-prod/10.1371/journal.pone.0146021/1/pone.0146021.s001.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&amp;X-Goog-Credential=wombat-sa%40plos-prod.iam.gserviceaccount.com%2F20220421%2Fauto%2Fstorage%2Fgoog4_request&amp;X-Goog-Date=20220421T100713Z&amp;X-Goog-Expires=86400&amp;X-Goog-SignedHeaders=host&amp;X-Goog-Signature=cc73877fc2f7c1cb9ea8b2a7eda54fa0dd715d217d2e519b9675b415a3afd033dc22a8adb909054571c061f572e8d5c2f94cb02a49bea0a22b7c50f73c6805208841900e70b8d4304699a41e258389c89a9caf680fa45c8e7357535c7a38eeb4dcefcc3421ff43ebd4bfe659d4c8de917fe6db19254b933559dc8fefee2e0d9f8d23323d3fd346cef07dbfc32b0cf6f1d46718523554c633f34f9386f9f7275818135d294c6b7da638a09a2cb4266c8529840a724294a57718f47fc8dbbec44753beaea71461427e7da74143fc8532b5d3748d8eb0201165de664484c263c8191a2ee226a9e6238c325020118ce513173fb488a0b23e44f587e135ecb4896da3</a></p>
+<p><strong>J.</strong></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb7-1" aria-hidden="true" tabindex="-1"></a>controlNegative<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">92</span>,<span class="dv">101</span>,<span class="dv">106</span>,<span class="dv">104</span>,<span class="dv">93</span>,<span class="dv">73</span>,<span class="dv">94</span>,<span class="dv">104</span>,<span class="dv">78</span>,<span class="dv">103</span>,<span class="dv">63</span>,<span class="dv">85</span>,<span class="dv">62</span>,<span class="dv">75</span>,<span class="dv">82</span>,<span class="dv">88</span>,<span class="dv">85</span>,<span class="dv">67</span>,<span class="dv">65</span>,<span class="dv">81</span>,<span class="dv">85</span>,<span class="dv">83</span>,<span class="dv">74</span>,<span class="dv">75</span>,<span class="dv">85</span>,<span class="dv">95</span>,<span class="dv">99</span>,<span class="dv">100</span>,<span class="dv">98</span>,<span class="dv">82</span>) <span class="co">#Data type double</span></span>
+<span id="cb7-2"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(controlNegative)</span></code></pre></div>
+<pre><code>## [1] 85.9</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#De ruwe data van controlNegative delen door 85.9 maakt dat het gemiddelde gelijk is aan 1. Deel ook de ruwe data van de andere condities door 85.9 om fracties te verkrijgen.: ##Bedenk: bijv. 78/85.9 = (78/85.9)/1 = 0.91</span></span>
+<span id="cb9-2"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb9-3" aria-hidden="true" tabindex="-1"></a>elegans_new<span class="ot">&lt;-</span>elegans_new<span class="sc">%&gt;%</span><span class="fu">mutate</span>(<span class="at">RawData_normalized=</span>RawData<span class="sc">/</span><span class="fu">mean</span>(controlNegative))</span>
+<span id="cb9-4"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb9-5" aria-hidden="true" tabindex="-1"></a>elegans_new<span class="sc">%&gt;%</span><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">log10</span>(<span class="fu">as.double</span>(compConcentration)),<span class="at">y=</span><span class="fu">as.integer</span>(RawData_normalized)))<span class="sc">+</span></span>
+<span id="cb9-6"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour=</span><span class="fu">as.factor</span>(compName),<span class="at">shape=</span><span class="fu">as.factor</span>(expType)),<span class="at">size=</span><span class="fl">1.5</span>,<span class="at">position=</span><span class="st">&quot;jitter&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-7"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Log10(stof concentratie) (nM)&quot;</span>,<span class="at">y=</span><span class="st">&quot;Fractie nakomelingen na blootstelling&quot;</span>,<span class="at">colour=</span><span class="st">&quot;Stof&quot;</span>,<span class="at">shape=</span><span class="st">&quot;Conditie&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-8"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="figure">
+<img src="_main_files/figure-html/1.1%20J-1.png" alt="__Figuur 3: Fracties _C. elegans_ nakomelingen na verschillende blootstellingen.__ Voor elke blootstelling aan één van de stoffen in een bepaalde concentratie is de fractie nakomelingen berekend, relatief een het aantal nakomelingen binnen de negatieve controle (incubatie in S-medium)." width="672" />
+<p class="caption">
+(#fig:1.1 J)<strong>Figuur 3: Fracties <em>C. elegans</em> nakomelingen na verschillende blootstellingen.</strong> Voor elke blootstelling aan één van de stoffen in een bepaalde concentratie is de fractie nakomelingen berekend, relatief een het aantal nakomelingen binnen de negatieve controle (incubatie in S-medium).
+</p>
+</div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Er zijn alleen negatieve fracties door de jitter optie!</span></span>
+<span id="cb10-2"><a href="portfolio-assignment-1.1-c.-elegans-data.html#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Waarom zijn er zonder jitter geen punten tussen fractie 0 en fractie 1? Worden alle fracties lager dan 0.5 afgerond naar 0 en alle boven 0.5 afgerond naar 1 ofzo?</span></span></code></pre></div>
+<p>Voor de positieve controle met 1,5% ethanol geldt, dat er duidelijk minder nematoden geboren worden na incubatie ten opzichte van na incubatie in S-medium (fractie &lt;&lt; 1).</p>
+<p>Bij stof concentraties lager dan ~ 0.06 nM (= log10’s lager dan -1.25) worden er evenveel, minder of meer nematoden geboren. Bij deze concentraties is er dus geen effect op het aantal nakomelingen. Voor incubatie bij hogere concentraties van de drie geteste stoffen is zichtbaar dat er minder nematoden geboren worden, ten opzichte van incubatie in S-medium (fractie &lt;&lt; 1)</p>
+<p><strong>K.</strong></p>
+<p>We normaliseren de data omdat we geïnteresseerd zijn in hoeveel nematoden er meer of minder worden geboren na incubatie met een stof ten opzichte van de normale situatie (S-medium zonder stof). Dit is niet aftelezen aan de grafiek met de X-as log10-schaal van niet-genormaliseerde data, omdat het aantal nakomelingen van de negatieve controle conditie wegvallen uit de grafiek (zie G.).</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="portfolio-assignment-1.2-reproducibility.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

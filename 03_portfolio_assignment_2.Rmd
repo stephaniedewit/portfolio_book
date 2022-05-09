@@ -1,0 +1,23 @@
+# Portfolio assignment 2: Folder trees
+
+```{r setupx, eval=FALSE, include=FALSE}
+install.packages("fs")
+```
+
+```{r DAUR2 folder tree, fig.cap="Figuur X: Folder structuur voor mijn DAUR2 werkomgeving."}
+library(fs)
+dir_tree(path="C:/Users/steph/DSFB1/daur2")
+```
+
+```{r portfolio folder tree, fig.cap="Figuur X: Folder structuur voor mijn DSFB2 Workflows portfolio werkomgeving."}
+dir_tree(path="C:/Users/steph/DSFB2/workflows_portfolio_OPNIEUW")
+```
+
+```{r lessen folder tree, fig.cap="Figuur X: Folder structuur voor mijn DSFB2 Workflows lessen werkomgeving."}
+dir_tree(path="C:/Users/steph/DSFB2/workflows_lessen")
+```
+
+```{r projecticum folder tree, fig.cap="Figuur X: Folder structuur voor de DSFB2 Regenworm projecticum werkomgeving."}
+dir_tree(path="C:/Users/steph/DSFB2/projecticum_regenworm")
+```
+

@@ -1,0 +1,137 @@
+# Portfolio assignment 1.1: _C. elegans_ data
+
+```{r setup 1, include=FALSE, eval=FALSE}
+install.packages("tidyverse")
+install.packages("readxl")
+```
+
+```{r setup 2, include=FALSE}
+library(tidyverse)
+library(readxl)
+knitr::opts_chunk$set(message=FALSE, warning=FALSE)
+```
+
+__Engelse namen aanpassen naar Nederlands, verschuif Y-as labels verder van as vandaan__
+
+
+__Het _C. elegans_ kweekplaat experiment__
+
+Volwassen _C. elegans_ nematoden zijn blootgesteld aan verschillende concentraties naftaleen, 2,6-di-isopropylnaftaleen en decaan, waarna is onderzocht of deze blootstellingen en negatief effect hebben op het aantal nakomelingen. S-medium dient als negatieve controle voor dit effect, 1,5% ethanol dient als positieve controle.
+
+De belangrijkste variabelen in de verkregen dataset (.data_raw/data01_assignment_1.1_c.elegans/CE.LIQ.FLOW.062_Tidydata.xlsx) zijn:
+
+  expType: de behandelconditie.
+
+  RawData: het aantal nakomelingen geteld na de incubatietijd.
+  
+  compName: de generieke naam van de stof.
+  
+  compConcentration: de concentratie van de stof.
+  
+
+Gebruikte CRAN packages voor de analyse: {ggplot2}
+
+__A.__
+
+Het Excel bestand heeft een tidy opmaak, maar bevat verschillende variabelen die voor elke onderzochte vial hetzelfde zijn. Zoals: elegansStrain, bacterialStrain, incubateTemperature etc. Het bestand bevat één sheet waarin de aanpassingen aan de parameter 'levels' zijn gedocumenteerd en één sheet met alle unieke 'level' opties per parameter. Er staan ook 'levels' tussen die niet zijn gebruikt in dit experiment; zo is er geïncubeerd bij 20 (waarschijnlijk) graden Celsius maar 15, 16, 25 en RT(?) graden Celcius hadden ook gekund? Er mist een exacte beschrijven van de parameters en hun 'levels': zijn de graden inderdaad in Celsius? Betekent het pct 'level' van compConcentration procent? 
+
+5 MISSENDE WAARDEN
+
+__B.__
+
+```{r 1.1 B}
+#Upload bestand CE.LIQ.FLOW.062_Tidydata.xlsx naar de ./data_raw/data01_assignment_1.1_c.elegans folder
+
+#Lees het bestand in in R als tibble:
+elegans<-read_excel("C:/Users/steph/DSFB2/workflows_portfolio_OPNIEUW/data_raw/data01_assignment_1.1/CE.LIQ.FLOW.062_Tidydata.xlsx")
+summary(elegans)
+
+#Er missen 5 RawData waarden in het Excel bestand en dus ook in de tibble. De bijbehorende rijen kunnen uit de tibble verwijderd worden, maar {ggplot2} kan ze ook zelf weglaten: Warning: Removed 5 rows containing missing values (geom_point).
+```
+
+
+__C.__
+
+Na het importeren van de data naar R is variabele RawData van het data type double geworden, dit moet integer zijn. compName is van het data type character, dit is prima. De variabele moet wel tot factor gemaakt worden voor gebruik in een R ggplot grafiek. Variabele compConcentration is van het data type character, dit moet double zijn.
+
+
+__D.__
+
+```{r 1.1 D, fig.cap="__Figuur 1: Aantal _C. elegans_ nakomelingen na verschillende blootstellingen versie 1.__ Het aantal nakomelingen is geteld na incubatie voor een onbekende tijd van nematoden in S-medium en bij verschillende concentraties naftaleen, 2,6-di-isopropylnaftaleen, decaan en ethanol."}
+elegans%>%ggplot(aes(x=as.double(compConcentration),y=as.integer(RawData)))+
+  geom_point(aes(colour=as.factor(compName),shape=as.factor(expType)),size=1.5)+ 
+  labs(x="Stof concentratie (nM/pct)",y="Aantal nakomelingen na blootstelling",colour="Stof",shape="Conditie")+
+  theme_bw()
+```
+
+__E.__
+
+Indien de compConcentration variabele, van het data type character, niet als double wordt opgegeven, ontstaat een foute X-as. 
+
+Verder: de stof concentraties worden gegeven in nM maar de concentratie ethanol wordt gegeven in procent. Reken als volgt het percentage ethanol om naar nM:
+
+
+nMol/L = (percentage ethanol * dichtheid in g/L ) / (molaire massa in g/mol * 100) * 1000000
+
+*De dichtheid van het gebruikte ethanol is nodig om de percentages om te rekenen naar nM, maar niet gegeven. Daarom wordt uitgegaan van de standaard 789 g/L.
+
+
+1.5% ethanol = 256891.686564 nmol/L
+
+0.5% ethanol = 85630.562188 nmol/L
+
+```{r ethanol eenheid aanpassen}
+#Verander de ethanol concentraties van procent naar nM:
+elegans_new<-elegans
+elegans_new$compConcentration<-elegans_new$compConcentration%>%str_replace_all("1.5","256891.686564")
+elegans_new$compConcentration<-elegans_new$compConcentration%>%str_replace_all("0.5","85630.562188")
+elegans_new$compUnit<-elegans_new$compUnit%>%str_replace_all("pct","nM")
+```
+
+
+__F.__
+
+Zet de stof concentraties op een log10-schaal en voeg variatie toe aan de punten tegen overlap.
+
+```{r 1.1 F, fig.cap="__Figuur 2: Aantal _C. elegans_ nakomelingen na verschillende blootstellingen versie 2.__"}
+elegans_new%>%ggplot(aes(x=log10(as.double(compConcentration)),y=as.integer(RawData)))+
+  geom_point(aes(colour=as.factor(compName),shape=as.factor(expType)),size=1.5,position="jitter")+ #Jitter voegt wat variatie toe tegen overlap tussen de punten
+  labs(x="Log10(stof concentratie) (nM)",y="Aantal nakomelingen na blootstelling",colour="Stof",shape="Conditie")+
+  theme_bw()
+```
+
+
+__G.__
+
+De positieve controle voor dit experiment is dus 1.5% ethanol, waarvan bekend is dat het zorgt voor minder nematode nakomelingen. De negatieve controle voor dit experiment is dus S-medium, met een compConcentration gezet op 0 pct. Vandaar dat S-medium niet meer in de versie 2 grafiek verschijnt, de log10 van 0 bestaat niet.
+
+__NOG MAKEN: I.__
+
+https://storage.googleapis.com/plos-corpus-prod/10.1371/journal.pone.0146021/1/pone.0146021.s001.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=wombat-sa%40plos-prod.iam.gserviceaccount.com%2F20220421%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20220421T100713Z&X-Goog-Expires=86400&X-Goog-SignedHeaders=host&X-Goog-Signature=cc73877fc2f7c1cb9ea8b2a7eda54fa0dd715d217d2e519b9675b415a3afd033dc22a8adb909054571c061f572e8d5c2f94cb02a49bea0a22b7c50f73c6805208841900e70b8d4304699a41e258389c89a9caf680fa45c8e7357535c7a38eeb4dcefcc3421ff43ebd4bfe659d4c8de917fe6db19254b933559dc8fefee2e0d9f8d23323d3fd346cef07dbfc32b0cf6f1d46718523554c633f34f9386f9f7275818135d294c6b7da638a09a2cb4266c8529840a724294a57718f47fc8dbbec44753beaea71461427e7da74143fc8532b5d3748d8eb0201165de664484c263c8191a2ee226a9e6238c325020118ce513173fb488a0b23e44f587e135ecb4896da3
+
+__J.__
+```{r 1.1 J, fig.cap="__Figuur 3: Fracties _C. elegans_ nakomelingen na verschillende blootstellingen.__ Voor elke blootstelling aan één van de stoffen in een bepaalde concentratie is de fractie nakomelingen berekend, relatief een het aantal nakomelingen binnen de negatieve controle (incubatie in S-medium)."}
+
+controlNegative<-c(92,101,106,104,93,73,94,104,78,103,63,85,62,75,82,88,85,67,65,81,85,83,74,75,85,95,99,100,98,82) #Data type double
+mean(controlNegative)
+
+#De ruwe data van controlNegative delen door 85.9 maakt dat het gemiddelde gelijk is aan 1. Deel ook de ruwe data van de andere condities door 85.9 om fracties te verkrijgen.: ##Bedenk: bijv. 78/85.9 = (78/85.9)/1 = 0.91
+
+elegans_new<-elegans_new%>%mutate(RawData_normalized=RawData/mean(controlNegative))
+
+elegans_new%>%ggplot(aes(x=log10(as.double(compConcentration)),y=as.integer(RawData_normalized)))+
+  geom_point(aes(colour=as.factor(compName),shape=as.factor(expType)),size=1.5,position="jitter")+
+  labs(x="Log10(stof concentratie) (nM)",y="Fractie nakomelingen na blootstelling",colour="Stof",shape="Conditie")+
+  theme_bw()
+
+#Er zijn alleen negatieve fracties door de jitter optie!
+#Waarom zijn er zonder jitter geen punten tussen fractie 0 en fractie 1? Worden alle fracties lager dan 0.5 afgerond naar 0 en alle boven 0.5 afgerond naar 1 ofzo?
+```
+
+Voor de positieve controle met 1,5% ethanol geldt, dat er duidelijk minder nematoden geboren worden na incubatie ten opzichte van na incubatie in S-medium (fractie << 1). 
+
+Bij stof concentraties lager dan ~ 0.06 nM (= log10's lager dan -1.25) worden er evenveel, minder of meer nematoden geboren. Bij deze concentraties is er dus geen effect op het aantal nakomelingen. Voor incubatie bij hogere concentraties van de drie geteste stoffen is zichtbaar dat er minder nematoden geboren worden, ten opzichte van incubatie in S-medium (fractie << 1)
+
+__K.__
+
+We normaliseren de data omdat we geïnteresseerd zijn in hoeveel nematoden er meer of minder worden geboren na incubatie met een stof ten opzichte van de normale situatie (S-medium zonder stof). Dit is niet aftelezen aan de grafiek met de X-as log10-schaal van niet-genormaliseerde data, omdat het aantal nakomelingen van de negatieve controle conditie wegvallen uit de grafiek (zie G.).

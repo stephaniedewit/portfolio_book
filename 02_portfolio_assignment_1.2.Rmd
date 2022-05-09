@@ -1,0 +1,183 @@
+# Portfolio assignment 1.2: Reproducibility
+
+```{r setup, include=FALSE}
+library(tidyverse)
+knitr::opts_chunk$set(message=FALSE, warning=FALSE)
+```
+
+__Open Peer Review: PART 1__
+
+Het gekozen open source artikel van Pubmed Central: __Chaimayo, C., Kaewnaphan, B., Tanlieng, N. et al. Rapid SARS-CoV-2 antigen detection assay in comparison with real-time RT-PCR assay for laboratory diagnosis of COVID-19 in Thailand. Virol J 17, 177 (2020).__ (https://doi.org/10.1186/s12985-020-01452-5)
+
+__HIER NOG TOEVOEGEN: General aim, short methods and results. Include some data.__
+
+```{r Ripeta criteria, echo=FALSE}
+ripeta<-tibble("Transparancy Criteria"=c("Study Purpose","Data Availability Statement","Data Location","Study Location","Author Review","Ethics Statement","Funding Statement","Code Availability"),"Definition"=c("A concise statement in the introduction of the article, often in the last paragraph, that establishes the reason the research was conducted. Also called the study objective.","A statement, in an individual section offset from the main body of text, that explains how or if one can access a study’s data. The title of the section may vary, but it must explicitly mention data; it is therefore distinct from a supplementary materials section.","Where the article’s data can be accessed, either raw or processed.","Author has stated in the methods section where the study took place or the data’s country/region of origin.","The professionalism of the contact information that the author has provided in the manuscript.","A statement within the manuscript indicating any ethical concerns, including the presence of sensitive data.","A statement within the manuscript indicating whether or not the authors received funding for their research.","Authors have shared access to the most updated code that they used in their study, including code used for analysis."),"Response Type"=c("Binary","Binary","Found Value","Binary; Found Value","Found Value","Binary","Binary","Binary"),Score=c("TRUE","TRUE","All data generated or analysed are included in the published article and its additional files.","Bangkok, Thailand","Navin Horthongham is corresponding author. navin.hor@mahidol.ac.th","TRUE","TRUE","FALSE"))
+
+knitr::kable(
+  ripeta,
+  caption = "__Tabel 1: Ripeta criteria scores voor Chutikarn et al. 2020__"
+)
+```
+
+
+__Open Peer Review: PART 2__
+
+Het gekozen artikel uit de gegeven studie (Paper06): __Arthur G. Samuel, Psycholinguists should resist the allure of linguistic units as perceptual units, Journal of Memory and Language (2020).__ (https://doi.org/10.1016/j.jml.2019.104070)
+
+
+De bijbehorende dataset: __"./Exp2_Final_Adaptors_CVtestitems"__
+
+
+Link naar RMarkdown met de gereproduceerde code op OSF: https://osf.io/s794v/
+
+De codes in deze Reproducing.Rmd worden gebruikt om de figuren te maken die in het artikel weergegeven worden. Op een schaal van 1 (zeer slecht) tot 5 (zeer goed) geef ik de leesbaarheid van de codes in dit bestand een 2.
+
+Hieronder reproduceer ik een deel van de data om figuur 2 uit het artikel na te maken. Het koste me moeite om dit figuur te reproduceren, met een score van 3 op een schaal van 1 (zeer moeilijk) tot 5 (zeer makkelijk).
+
+Een stuk code met een helperfunctie van de Reproducing.Rmd auteur voor het inlezen van de data:
+
+```{r helperfunctie van auteur voor inlezen data, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list=ls())
+if(!require(tidyverse)){install.packages('tidyverse')}
+if(!require(lme4)){install.packages('lme4')}
+if(!require(readr)){install.packages('readr')}
+# 
+# A helper function for reading in the unconventionally structured data files
+read_exp_data <- function(filenames_BF_ID, to_skip){
+  BF_ID <- NULL
+  for (i in filenames_BF_ID){
+    adaptor <- substring(i, 1, 1) # first letter of the filename
+    temp <- read.csv(i, skip = to_skip) %>% 
+      select(1:8)
+    
+    temp1 <- temp %>%
+      select(1,2,3,4)
+    if (grepl('X', colnames(temp1)[3])){
+      temp1 <- NULL
+    } else {
+      temp1 <- temp1 %>%
+        mutate(participant.id = colnames(temp1)[3],
+               adaptor = adaptor) %>%
+        rename(response = colnames(temp1)[3],
+               RT = colnames(temp1)[4])
+    }
+    
+    temp2 <- temp %>%
+      select(1,2,5,6)
+    if (grepl('X', colnames(temp2)[3])){
+      temp2 <- NULL
+    } else {
+      temp2 <- temp2 %>%
+        mutate(participant.id = colnames(temp2)[3],
+               adaptor = adaptor) %>%
+        rename(response = colnames(temp2)[3],
+               RT = colnames(temp2)[4])
+    }
+    
+    temp3 <- temp %>%
+      select(1,2,7,8)
+    if (grepl('X', colnames(temp3)[3])){
+      temp3 <- NULL
+    } else {
+      temp3 <- temp3 %>%
+        mutate(participant.id = colnames(temp3)[3],
+               adaptor = adaptor) %>%
+        rename(response = colnames(temp3)[3],
+               RT = colnames(temp3)[4])
+    }
+    BF_ID <- rbind(BF_ID, temp1, temp2, temp3)
+  }
+  return(BF_ID)
+} 
+```
+
+Een stuk code voor het berekenen van het aantal participanten in (waarschijnlijk) de No-Release conditie:
+
+```{r aantal participanten in conditie ?, message=FALSE, warning=FALSE}
+wd <- "C:/Users/steph/DSFB2/workflows_portfolio_OPNIEUW/data_raw/data02_assignment_1.2"
+setwd(wd)
+
+filenames_ID <- list.files(pattern = "ID")
+ID <- read_exp_data(filenames_ID, to_skip =4) %>%
+  mutate(participant.id = tolower(participant.id)) 
+
+nlevels(as.factor(ID$participant.id))
+```
+
+Een stuk code voor het berekenen van het aantal participanten in (waarschijnlijk) de adaptation condition:
+
+```{r aantal participanten in adaptation condition, message=FALSE, warning=FALSE}
+setwd(wd)
+filenames_FAD <- list.files(pattern = "FAD")
+FAD <- read_exp_data(filenames_FAD, to_skip =6)
+
+nlevels(as.factor(FAD$participant.id))
+```
+
+Een stuk code voor het filteren van participanten uit de (waarschijnlijk) No-Release conditie:
+
+```{r participanten wegfilteren, message=FALSE, warning=FALSE}
+setwd(wd)
+# filtering
+to_filter <- ID %>%
+  drop_na() %>%
+  mutate(adaptor = ifelse(adaptor == "B", "B", "D"),
+         B = ifelse(response == 4, 1, 0),
+         D = ifelse(response == 1, 1, 0),
+         adaptorB = ifelse(adaptor == "B", 1, -1),
+         adaptorD = ifelse(adaptor == "D", 1, -1),
+         Bgrade = parse_number(as.character(AudioWaveFile1))-1) %>%
+  filter(Bgrade == 1 | Bgrade == 7) %>%
+  group_by(participant.id, Bgrade) %>%
+  summarize(D_response = mean(D)) %>%
+  pivot_wider(id_cols = participant.id, 
+              names_from = Bgrade, 
+              values_from = D_response) %>%
+  mutate(diff = `1` - `7`) %>%
+  filter(diff < 0.6) 
+
+to_filter
+```
+
+Deze codes geven mij dezelfde uitkomst als de Reproducing.Rmd auteur. Nu een figuur, figuur 2 uit het artikel, reproduceren:
+
+```{r figuur 2 reproduceren, message=FALSE, warning=FALSE}
+wd <- "C:/Users/steph/DSFB2/workflows_portfolio_OPNIEUW/data_raw/data02_assignment_1.2"
+setwd(wd)
+FAD <- FAD %>%
+  drop_na() %>%
+  filter(! participant.id %in% to_filter$participant.id) %>%
+  mutate(B = ifelse(response == 1, 1, 0),
+         D = ifelse(response == 4, 1, 0),
+         adaptorB = ifelse(adaptor == "B", 1, -1),
+         adaptorD = ifelse(adaptor == "D", 1, -1),
+         Bgrade = parse_number(as.character(WaveFile))-1,#AFAIU the lower the number the closer to B, but I might be wrong
+         RT = RT*1000) 
+
+# Figure 2
+FAD %>%
+  group_by(participant.id, Bgrade, adaptor) %>%
+  summarize(part_mean = mean(D)) %>%
+  group_by(Bgrade, adaptor) %>%
+  summarize(acc = mean(part_mean)) %>%
+  ggplot(aes(x = Bgrade, y = acc, color = adaptor)) +
+  geom_point() + geom_line()
+```
+
+Deze figuur ziet er volgens de auteur hetzelfde uit als figuur 2 in het artikel. De vormen kloppen, maar de Y-as en as titels zijn door de Reproducing.Rmd auteur anders gekozen. De Y-as laat fracties zien i.p.v. percentages. Dit kan gemakkelijk aangepast worden:
+
+```{r figuur 2 eigen edit, fig.cap="Overgenomen uit het artikel: __Fig. 2. Identification of the members of the /ba/-/da/ test series, as a function of the adaptation condition, for adaptors that included released final stops.__ After adaptation with final-/d/ words (red curve/squares) identification as “D” was reduced compared to adaptation with final-/b/ words (blue curve/circles)."}
+FAD %>%
+  group_by(participant.id, Bgrade, adaptor) %>%
+  summarize(part_mean = mean(D)) %>%
+  group_by(Bgrade, adaptor) %>%
+  summarize(acc = mean(part_mean) * 100) %>%
+  ggplot(aes(x = Bgrade, y = acc, color = adaptor)) +
+  geom_point() + geom_line() +
+  theme_classic() +
+  scale_colour_manual(values=c("blue","red"),labels=c("B adapt","D adapt"), name = "") +
+  labs(title="Released Final Position Adaptors on CV Test Series", x = "Continuum Step", y = "Percent \"d\" Report") +
+  ylim(0,100)
+```

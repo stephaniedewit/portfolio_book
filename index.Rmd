@@ -1,0 +1,21 @@
+---
+title: "Portfolio DSFB2"
+author: "Stephanie de Wit"
+site: bookdown::bookdown_site
+documentclass: book
+output:
+  bookdown::gitbook:
+    css: portfolio_style.css
+  #bookdown::pdf_book: default ##Niet compatibel met portfolio_assignment_3.2.Rmd?
+new_session: yes
+---
+
+<h1> 
+# Hello World 
+</h1>
+
+Hi.
+
+Bye.
+
+<!-- If you need PDF output, uncomment bookdown::pdf_book above in YAML. You will need a LaTeX installation, e.g., https://yihui.name/tinytex/ -->

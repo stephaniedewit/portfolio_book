@@ -1,0 +1,22 @@
+# Portfolio assignment 3
+
+## CV
+
+## Plan van Aanpak vrije besteding
+
+Over twee jaar wil ik werkzaam zijn als biomedisch analist en bijdragen aan onderzoek naar de ontwikkeling, bestrijding en genezing van ziekten. Daarnaast wil ik vaardiger blijven worden in R zodat ik het vernuftig kan gebruiken om mijn onderzoeksresultaten te presenteren en analyseren. Ik ben goed opweg: op dit moment ben ik opzoek naar een afstudeerstage en heb ik al 15/30 EC behaald binnen de Data Science for Biology 1 & 2 minor. 
+
+Tijdens mijn BMR specialisatie projecticum voor Genmab heb ik gewerkt met een HPLC. De UV-detectie resultaten 'kwamen op de computer binnen' via de software Clarity Lite. De ruwe data van interesse is uit Clarity Lite gekopieerd(ctrl + C) en geplakt in een Excel bestand, waarna er verschillende berekeningen en omzettingen op los zijn gelaten. Er zijn tabellen gemaakt in PowerPoint, grafieken in Excel en er zijn statistische tests uitgevoerd in SPSS. Met het oog op een mogelijke stage bij Genmab, waar ik wellicht weer met een HPLC zal werken, wil ik gaan onderzoeken of het mogelijk is om deze analyse stappen meer 'data science' te maken: minder stappen, minder handmatig werk en minder vatbaar voor fouten. Ik wil uitzoeken of ik de ruwe Clarity Lite data aan een package o.i.d. kan voeren voor een volledige data analyse in RStudio.
+
+```{r planning en logboek, echo = FALSE}
+library(tidyverse)
+library(kableExtra)
+
+planning <- tibble(Stap = 1:10, Wat = c(" Oriënteren op de (R) packages e.d. die beschikbaar zijn voor chromatografie data analyse in RStudio.","Uitzoeken in welke formats de data uit Clarity Lite geëxporteerd kan worden.","Afspraak maken om op de HPLC computer op HL7 te mogen snuffelen.","Helder maken: wat wil ik precies dat de packages doen?","Twee packages o.i.d. kiezen om verder uit te diepen.","Installeren van packages, werkzaamheid krijgen.","Packages testen met nep data of data geëxporteerd uit Clarity Lite.","Verder verdiepen in het gebruik van de packages.","...","..."), Wanneer = c("?","?","?","?","?","?","?","?","?","?"), Hoelang = c("2,5 uur","1,5 uur","2 uur","1,5 uur","x","2 uur","2 uur","~","...","..."))
+
+kbl(planning, caption = "__Tabel 1: Planning voor vrij te besteden uren.__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1, bold = TRUE) %>% column_spec(4, color = "red")
+
+logboek <- tibble(Dag = c("Maandag","Dinsdag"), Stap = rep(1, 2), Gedaan = c("...", "..."), Tijd = c("...","...")) 
+
+kbl(logboek, caption = "__Tabel 2: Logboek.__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1, bold = TRUE) %>% column_spec(4, color = "red")
+```
