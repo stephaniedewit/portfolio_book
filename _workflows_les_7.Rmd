@@ -1,0 +1,370 @@
+---
+title: "workflows_les_7"
+author: "Stephanie de Wit"
+date: '2022-05-10'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE,message=FALSE)
+```
+
+# 7.1 Relational data in tidyverse
+## 7.1.1 Relational data in tidyverse
+
+"It is quite rare for a data analysis to use only one table of data. You will want to look at all this information combined. Collectively, these tables of data are called relational data. Because some variables in one table are present in another, the tables can be combined."
+
+## 7.1.2 Remember tidy data?
+
+```{r}
+library(tidyverse)
+library(palmerpenguins)
+
+penguins #species, island, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g, sex, year
+
+#Tidy maken:
+penguins %>% pivot_longer(contains("_"), names_to = c("variable_name"), values_to = "value") #gebruik contains() of cols =
+
+#of:
+penguins_long <- penguins %>% pivot_longer(contains("_"), names_to = c("part","measure","unit"), names_sep = "_")
+penguins_long
+```
+
+"Geting the data back to 'wide' again doesn't work:"
+
+__Exercise 7.2__
+```{r}
+#Revert:
+penguins_long %>% pivot_wider(names_from = c("part","measure","unit"), values_from = "value", names_sep = "_")
+```
+
+"R isn’t sure where to put the data anymore, as there are duplicates. Every measurement was not marked by some unique code and there are (for instance) 7 male Adelie penguin measured on Torgersen in 2007. Solution: number all the measurements in the first place."
+
+```{r}
+penguins_with_id <- penguins %>% mutate(id = seq(nrow(.))) #Geef elke rij een eigen nummer
+
+#of:
+penguins %>% mutate(id = row_number(), .before = species) #Nieuwe kolom komt voor de eerste kolom = species
+
+#Tidy:
+penguins_id_long <- penguins_with_id %>% pivot_longer(contains("_"), names_to = c("part","measure","unit"), names_sep = "_")
+
+#Revert:
+penguins_id_long %>% pivot_wider(names_from = c("part","measure","unit"), values_from = "value", names_sep = "_")
+```
+
+## 7.1.2 Joining data in databases
+
+"To join tables you need some shared information to uniquely identify each observation: a key. A simple key is for instance a unique value for each penguin. A key can also be a combination of attributes (columns): a compound key."
+
+__Exercise 7.4__
+
+```{r}
+food_preference <-
+  tibble(
+    penguin_species = c("Adelie", "Chinstrap", "Gentoo"),
+    favorite_food = c("peanut butter", "cheese", "chocolate")
+  )
+
+#A:
+food_preference <-rename(food_preference, species = penguin_species) 
+
+penguins_food <- left_join(penguins,food_preference,by="species")
+
+#B:
+#left_join(penguins,food_preference,by=c("species" = "penguin_species"))
+```
+
+__Exercise 7.5__
+
+```{r}
+exc7.5 <- penguins %>% filter(year == 2007) %>% select(species, sex, bill_length_mm)
+```
+
+# 7.2 Databases in the wild
+
+"The lingua franca for retrieving (and transform, manage and store) information from relational databases is Structured Query Language - or SQL."
+
+"SQL is a language that communicates with databases."
+
+## 7.2.1 Relational databases
+
+"Again: In a relational database, data is organised in -mostly- tables that can be linked to each other based on data that is available in both tables (keys).
+Table = relation, column = attribute/field, row = tuple/record."
+
+## 7.2.2 Database management systems
+
+"Relational databases can be stored on your computer or on a server you have direct access to, and managed in different ways. PostGreSQL is one possible way to store, retrieve and update (relational) data in a database."
+
+# 7.3 Introduction to DBeaver and SQL
+
+"Ask for a specific datapoint in a table:
+
+load database
+table %>% filter row %>% select column
+
+=
+
+SELECT value_from_column FROM database
+WHERE filter_on_rows;
+
+= 
+
+SELECT Name FROM Artist
+WHERE ArtistId=168;
+
+__Select -> table -> filter instead of table -> filter -> select (tidyverse piping)__"
+
+__Exercise 7.8__
+
+SELECT Title FROM Album
+WHERE ArtistId=90;
+
+# 7.4 Creating a PostgreSQL database in DBeaver
+
+"Let's make our own database. Setting up a database on your own computer is free and easy."
+
+Workflows:
+1. Right click postgres selection --> SQL Editor --> Open SQL Console.
+2. Run CREATE DATABASE myfirstdb;
+
+# 7.5 Filling databases
+
+
+
+## 7.5.1 Creating tables
+
+## 7.5.2 Creating tables within a scheme
+
+## 7.5.3 Data types
+
+"
+int: the typical choice for whole integer data
+decimal(precision, scale): define how many digits (precision) and how many of them after (scale) the decimal point. So the number 12.3456 has a precision of 6 and a scale of 4.
+float: also decimals, but limited precision. Faster to work with.
+char(n): characters, fixed length
+text: characters but unlimited length (this takes more space)
+boolean: TRUE/FALSE
+
+If you ask a computer to remember “1/9000” for you, it won’t store exactly 1/9000. In SQL, you can define however how precise it needs to be. If you require the numbers to be stored exactly, use data type decimal. If you have a lot of data to work with, use type float."
+
+## 7.5.4 Generating data with SQL
+
+## 7.5.4 Altering tables
+
+__Exercise 7.14__
+
+De value onder verf, wat hier de simple key is. 
+
+# 7.6 Filtering and selecting
+
+## 7.6.1 Selecting
+
+"Query: a request for data results from a database. Selecting is used to ask for specific columns."
+
+"SELECT
+column_name1,
+column_name2
+FROM
+table_name
+ORDER BY
+order_1 DESC/ASC,
+order_2 ASC/DESC;"
+
+"To return strings as a single string:
+SELECT
+column_name1 || ' ' || column_name2 AS new_name
+FROM
+..."
+
+"Unique():
+SELECT
+DISTINCT colum_name
+FROM
+table_name"
+
+"Length of a string:
+SELECT
+column_name,
+LENGTH(column_name) new_name
+FROM
+table_name
+ORDER BY
+new_name DESC"
+
+## 7.6.2 Filtering
+
+"To return a specific set of rows from a column.
+
+
+"SELECT column_name
+FROM table_name
+WHERE condition"
+
+Use AND or OR in WHERE to filter on >1 conditions. Use IN when the value of a cell can be from a range.
+
+__Extra opdrachten:__
+
+SELECT customer_id, first_name, 
+
+last_name
+
+FROM customer
+
+WHERE LENGTH(first_name) BETWEEN 5 AND 7;
+<br>
+SELECT MAX(amount)
+
+FROM payment;
+<br>
+SELECT first_name, last_name
+
+FROM actor
+
+WHERE first_name!='ED'
+
+ORDER BY
+
+last_name;
+<br>
+SELECT COUNT(title)
+
+FROM film;
+<br>
+SELECT last_name FROM actor
+
+UNION ALL
+
+SELECT last_name FROM customer;
+
+_UNION ALL, want er zijn misschien klanten met dezelfde naam als een acteur?_
+
+## 7.6.3 Group by
+
+"The main difference between the WHERE and HAVING clauses comes when used together with the GROUP BY clause. In that case, WHERE is used to filter rows before grouping, and HAVING is used to exclude records after grouping. The HAVING clause can not be used without GROUP BY."
+
+## 7.6.4 Joining
+
+"INNER JOIN to select only records that have matching values in both tables. LEFT JOIN tt
+
+INNER join: "We don’t have 2 countries in the list (Spain and Russia), because they don’t have any related city in the city table."
+
+LEFT JOIN: "In some cases, we want to have even these records in our results. For example, you simply want to see in the result that these countries don’t have related records in another table."
+
+# 7.7 From PostgreSQL to somewhere else
+
+__Exercise 7.21__
+
+create table public.exc (
+title char(250)
+category char(250)
+);
+
+insert into public.exc (
+select
+title,
+category.name as category
+from
+film
+left join film_category on film_category.film_id = film.film_id 
+left join category on category.category_id = film_category.category_id);
+
+# 7.8 From R to PostgreSQL
+
+"library(DBI)
+
+con <- dbConnect(RPostgres::Postgres(), 
+                 dbname = "pagila", 
+                 host="localhost", 
+                 port="5432", 
+                 user="postgres", 
+                 password="...")" 
+
+dbListTables(variable_name_from_dbConnect)
+
+dbListFields(variable_name_from_dbConnect, "table_name")
+
+dbReadTable(variable_name_from_dbConnect, "table_name")
+
+Writing SQL queries: dbGetQuery(con, 'SELECT column_name(s) FROM table_name)
+
+'''{sql, connection=con}
+select * from actor where actor_id > 75;
+'''
+
+Make a connection to a table and use tidyverse syntax to send queries: table_name_tbl <- tbl(variable_name, "table_name")
+
+## 7.8.1 Parameterized query
+
+"Don't create queries with variables by pasting strings together."
+
+```{r creating a querie}
+myquery <- dbSendQuery(con, "select * from actor where actor_id = $1")
+dbBind(myquery, list(4))
+dbFetch(myquery)
+
+dbClearResult(myquery)
+```
+
+```{r}
+#Reconnect to myfirstdb database:
+dbDisconnect(con) 
+
+con <- dbConnect(RPostgres::Postgres(), 
+                 dbname = "myfirstdb", 
+                 host="localhost", 
+                 port="5432", 
+                 user="postgres", 
+                 password="...")
+
+#Write data to the database:
+library('palmerpenguins')
+
+dbWriteTable(con, "penguinswide", penguins)
+
+#Remove data:
+dbRemoveTable(con, "penguinswide")
+```
+
+__Exercise 7.22__
+
+```{r}
+#Reconnect:
+#dbDisconnect(con) 
+
+#con <- dbConnect(RPostgres::Postgres(), 
+                #dbname = "myfirstdb", 
+                #host="localhost", 
+                #port="5432", 
+                #user="postgres", 
+                #password="...")
+
+library(tidyverse)
+library(palmerpenguins)
+
+
+
+penguins #species, island, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g, sex, year
+
+#Tidy maken:
+penguins_long <- penguins %>% pivot_longer(contains("_"), names_to = c("part","measure","unit"), names_sep = "_")
+
+penguins_long
+
+#Uploaden naar myfirstdb:
+dbWriteTable(con, "penguins_tidy", penguins_long)
+
+dbDisconnect(con)
+```
+
+
+
+
+
+
+
+
+
+
+
+
