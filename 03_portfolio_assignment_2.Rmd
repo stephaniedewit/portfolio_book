@@ -1,6 +1,6 @@
 # Portfolio assignment 2: Folder trees
 
-```{r setupx, eval=FALSE, include=FALSE}
+```{r setup x, eval=FALSE, include=FALSE}
 install.packages("fs")
 ```
 

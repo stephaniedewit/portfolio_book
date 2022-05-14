@@ -1,5 +1,5 @@
 ---
-title: "Portfolio DSFB2"
+title: "Portfolio Data Sciences for Biology 2"
 author: "Stephanie de Wit"
 site: bookdown::bookdown_site
 documentclass: book
@@ -7,7 +7,9 @@ output:
   bookdown::gitbook:
     css: portfolio_style.css
   #bookdown::pdf_book: default ##Niet compatibel met portfolio_assignment_3.2.Rmd?
+    number_sections: true
 new_session: yes
+bibliography: assignment_5.bib
 ---
 
 <h1> 

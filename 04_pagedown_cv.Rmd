@@ -6,7 +6,7 @@ Ik heb het template 'HTML resume' van {pagedown} gebruikt om met R Markdown een 
 
 YAML header: 
 
-```{r}
+```{r 1}
 #---
 #title: "Lijia Yu's resume"
 #author: Lijia Yu
@@ -20,7 +20,7 @@ YAML header:
 
 Body:
 
-```{r}
+```{r 2}
 #Aside  
 #================================================================================
 #
