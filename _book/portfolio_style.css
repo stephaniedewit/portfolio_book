@@ -1,17 +1,109 @@
-/* Applies to the entire body of the HTML document (except where overridden by more specific
-selectors). */
-body {
-  margin: 25px;
-  background-color: rgb(255,255,255);
-  font-family: arial, sans-serif;
-  font-size: 14px;
-  color: black;
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;1,400&display=swap');
+
+/* The next two rules make the horizontal line go straight across in top navbar */
+
+.summary > li:first-child {
+    height: 50px;
+    padding-top: 10px;
+    border-bottom: 1px solid rgba(0,0,0,.07);
 }
 
-/* Applies to all <h1>...</h1> elements. */
-h1 {
-  font-size: 35px;
-  font-weight: normal;
-  margin-top: 5px;
-  color: gray;
+.book .book-summary ul.summary li.divider {
+    height: 0px;
+}
+
+/*____Code Chunks____*/
+
+.sourceCode pre {
+  margin: 0 !important; /* makes space above and below symmetrical*/
+}
+
+.sourceCode {
+  margin-bottom: 0.85em; /* adds same amount of margin as a <p> would */
+}
+
+ /*------------- Body and header text---------------- */
+
+.book.font-family-1 {
+  font-family: 'Source Sans Pro', sans-serif;
+ }
+
+h1, h2, h3, h4 {
+  font-family: 'Source Sans Pro', sans-serif;
+  color: #175A5A;
+}
+
+.title {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 3em !important;
+  color: #35D1D1;
+ }
+
+.subtitle {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 20px !important;
+  color: #269595;
+}
+
+/*-----Body Links-------*/
+
+.book .book-body .page-wrapper .page-inner section.normal a {
+  color: #7F30CF;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal a:hover {
+color: #7F609F; /* darker color when hovering */
+text-decoration: none;
+}
+
+/* HERO IMAGE */
+
+.hero-image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 250px;
+  background-color: #50CFCF;
+}
+
+.hero-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.page-inner {
+  padding-top: 260px !important;
+}
+
+/*------------ TOC --------------*/
+
+.book .book-summary {
+  background: white;
+}
+
+.summary{
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+/* all TOC list items, basically */
+
+.book .book-summary ul.summary li a,
+.book .book-summary ul.summary li span {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.summary a:hover {
+  color: #35D1D1 !important;
+}
+
+.book .book-summary ul.summary li.active>a { /*active TOC links*/
+  color: #35D1D1 !important;
+  border-left: solid 4px;
+  border-color: #35D1D1;
+  padding-left: 11px !important;
 }

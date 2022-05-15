@@ -1,10 +1,12 @@
 ---
-title: "Portfolio Data Sciences for Biology 2"
-author: "Stephanie de Wit"
+title: "Mijn Data Sciences portfolio"
+subtitle: "Door: Stephanie de Wit <br> Datum: 15-05-22 <br><br> Tijdens het tweede deel van de _Data Sciences for Biology_ minor te Hogeschool Utrecht heb ik gewerkt aan een portfolio van mijn vaardigheden binnen R."
 site: bookdown::bookdown_site
 documentclass: book
 output:
   bookdown::gitbook:
+    includes:
+      before_body: hero-image.html
     css: portfolio_style.css
   #bookdown::pdf_book: default ##Niet compatibel met portfolio_assignment_3.2.Rmd?
     number_sections: true
@@ -12,12 +14,12 @@ new_session: yes
 bibliography: assignment_5.bib
 ---
 
-<h1> 
 # Hello World 
-</h1>
 
 Hi.
 
 Bye.
+
+https://www.economist.com/science-and-technology/2020/02/22/mapping-cells-to-build-a-complete-atlas-of-the-human-body
 
 <!-- If you need PDF output, uncomment bookdown::pdf_book above in YAML. You will need a LaTeX installation, e.g., https://yihui.name/tinytex/ -->
