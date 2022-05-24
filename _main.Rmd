@@ -1,0 +1,961 @@
+---
+title: "Mijn Data Sciences portfolio"
+subtitle: "Door: Stephanie de Wit <br> Datum: 15-05-22 <br><br> Tijdens het tweede deel van de _Data Sciences for Biology_ minor te Hogeschool Utrecht heb ik gewerkt aan een portfolio van mijn vaardigheden binnen R."
+site: bookdown::bookdown_site
+documentclass: book
+output:
+  bookdown::gitbook:
+    includes:
+      before_body: hero-image.html
+    css: portfolio_style.css
+  #bookdown::pdf_book: default ##Niet compatibel met portfolio_assignment_3.2.Rmd?
+    number_sections: true
+new_session: yes
+bibliography: assignment_5.bib
+---
+
+# Introductie
+
+Ik ben een nieuwsgierige, scherpe en gedreven _Life Sciences_ studente van 24 jaar oud. Momenteel rond ik mijn derde studiejaar af met een Data Sciences minor en ben ik opzoek naar een uitdagende afstudeerstage. Ik smul van studiemateriaal over genetica, neurowetenshap, immunologie en tumorcelbiologie en werk graag met recombinante DNA technieken, celkweek en eiwit analyse technieken. Het is mijn ambitie om als moleculair bioloog onderzoek te doen naar het ontstaan, voorkomen en bestrijden van ziekten. Als ik niet aan het lezen ben in _Campbell, Biology_ of documentaires kijk over het heelal, ga ik graag tafelen met vrienden, dansen in de discotheek, naar het museum of de dierentuin en op stedentripjes.
+
+<!-- If you need PDF output, uncomment bookdown::pdf_book above in YAML. You will need a LaTeX installation, e.g., https://yihui.name/tinytex/ -->
+
+<!--chapter:end:index.Rmd-->
+
+# Vaardigheid 1: semi-reproduceerbare data analyseren
+
+De _Reproducible Research_ beweging streeft ernaar dat onderzoekers al hun data, gebruikte methodes en codes openbaar maken. Dit verhoogt de reproduceerbaarheid van hun onderzoek en daarmee de kwaliteit ervan, evenals het algehele vertrouwen in de wetenschap. Hieronder laat ik zien dat ik overweg kan met data die verkregen is volgens een niet- of semi-reproduceerbare workflow.
+
+## _C. elegans_ kweekplaat experiment
+
+Volwassen _C. elegans_ nematoden zijn blootgesteld aan verschillende concentraties naftaleen, 2,6-di-isopropylnaftaleen en decaan, waarna is onderzocht of deze blootstellingen en negatief effect hebben op het aantal nakomelingen. S-medium dient als negatieve controle voor dit effect, 1,5% ethanol dient als positieve controle.
+
+De belangrijkste variabelen in de gekregen dataset (CE.LIQ.FLOW.062_Tidydata.xlsx) zijn:
+
+* __expType__: de behandelconditie.
+
+* __RawData__: het aantal nakomelingen geteld na de incubatietijd.
+  
+* __compName__: de generieke naam van de stof.
+  
+* __compConcentration__: de concentratie van de stof.
+  
+
+Gebruikte CRAN packages voor de analyse: {ggplot2}
+
+```{css}
+test {
+background-color: red;
+}
+```
+
+
+```{r, include = FALSE, class.code = .test}
+#install.packages("tidyverse")
+#install.packages("readxl")
+library(tidyverse)
+library(readxl)
+
+knitr::opts_chunk$set(message=FALSE, warning=FALSE)
+```
+
+Het Excel bestand heeft een tidy opmaak, maar bevat verschillende, onnodige variabelen die voor elke onderzochte vial dezelfde waarde aannemen zijn. De stof concentraties worden gegeven in nM maar de concentratie ethanol wordt gegeven in procent. Verder missen vijf RawData waarden. Het bestand bevat één sheet waarin de aanpassingen aan de parameter levels zijn gedocumenteerd en één sheet met alle unieke level opties per parameter. Er mist wel een exacte beschrijven van de parameters en hun levels: zijn de graden in Celsius? Betekent het pct 'level' van compConcentration procent? 
+
+```{r}
+#Lees het bestand in in R als tibble:
+elegans<-read_excel(here::here("data_raw", "data01_assignment_1.1", "CE.LIQ.FLOW.062_Tidydata.xlsx"))
+summary(elegans)
+```
+
+_De vijf missende waarden kunnen uit de tabel verwijderd worden, maar {ggplot2} grafieken negeren ze automatisch_.
+
+Er moet het een en ander aangepast worden aan de ingelezen data voordat een fatsoenlijke grafiek gemaakt kan worden: 
+
+__A)__ Na het importeren van de data naar R, zijn de variabelen van data type veranderd. RawData is van het data type double geworden, dit moet integer zijn. Als de compConcentration variabele, nu van het data type character, niet als double wordt opgegeven, ontstaat een foute X-as. De variabele compName moet tot factor gemaakt worden voor gebruik in een {ggplot2} grafiek.
+
+__B)__ Het percentage ethanol moet als volgt omgerekend worden naar nM: __nMol/L = (percentage ethanol * dichtheid in g/L ) / (molaire massa in g/mol * 100) * 1000000__
+
+1.5% ethanol = 256891.686564 nmol/L
+
+0.5% ethanol = 85630.562188 nmol/L
+
+_De dichtheid van het gebruikte ethanol is nodig om de percentages om te rekenen naar nM, maar niet gegeven. Daarom wordt uitgegaan van de standaard 789 g/L_.
+
+```{r}
+#Verander de ethanol concentraties van procent naar nM:
+elegans_new<-elegans
+elegans_new$compConcentration<-elegans_new$compConcentration%>%str_replace_all("1.5","256891.686564")
+elegans_new$compConcentration<-elegans_new$compConcentration%>%str_replace_all("0.5","85630.562188")
+elegans_new$compUnit<-elegans_new$compUnit%>%str_replace_all("pct","nM")
+```
+
+__C)__ Zet de stof concentraties op een log10-schaal en voeg variatie toe aan de punten tegen overlap.
+
+```{r, fig.cap="__Figuur 1: Aantal _C. elegans_ nakomelingen na verschillende blootstellingen (versie 1).__ Het aantal nakomelingen is geteld na incubatie voor een onbekende tijd van nematoden in S-medium en bij verschillende concentraties naftaleen, 2,6-di-isopropylnaftaleen, decaan en ethanol."}
+elegans_new%>%ggplot(aes(x=log10(as.double(compConcentration)),y=as.integer(RawData)))+
+  geom_point(aes(colour=as.factor(compName),shape=as.factor(expType)),size=1.5,position="jitter")+ #Jitter voegt wat variatie toe tegen overlap tussen de punten
+  labs(x="Log10(stof concentratie) (nM)",y="Aantal nakomelingen na blootstelling",colour="Stof",shape="Conditie")+
+  theme_bw()
+```
+
+
+
+
+
+
+
+
+
+Hieronder een eerste versie van een grafiek die voor de verschillende stoffen en concentraties het effect op het aantal nakomelingen weergeeft.
+
+```{r, fig.cap="__Figuur 1: Aantal _C. elegans_ nakomelingen na verschillende blootstellingen versie 1.__ Het aantal nakomelingen is geteld na incubatie voor een onbekende tijd van nematoden in S-medium en bij verschillende concentraties naftaleen, 2,6-di-isopropylnaftaleen, decaan en ethanol."}
+elegans%>%ggplot(aes(x=as.double(compConcentration),y=as.integer(RawData)))+
+  geom_point(aes(colour=as.factor(compName),shape=as.factor(expType)),size=1.5)+ 
+  labs(x="Stof concentratie (nM/pct)",y="Aantal nakomelingen na blootstelling",colour="Stof",shape="Conditie")+
+  theme_bw()
+```
+
+Indien de compConcentration variabele, van het data type character, niet als double wordt opgegeven, ontstaat een foute X-as. 
+
+Verder: de stof concentraties worden gegeven in nM maar de concentratie ethanol wordt gegeven in procent. Reken als volgt het percentage ethanol om naar nM:
+
+
+nMol/L = (percentage ethanol * dichtheid in g/L ) / (molaire massa in g/mol * 100) * 1000000
+
+*De dichtheid van het gebruikte ethanol is nodig om de percentages om te rekenen naar nM, maar niet gegeven. Daarom wordt uitgegaan van de standaard 789 g/L.
+
+
+1.5% ethanol = 256891.686564 nmol/L
+
+0.5% ethanol = 85630.562188 nmol/L
+
+```{r ethanol eenheid aanpassen}
+#Verander de ethanol concentraties van procent naar nM:
+elegans_new<-elegans
+elegans_new$compConcentration<-elegans_new$compConcentration%>%str_replace_all("1.5","256891.686564")
+elegans_new$compConcentration<-elegans_new$compConcentration%>%str_replace_all("0.5","85630.562188")
+elegans_new$compUnit<-elegans_new$compUnit%>%str_replace_all("pct","nM")
+```
+
+
+__F.__
+
+Zet de stof concentraties op een log10-schaal en voeg variatie toe aan de punten tegen overlap.
+
+```{r 1.1 F, fig.cap="__Figuur 2: Aantal _C. elegans_ nakomelingen na verschillende blootstellingen versie 2.__"}
+elegans_new%>%ggplot(aes(x=log10(as.double(compConcentration)),y=as.integer(RawData)))+
+  geom_point(aes(colour=as.factor(compName),shape=as.factor(expType)),size=1.5,position="jitter")+ #Jitter voegt wat variatie toe tegen overlap tussen de punten
+  labs(x="Log10(stof concentratie) (nM)",y="Aantal nakomelingen na blootstelling",colour="Stof",shape="Conditie")+
+  theme_bw()
+```
+
+
+__G.__
+
+De positieve controle voor dit experiment is dus 1.5% ethanol, waarvan bekend is dat het zorgt voor minder nematode nakomelingen. De negatieve controle voor dit experiment is dus S-medium, met een compConcentration gezet op 0 pct. Vandaar dat S-medium niet meer in de versie 2 grafiek verschijnt, de log10 van 0 bestaat niet.
+
+__NOG MAKEN: I.__
+
+https://storage.googleapis.com/plos-corpus-prod/10.1371/journal.pone.0146021/1/pone.0146021.s001.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=wombat-sa%40plos-prod.iam.gserviceaccount.com%2F20220421%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20220421T100713Z&X-Goog-Expires=86400&X-Goog-SignedHeaders=host&X-Goog-Signature=cc73877fc2f7c1cb9ea8b2a7eda54fa0dd715d217d2e519b9675b415a3afd033dc22a8adb909054571c061f572e8d5c2f94cb02a49bea0a22b7c50f73c6805208841900e70b8d4304699a41e258389c89a9caf680fa45c8e7357535c7a38eeb4dcefcc3421ff43ebd4bfe659d4c8de917fe6db19254b933559dc8fefee2e0d9f8d23323d3fd346cef07dbfc32b0cf6f1d46718523554c633f34f9386f9f7275818135d294c6b7da638a09a2cb4266c8529840a724294a57718f47fc8dbbec44753beaea71461427e7da74143fc8532b5d3748d8eb0201165de664484c263c8191a2ee226a9e6238c325020118ce513173fb488a0b23e44f587e135ecb4896da3
+
+__J.__
+```{r 1.1 J, fig.cap="__Figuur 3: Fracties _C. elegans_ nakomelingen na verschillende blootstellingen.__ Voor elke blootstelling aan één van de stoffen in een bepaalde concentratie is de fractie nakomelingen berekend, relatief een het aantal nakomelingen binnen de negatieve controle (incubatie in S-medium)."}
+
+controlNegative<-c(92,101,106,104,93,73,94,104,78,103,63,85,62,75,82,88,85,67,65,81,85,83,74,75,85,95,99,100,98,82) #Data type double
+mean(controlNegative)
+
+#De ruwe data van controlNegative delen door 85.9 maakt dat het gemiddelde gelijk is aan 1. Deel ook de ruwe data van de andere condities door 85.9 om fracties te verkrijgen.: ##Bedenk: bijv. 78/85.9 = (78/85.9)/1 = 0.91
+
+elegans_new<-elegans_new%>%mutate(RawData_normalized=RawData/mean(controlNegative))
+
+elegans_new%>%ggplot(aes(x=log10(as.double(compConcentration)),y=as.integer(RawData_normalized)))+
+  geom_point(aes(colour=as.factor(compName),shape=as.factor(expType)),size=1.5,position="jitter")+
+  labs(x="Log10(stof concentratie) (nM)",y="Fractie nakomelingen na blootstelling",colour="Stof",shape="Conditie")+
+  theme_bw()
+
+#Er zijn alleen negatieve fracties door de jitter optie!
+#Waarom zijn er zonder jitter geen punten tussen fractie 0 en fractie 1? Worden alle fracties lager dan 0.5 afgerond naar 0 en alle boven 0.5 afgerond naar 1 ofzo?
+```
+
+Voor de positieve controle met 1,5% ethanol geldt, dat er duidelijk minder nematoden geboren worden na incubatie ten opzichte van na incubatie in S-medium (fractie << 1). 
+
+Bij stof concentraties lager dan ~ 0.06 nM (= log10's lager dan -1.25) worden er evenveel, minder of meer nematoden geboren. Bij deze concentraties is er dus geen effect op het aantal nakomelingen. Voor incubatie bij hogere concentraties van de drie geteste stoffen is zichtbaar dat er minder nematoden geboren worden, ten opzichte van incubatie in S-medium (fractie << 1)
+
+__K.__
+
+We normaliseren de data omdat we geïnteresseerd zijn in hoeveel nematoden er meer of minder worden geboren na incubatie met een stof ten opzichte van de normale situatie (S-medium zonder stof). Dit is niet aftelezen aan de grafiek met de X-as log10-schaal van niet-genormaliseerde data, omdat het aantal nakomelingen van de negatieve controle conditie wegvallen uit de grafiek (zie G.).
+
+<!--chapter:end:01_portfolio_assignment_1.1.Rmd-->
+
+# Portfolio assignment 1.2: Reproducibility
+
+```{r setup, include=FALSE}
+library(tidyverse)
+knitr::opts_chunk$set(message=FALSE, warning=FALSE)
+```
+
+__Open Peer Review: PART 1__
+
+Het gekozen open source artikel van Pubmed Central: __Chaimayo, C., Kaewnaphan, B., Tanlieng, N. et al. Rapid SARS-CoV-2 antigen detection assay in comparison with real-time RT-PCR assay for laboratory diagnosis of COVID-19 in Thailand. Virol J 17, 177 (2020).__ (https://doi.org/10.1186/s12985-020-01452-5)
+
+__HIER NOG TOEVOEGEN: General aim, short methods and results. Include some data.__
+
+```{r Ripeta criteria, echo=FALSE}
+ripeta<-tibble("Transparancy Criteria"=c("Study Purpose","Data Availability Statement","Data Location","Study Location","Author Review","Ethics Statement","Funding Statement","Code Availability"),"Definition"=c("A concise statement in the introduction of the article, often in the last paragraph, that establishes the reason the research was conducted. Also called the study objective.","A statement, in an individual section offset from the main body of text, that explains how or if one can access a study’s data. The title of the section may vary, but it must explicitly mention data; it is therefore distinct from a supplementary materials section.","Where the article’s data can be accessed, either raw or processed.","Author has stated in the methods section where the study took place or the data’s country/region of origin.","The professionalism of the contact information that the author has provided in the manuscript.","A statement within the manuscript indicating any ethical concerns, including the presence of sensitive data.","A statement within the manuscript indicating whether or not the authors received funding for their research.","Authors have shared access to the most updated code that they used in their study, including code used for analysis."),"Response Type"=c("Binary","Binary","Found Value","Binary; Found Value","Found Value","Binary","Binary","Binary"),Score=c("TRUE","TRUE","All data generated or analysed are included in the published article and its additional files.","Bangkok, Thailand","Navin Horthongham is corresponding author. navin.hor@mahidol.ac.th","TRUE","TRUE","FALSE"))
+
+knitr::kable(
+  ripeta,
+  caption = "__Tabel 1: Ripeta criteria scores voor Chutikarn et al. 2020__"
+)
+```
+
+
+__Open Peer Review: PART 2__
+
+Het gekozen artikel uit de gegeven studie (Paper06): __Arthur G. Samuel, Psycholinguists should resist the allure of linguistic units as perceptual units, Journal of Memory and Language (2020).__ (https://doi.org/10.1016/j.jml.2019.104070)
+
+
+De bijbehorende dataset: __"./Exp2_Final_Adaptors_CVtestitems"__
+
+
+Link naar RMarkdown met de gereproduceerde code op OSF: https://osf.io/s794v/
+
+De codes in deze Reproducing.Rmd worden gebruikt om de figuren te maken die in het artikel weergegeven worden. Op een schaal van 1 (zeer slecht) tot 5 (zeer goed) geef ik de leesbaarheid van de codes in dit bestand een 2.
+
+Hieronder reproduceer ik een deel van de data om figuur 2 uit het artikel na te maken. Het koste me moeite om dit figuur te reproduceren, met een score van 3 op een schaal van 1 (zeer moeilijk) tot 5 (zeer makkelijk).
+
+Een stuk code met een helperfunctie van de Reproducing.Rmd auteur voor het inlezen van de data:
+
+```{r helperfunctie van auteur voor inlezen data, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list=ls())
+if(!require(tidyverse)){install.packages('tidyverse')}
+if(!require(lme4)){install.packages('lme4')}
+if(!require(readr)){install.packages('readr')}
+# 
+# A helper function for reading in the unconventionally structured data files
+read_exp_data <- function(filenames_BF_ID, to_skip){
+  BF_ID <- NULL
+  for (i in filenames_BF_ID){
+    adaptor <- substring(i, 1, 1) # first letter of the filename
+    temp <- read.csv(i, skip = to_skip) %>% 
+      select(1:8)
+    
+    temp1 <- temp %>%
+      select(1,2,3,4)
+    if (grepl('X', colnames(temp1)[3])){
+      temp1 <- NULL
+    } else {
+      temp1 <- temp1 %>%
+        mutate(participant.id = colnames(temp1)[3],
+               adaptor = adaptor) %>%
+        rename(response = colnames(temp1)[3],
+               RT = colnames(temp1)[4])
+    }
+    
+    temp2 <- temp %>%
+      select(1,2,5,6)
+    if (grepl('X', colnames(temp2)[3])){
+      temp2 <- NULL
+    } else {
+      temp2 <- temp2 %>%
+        mutate(participant.id = colnames(temp2)[3],
+               adaptor = adaptor) %>%
+        rename(response = colnames(temp2)[3],
+               RT = colnames(temp2)[4])
+    }
+    
+    temp3 <- temp %>%
+      select(1,2,7,8)
+    if (grepl('X', colnames(temp3)[3])){
+      temp3 <- NULL
+    } else {
+      temp3 <- temp3 %>%
+        mutate(participant.id = colnames(temp3)[3],
+               adaptor = adaptor) %>%
+        rename(response = colnames(temp3)[3],
+               RT = colnames(temp3)[4])
+    }
+    BF_ID <- rbind(BF_ID, temp1, temp2, temp3)
+  }
+  return(BF_ID)
+} 
+```
+
+Een stuk code voor het berekenen van het aantal participanten in (waarschijnlijk) de No-Release conditie:
+
+```{r aantal participanten in conditie ?, message=FALSE, warning=FALSE}
+wd <- "C:/Users/steph/DSFB2/workflows_portfolio_OPNIEUW/data_raw/data02_assignment_1.2"
+setwd(wd)
+
+filenames_ID <- list.files(pattern = "ID")
+ID <- read_exp_data(filenames_ID, to_skip =4) %>%
+  mutate(participant.id = tolower(participant.id)) 
+
+nlevels(as.factor(ID$participant.id))
+```
+
+Een stuk code voor het berekenen van het aantal participanten in (waarschijnlijk) de adaptation condition:
+
+```{r aantal participanten in adaptation condition, message=FALSE, warning=FALSE}
+setwd(wd)
+filenames_FAD <- list.files(pattern = "FAD")
+FAD <- read_exp_data(filenames_FAD, to_skip =6)
+
+nlevels(as.factor(FAD$participant.id))
+```
+
+Een stuk code voor het filteren van participanten uit de (waarschijnlijk) No-Release conditie:
+
+```{r participanten wegfilteren, message=FALSE, warning=FALSE}
+setwd(wd)
+# filtering
+to_filter <- ID %>%
+  drop_na() %>%
+  mutate(adaptor = ifelse(adaptor == "B", "B", "D"),
+         B = ifelse(response == 4, 1, 0),
+         D = ifelse(response == 1, 1, 0),
+         adaptorB = ifelse(adaptor == "B", 1, -1),
+         adaptorD = ifelse(adaptor == "D", 1, -1),
+         Bgrade = parse_number(as.character(AudioWaveFile1))-1) %>%
+  filter(Bgrade == 1 | Bgrade == 7) %>%
+  group_by(participant.id, Bgrade) %>%
+  summarize(D_response = mean(D)) %>%
+  pivot_wider(id_cols = participant.id, 
+              names_from = Bgrade, 
+              values_from = D_response) %>%
+  mutate(diff = `1` - `7`) %>%
+  filter(diff < 0.6) 
+
+to_filter
+```
+
+Deze codes geven mij dezelfde uitkomst als de Reproducing.Rmd auteur. Nu een figuur, figuur 2 uit het artikel, reproduceren:
+
+```{r figuur 2 reproduceren, message=FALSE, warning=FALSE}
+wd <- "C:/Users/steph/DSFB2/workflows_portfolio_OPNIEUW/data_raw/data02_assignment_1.2"
+setwd(wd)
+FAD <- FAD %>%
+  drop_na() %>%
+  filter(! participant.id %in% to_filter$participant.id) %>%
+  mutate(B = ifelse(response == 1, 1, 0),
+         D = ifelse(response == 4, 1, 0),
+         adaptorB = ifelse(adaptor == "B", 1, -1),
+         adaptorD = ifelse(adaptor == "D", 1, -1),
+         Bgrade = parse_number(as.character(WaveFile))-1,#AFAIU the lower the number the closer to B, but I might be wrong
+         RT = RT*1000) 
+
+# Figure 2
+FAD %>%
+  group_by(participant.id, Bgrade, adaptor) %>%
+  summarize(part_mean = mean(D)) %>%
+  group_by(Bgrade, adaptor) %>%
+  summarize(acc = mean(part_mean)) %>%
+  ggplot(aes(x = Bgrade, y = acc, color = adaptor)) +
+  geom_point() + geom_line()
+```
+
+Deze figuur ziet er volgens de auteur hetzelfde uit als figuur 2 in het artikel. De vormen kloppen, maar de Y-as en as titels zijn door de Reproducing.Rmd auteur anders gekozen. De Y-as laat fracties zien i.p.v. percentages. Dit kan gemakkelijk aangepast worden:
+
+```{r figuur 2 eigen edit, fig.cap="Overgenomen uit het artikel: __Fig. 2. Identification of the members of the /ba/-/da/ test series, as a function of the adaptation condition, for adaptors that included released final stops.__ After adaptation with final-/d/ words (red curve/squares) identification as “D” was reduced compared to adaptation with final-/b/ words (blue curve/circles)."}
+FAD %>%
+  group_by(participant.id, Bgrade, adaptor) %>%
+  summarize(part_mean = mean(D)) %>%
+  group_by(Bgrade, adaptor) %>%
+  summarize(acc = mean(part_mean) * 100) %>%
+  ggplot(aes(x = Bgrade, y = acc, color = adaptor)) +
+  geom_point() + geom_line() +
+  theme_classic() +
+  scale_colour_manual(values=c("blue","red"),labels=c("B adapt","D adapt"), name = "") +
+  labs(title="Released Final Position Adaptors on CV Test Series", x = "Continuum Step", y = "Percent \"d\" Report") +
+  ylim(0,100)
+```
+
+<!--chapter:end:02_portfolio_assignment_1.2.Rmd-->
+
+# Portfolio assignment 2: Folder trees
+
+```{r setup x, eval=FALSE, include=FALSE}
+install.packages("fs")
+```
+
+```{r DAUR2 folder tree, fig.cap="Figuur X: Folder structuur voor mijn DAUR2 werkomgeving."}
+library(fs)
+dir_tree(path="C:/Users/steph/DSFB1/daur2")
+```
+
+```{r portfolio folder tree, fig.cap="Figuur X: Folder structuur voor mijn DSFB2 Workflows portfolio werkomgeving."}
+dir_tree(path="C:/Users/steph/DSFB2/workflows_portfolio_OPNIEUW")
+```
+
+```{r lessen folder tree, fig.cap="Figuur X: Folder structuur voor mijn DSFB2 Workflows lessen werkomgeving."}
+dir_tree(path="C:/Users/steph/DSFB2/workflows_lessen")
+```
+
+```{r projecticum folder tree, fig.cap="Figuur X: Folder structuur voor de DSFB2 Regenworm projecticum werkomgeving."}
+dir_tree(path="C:/Users/steph/DSFB2/projecticum_regenworm")
+```
+
+
+<!--chapter:end:03_portfolio_assignment_2.Rmd-->
+
+# Portfolio assignment 3.1: CV
+
+Ik heb het template 'HTML resume' van {pagedown} gebruikt om met R Markdown een CV als [PDF bestand](https://github.com/stephaniedewit/stephaniedewit.github.io/blob/main/test_cv_pagedown.pdf) te genereren. _Het is niet mogelijk om dergelijke templates toe te voegen aan een book._ 
+
+## Template R Markdown syntax
+
+YAML header: 
+
+```{r 1}
+#---
+#title: "Stephanie's resume"
+#author: Stephanie de Wit
+#date: "22-05-2022"
+#output:
+#  pagedown::html_resume:
+#    css: 
+#    - override.css
+#    - resume
+#    self_contained: false
+#knit: pagedown::chrome_print
+#---
+```
+
+CSS file:
+
+```{r}
+#* {
+#  /* Override default margins*/
+#  --pagedjs-margin-right: 0.2in;
+#  --pagedjs-margin-left: 0.2in;
+#  --pagedjs-margin-top: 0.2in;
+#  --pagedjs-margin-bottom: 0.2in;
+#}
+#
+#
+#:root{
+#  --sidebar-width: 15rem; /* side bar width */
+#  --sidebar-background-color: #2EB3B3;
+#  --decorator-border: 2px solid #35D1D1; /* change color and thickness of timeline */
+#
+#}
+#
+#.decorator::after{
+#  background-color: #35D1D1; /* change color timeline dots */
+#
+#}
+#
+#
+#/* Define the font family here */
+#body{
+#  font-family: "Roboto", sans-serif;
+#
+#}
+```
+
+Body:
+
+```{r 2}
+#Aside
+#========================================================#========================
+#
+#
+#![Stephanie de Wit](https://avatars.githubusercontent.com/u/103999467?s=400&u=9d6a4da194685107008731008461da14c27693fa&v=4){width=90%}
+#
+#
+#Contact Info {#contact}
+#--------------------------------------------------------------------------------
+#
+#- <i class="fa fa-envelope"></i> stephanie.dewit@student.hu.nl
+#- <i class="fa fa-github"></i> [github.com/stephaniedewit](https://github.com/stephaniedewit)
+#- <i class="fa fa-phone"></i> +31 6********
+#
+#Soft skills {#skills}
+#--------------------------------------------------------------------------------
+#
+#- Perseverance
+#
+#- Precision
+#
+#- Independence
+#
+#- Organizational
+#
+#- Social skills
+#
+#Hard skills {#skills}
+#--------------------------------------------------------------------------------
+#
+#- Experienced in cell culture, recombinant DNA #techniques and protein analysis.
+#
+#- Skilled in R and Bash.
+#
+#- Experienced with statistical analysis and next generation sequencing data analysis.
+#
+#Main
+#================================================================================
+#
+#Stephanie de Wit {#title}
+#--------------------------------------------------------------------------------
+#
+#### Currently searching for a graduation internship
+#
+#Enthusiastic, third-year Life Sciences student with a grade average of 8.8, looking for a challenging graduation internship. I am fond of study material about genetics, immunology and tumor cell biology and enjoy working with recombinant DNA techniques, cell culture and protein chromatography. It is my ambition to conduct research into the origin, prevention and control of diseases as a molecular biologist.
+#
+#
+#Education {data-icon=graduation-cap data-concise=true}
+#--------------------------------------------------------------------------------
+#
+#### Institute for Life sciences & Chemistry, Hogeschool Utrecht
+#
+#Biologie en Medisch Laboratoriumonderzoek (Life Sciences)
+#
+#Utrecht, The Netherlands
+#
+#2019 - today
+#
+#::: concise
+#- __Minor (today): _Data Sciences for Biology_ 1 & 2__. Content: Bash, _next generation sequencing_, RStudio, _RNA-sequencing_, _metagenomics_, GitHub, SQL. 
+#- __Specialisation: _Biomolecular Research_ (BMR)__. Courses: Biotechnologie, Projecticum _Biomolecular Research_, Practicum Moleculaire Biologie, _Advanced Labtools_, Tumorcelbiologie.
+#:::
+#
+# Workexperience {data-icon=suitcase}
+#--------------------------------------------------------------------------------
+#
+#### Schoolproject: Projecticum Biomolecular Research
+#
+#Performed in collaboration with Genmab BV.
+#
+#Utrecht, The Netherlands
+#
+#september 2021 - januari 2022
+#
+#::: concise 
+#Using _size exclusion chromatography_ we investigated whether Hexabody® antibodies have a lower tendency to hexamerize after oxidation.
+#:::
+```
+
+
+
+<!--chapter:end:04_pagedown_cv.Rmd-->
+
+# Portfolio assignment 3.2: Plan van Aanpak vrije besteding
+
+Over twee jaar wil ik werkzaam zijn als biomedisch analist en bijdragen aan onderzoek naar de ontwikkeling, bestrijding en genezing van ziekten. Daarnaast wil ik vaardiger blijven worden in R zodat ik het vernuftig kan gebruiken om mijn onderzoeksresultaten te presenteren en analyseren. Ik ben goed opweg: op dit moment ben ik opzoek naar een afstudeerstage en heb ik al 15/30 EC behaald binnen de Data Science for Biology 1 & 2 minor. 
+
+Tijdens mijn BMR specialisatie projecticum voor Genmab heb ik gewerkt met een HPLC. De UV-detectie resultaten 'kwamen op de computer binnen' via de software Clarity Lite. De ruwe data van interesse is uit Clarity Lite gekopieerd(ctrl + C) en geplakt in een Excel bestand, waarna er verschillende berekeningen en omzettingen op los zijn gelaten. Er zijn tabellen gemaakt in PowerPoint, grafieken in Excel en er zijn statistische tests uitgevoerd in SPSS. Met het oog op een mogelijke stage bij Genmab, waar ik wellicht weer met een HPLC zal werken, wil ik gaan onderzoeken of het mogelijk is om deze analyse stappen meer 'data science' te maken: minder stappen, minder handmatig werk en minder vatbaar voor fouten. Ik wil uitzoeken of ik de ruwe Clarity Lite data aan een package o.i.d. kan voeren voor een volledige data analyse in RStudio.
+
+```{r planning en logboek, echo = FALSE}
+library(tidyverse)
+library(kableExtra)
+
+planning <- tibble(Stap = 1:10, Wat = c(" Oriënteren op de (R) packages e.d. die beschikbaar zijn voor chromatografie data analyse in RStudio.","Uitzoeken in welke formats de data uit Clarity Lite geëxporteerd kan worden.","Afspraak maken om op de HPLC computer op HL7 te mogen snuffelen.","Helder maken: wat wil ik precies dat de packages doen?","Twee packages o.i.d. kiezen om verder uit te diepen.","Installeren van packages, werkzaamheid krijgen.","Packages testen met nep data of data geëxporteerd uit Clarity Lite.","Verder verdiepen in het gebruik van de packages.","...","..."), Wanneer = c("?","?","?","?","?","?","?","?","?","?"), Hoelang = c("2,5 uur","1,5 uur","2 uur","1,5 uur","x","2 uur","2 uur","~","...","..."))
+
+kbl(planning, caption = "__Tabel 1: Planning voor vrij te besteden uren.__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1, bold = TRUE) %>% column_spec(4, color = "red")
+
+logboek <- tibble(Dag = c("Maandag","Dinsdag"), Stap = rep(1, 2), Gedaan = c("...", "..."), Tijd = c("...","...")) 
+
+kbl(logboek, caption = "__Tabel 2: Logboek.__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1, bold = TRUE) %>% column_spec(4, color = "red")
+```
+
+<!--chapter:end:05_portfolio_assignment_3.2.Rmd-->
+
+# Vaardigheid 5: correct refereren m.b.v. een _reference manager_
+
+Parallel aan de Workflows lessen van Data Sciences for Biology 2 heb ik samen met twee medestudenten een project uitgevoerd. Hieronder laat ik met een introductie op dit project zien dat ik de _reference manager_ Zotero kan gebruiken om te parafraseren.
+
+```{r citeer stappenplan, include=FALSE}
+#Stappenplan:
+#1. Start een collectie in Zotero
+#2. Voeg papers toe met de browser connector
+#3. In Rstudio: Tools --> Addins --> rbbt - Insert Zotero citation (Zotero moet op de achtergrond draaien)
+#4. Exporteer de collectie uit ZOtero naar een .bib file in de RMarkdown folder
+#5. In YAML header: bibliography: naam_collectie.bib
+#6. Update de .bib file na toevoegen van referenties met: library(rbbt), bbt_update_bib("06_portfolio_assignment_5.Rmd")
+```
+
+## DSFB2 2022 Project Regenwormen: Introductie
+
+Oud-student aan Hogeschool Utrecht Jory van Thiel heeft samen met instituten in Leiden en Liverpool onderzoek gedaan naar de convergente evolutie van het defensieve gif van spugende cobras. Drie cobra soorten hebben convergent, of te wel onafhankelijk van elkaar, het vermogen ontwikkeld om gif te spugen ter verdediging, in tegen stelling tot andere cobras die gif inspuiten in een prooi. Jory en de andere internationale onderoekers hebben laten zien dat het gif van spugende soorten wordt gekarakteriseerd door een significante upregulatie in fosfolipase A2, wat de activatie van sensorische zoogdier neuronen door gif cytotoxines stimuleert. Dit veroorzaakt meer pijn in, bijvoorbeeld, de ogen van een roofdier dan gif van bijtende cobras zal doen [@kazandjianConvergentEvolutionPainInducing2021].
+
+<br>
+BMR projecticum studenten zijn door Jory gevraagd om te onderzoeken wat het effect is van fosfolipase A2 op skeletspiercellen. Hogeschool Utrecht docenten Ronald Vlasblom en Robert Jan Veldman keken daarnaast naar het effect van fosfolipase A2 op ratten hartjes in een Langendorff opstelling. In een dergelijke opstelling worden de hartjes via de aorta retrograde geperfundeerd met een zuurstof- en voedingsrijke oplossing. De omgekeerde vloeistofdruk, van aorta naar linker hartkamer, zorgt ervoor dat de aorta kleppen sluiten en de vloeistof naar de kransslagaders wordt gedwongen. Dit voedt de hartspier, die hierdoor enkele uren buiten de rat kan blijven kloppen [@broadleyLangendorffHeartPreparation1979]. Ronald en Robert Jan lieten zien dat na toevoeging van 40 µg gif van de spugende cobra _Naja pallida_ snel een verstoord hartritme en zelfs een hartstilstand volgde [@ProjectRegenwormenData]. 
+
+<br>
+De Universiteit van Liverpool wil deze observaties graag gebruiken binnen hun onderzoek naar de acute myotoxiciteit van slangengif en het ontwikkelen van blokkers om dit effect te ondervangen. Op dit moment helpen studenten onder leiding van Ronald met het ontwikkelen van proefdiervrije onderzoeksmodellen voor deze onderzoeksvragen. Ronald en Robert Jan lieten namelijk zien dat defensief gif een zelfde effect heeft op de contractiekracht en -frequentie van het gladde spierweefsel van de crop-gizzard van een regenworm [@ProjectRegenwormenData]. De crop-gizzard wordt uit een regenworm geïsoleerd en in een orgaanbad van Ringer buffer aan een verplaatsingsmeter gehangen. In de buffer blijft het spierweefsel enige tijd functioneel. Als het contracteert, verplaatst het de hefboom van de verplaatsingsmeter. Hoe sterker of vaker het weefsel contracteert, hoe sterker of vaker de hefboom verplaatst. Deze verplaatsingen worden geregistreerd als veranderingen in spanning over tijd en komen op de laptop van Ronald en de studenten binnen in het programma LabChart [@ProjectRegenwormenData; @ThemaRegenwormDOFAR, p. 3]. Om het effect van een giftoediening te bepalen, worden veranderingen in contractiekracht en -frequentie met het oog opgepikt uit de tracings in LabChart. Dit is tijdsintensief en gevoelig voor fouten. Daarom heeft Ronald mij en twee medestudenten gevraagd om een automatische analyse voor de tracings te coderen. De komende weken tot de zomervakantie zullen wij proberen om voor Ronald en zijn studenten een interactieve Shiny app te bouwen die, voor gedefinieerde tijdsvensters van interesse, in een grafiek de kracht en duur van elke contractie laat zien evenals de _time to contraction_, _time to relaxation_ en contractie frequentie.
+
+
+
+
+
+
+
+
+
+in sprints van een week 
+
+en komen als een time series tracing binnen 
+
+Als het spierweefsel contracteert 
+
+... crop-gizzard opstelling ... hoe data geanalyseerd wordt ... vraagstelling naar ons ...
+
+spugende cobra naja pallida
+
+VARISPLADIB
+
+voor Jory onderzocht of er ook fosfolipase A2 aanwezig is in het gif van de ratelslang Crotalus atrox en 
+
+werking van 
+
+
+
+
+
+
+Atrox niet getest
+
+
+
+All cobra venoms are dominated by three finger toxins (3FTX), while in many species phospholipases A2 (PLA2) are the second most abundant toxin family. Although cytotoxins likely inflict defensive ocular pain, we found no significant difference in the abundances of CTXs between spitting and non-spitting species. PLA2 toxins in spitting cobra venoms potentiate the activating effect of CTXs on sensory neurons. Spitting cobra venoms cause significantly greater activation of sensory neurons than non-spitting cobras, mediated via potentiation by PLA2 toxins.
+
+revealed that spitting cobra venoms have significantly higher PLA2 abundance and activity than those of non-spitting species
+
+he proportion of viable sensory neurons activated by each CTX fraction was significantly increased when combined with a PLA2 fraction, and this result was consistent across representatives of the three spitting lineages Moreover, significant reductions in sensory neuron activation occurred in the presence of the PLA2 inhibitor varespladib, providing further compelling evidence that PLA2s potentiate CTX effects on sensory neurons.
+
+
+However, none of the CTX fractions completely recapitulated the effects of whole venom or re-pooled venom fractions, suggesting synergy between multiple venom components.
+
+T
+
+
+
+
+
+The abundance, enzymatic activity and diversity of PLA2 toxins are associated with convergent evolution of venom spitting.
+
+In summary, spitting cobras highlight how similar selection pressures and shared exaptations can drive convergence at molecular, morphological, behavioral, and functional levels, resulting in the evolution of complex, integrated adaptations in ecologically important traits being funnelled down repeatable pathways.
+
+Defensive venom spitting by snakes is underpinned by convergent increases in pain-enhancing toxins
+
+Convergent evolution is when different organisms independently evolve similar traits
+
+STUDENTEN PROBEREN AAN TE TONEN OF PLA2 AANWEZIG IS IN TWEE GIFSOORTEN EN ONDERZOEKEN HET EFFECT OP SKELETSPIERCELLEN EN ONDERZOEKEN WAT EFFECT IS OP HARTSPIERCELLEN MET EEN HARTJE IN EEN LANGENDORFF, RONALD EN ROBERT JAN ZIJN HIER ZELF MEE BEZIG. 
+
+
+Iets vertellen over onderzoek gifwerking op hartspiercellen: ontrafelen werkingsmechanismen voor ontwikkelen van behandelingen tegen acute effecten van slangengif.
+Onderzoek met Langendorff
+Dierproefvrije onderzoeksmodellen ontwikkelen voor vraagstellingen. Regenworm.
+Piekenpatroon automatisch te laten analyseren
+
+Bronnen: Science spitting image, PowerPoint, bron over Langendorff? Canvas pagina's DKO? Literatuur over... wat? Regenwormen als alternatief?
+
+
+
+
+
+
+Of er phospholipase A2 aanwezig is in slangengif en wat de gevolgen daarvan zijn voor de overleving van spiercellen. --> Onderzoeken wat phospholipase A2 doet met werkende hartspiercellen in een langendorff. Kracht en frequentie veranderingen bij verschillende conc. --> Naja pallida 40 µg immediate rythm distrubances and rapid cardiac arrest. --> Bewijs voor Liverpool + testen of dit te ondervangen is met blokkers. --> Zelfde effect zichtbaar op worm, proefdiervrij model optimaliseren.
+
+Crop-gizzard: https://pubmed.ncbi.nlm.nih.gov/18790067/
+
+https://www.proquest.com/openview/7e0af7510df36ef7ac82c07d72bffa70/1?pq-origsite=gscholar&cbl=18750&diss=y
+
+
+
+
+
+<!--chapter:end:06_portfolio_assignment_5.Rmd-->
+
+# Portfolio assignment 7: Relational databases
+
+```{r setup xx, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE,message=FALSE)
+
+#install.packages("dslabs")
+
+library(tidyverse)
+library(dslabs) #package met gapminder dataset
+```
+
+
+```{r flu, dengue en gapminder data inlezen}
+gapminder_df <- as.data.frame(gapminder)
+
+gapminder_df
+
+flu_df <- as.data.frame(read.csv(here::here(
+  "flu_data.csv"), skip = 11))
+
+flu_df
+
+dengue_df <- as.data.frame(read.csv(here::here(
+  "dengue_data.csv"), skip = 11))
+
+dengue_df
+```
+
+```{r dataframes tidy maken}
+flu_df <- pivot_longer(data = flu_df, cols=c(2:30), names_to = "Country", values_to = "Influenza_activity")
+
+dengue_df <- pivot_longer(data = dengue_df, cols=c(2:11), names_to = "Country", values_to = "Dengue_activity")
+
+#gapminder was al tidy
+```
+
+Country in flu en dengue is met een hoofdletter C en type character. Country in gapminder is met een kleine letter c en type factor.
+Date als character in flu en dengue, year in gapminder als integer.
+
+```{r kolommen met land en jaartal hetzelfde maken voor de drie dataframes}
+#...
+flu_df <- separate(data = flu_df, col = Date, into = c("Year", "Month", "Day"), sep = "-")
+dengue_df <- separate(data = dengue_df, col = Date, into = c("Year", "Month", "Day"), sep = "-")
+
+#...
+flu_df$Country <- as.factor(flu_df$Country)
+dengue_df$Country <- as.factor(dengue_df$Country)
+
+flu_df$Year <- as.integer(flu_df$Year)
+dengue_df$Year <- as.integer(dengue_df$Year)
+
+#Alle drie dezelfde kolomnamen:
+gapminder_df <- rename(gapminder_df, Year = year)
+gapminder_df <- rename(gapminder_df, Country = country)
+
+#...
+## via https://stackoverflow.com/questions/25089665/error-only-defined-on-a-data-frame-with-all-numeric-variables-with-ddply-on-lar
+flu_df <- flu_df %>% group_by(Country, Year) %>% summarise_each(funs(sum),Influenza_activity)
+
+dengue_df <- dengue_df %>% group_by(Country, Year) %>% summarise_each(funs(sum),Dengue_activity)
+
+#Maak er opnieuw dataframes van:
+flu_df <- as.data.frame(flu_df)
+dengue_df <- as.data.frame(dengue_df)
+
+#Schrijf de drie dataframes om naar .csv en .rds:
+write.csv(gapminder_df, file = "gapminder_df.csv")
+write.csv(flu_df, file = "flu_df.csv")
+write.csv(dengue_df, file = "dengue_df.csv")
+
+saveRDS(gapminder_df, "C:/Users/steph/DSFB2/portfolio_book/gapminder_df.rds")
+saveRDS(flu_df, "C:/Users/steph/DSFB2/portfolio_book/flu_df.rds")
+saveRDS(dengue_df, "C:/Users/steph/DSFB2/portfolio_book/dengue_df.rds")
+```
+
+```{r van RStudio naar DBeaver,eval=FALSE}
+library(DBI)
+
+con <- dbConnect(RPostgres::Postgres(),
+                 dbname = "workflowsdb",
+                 host="localhost",
+                 port="5432",
+                 user="postgres",
+                 password="...")
+
+dbWriteTable(con, "flu_df", flu_df)
+
+dbWriteTable(con, "dengue_df", dengue_df)
+
+dbWriteTable(con, "gapminder_df", gapminder_df)
+
+dbDisconnect(con)
+```
+
+```{r DBeaver inspection of content}
+#Om een of andere reden moet ik nu ineens 'dd' opgeven achter de tabel en dd."..." voor een kolom?
+
+#Naast het aanklikken en doornemen Data, Properties en ER Diagram van de tabellen, heb ik de data geïnspecteerd met de volgende queries:
+
+#SELECT
+#dd."Country",
+#dd."Dengue_activity",
+#dd."Year"
+#FROM dengue_df dd 
+#WHERE "Year"=2009;
+
+#SELECT
+#dd."Country",
+#dd."Influenza_activity",
+#dd."Year"
+#FROM flu_df dd 
+#WHERE "Year"=2009;
+
+#SELECT
+#dd."Country",
+#dd."infant_mortality",
+#dd."Year"
+#FROM gapminder_df dd 
+#WHERE "Year"=2009;
+
+#SELECT
+#dd."Country",
+#dd."Dengue_activity",
+#dd."Year"
+#FROM dengue_df dd 
+#ORDER BY
+#dd."Dengue_activity" asc
+
+#SELECT
+#dd."Country",
+#dd."Influenza_activity",
+#dd."Year"
+#FROM flu_df dd 
+#ORDER BY
+#dd."Influenza_activity" ASC;
+
+#SELECT
+#dd."Country",
+#dd."infant_mortality",
+#dd."Year"
+#FROM gapminder_df dd 
+#ORDER BY
+#dd."infant_mortality" ASC;
+
+#SELECT
+#DISTINCT dd."Year"
+#FROM
+#gapminder_df dd
+#ORDER BY
+#dd."Year" ASC;
+```
+
+
+```{r dplyr inspection of content}
+class(dengue_df)
+str(dengue_df)
+summary(dengue_df)
+
+class(flu_df)
+str(flu_df)
+summary(flu_df)
+
+class(gapminder_df)
+str(gapminder_df)
+summary(gapminder_df)
+
+#Bovenstaande queries zijn vertaald naar dezelfde analyse in R, wat dezelfde resultaten gaf:
+
+dengue_df %>% filter(Year == 2009) %>% select(Country, Dengue_activity, Year)
+
+flu_df %>% filter(Year == 2009) %>% select(Country, Influenza_activity, Year)
+
+gapminder_df %>% filter(Year == 2009) %>% select(Country, infant_mortality, Year)
+
+
+
+dengue_df %>% select(Country, Dengue_activity, Year) %>% arrange(Dengue_activity)
+
+flu_df %>% select(Country, Influenza_activity, Year) %>% arrange(Influenza_activity)
+
+gapminder_df %>% select(Country, infant_mortality, Year) %>% arrange(infant_mortality)
+
+#Beter maar lukt niet in SQL: #gapminder_df %>% select(Country, infant_mortality, Year) %>% group_by(Country, Year) %>% summarise(infant_mortality) %>% arrange()
+
+
+
+gapminder_df %>% select(Year) %>% arrange() %>% unique()
+```
+
+```{r}
+#Load the gapminder data in R?
+readRDS(here::here("gapminder_df.rds"))
+readRDS(here::here("flu_df.rds"))
+readRDS(here::here("dengue_df.rds"))
+
+#Flu_df en dengue_df zijn "joinbaar" met elkaar...
+flu_dengue <- left_join(flu_df, dengue_df, by = c("Country", "Year"))
+
+#...en met gapminder_df
+left_join(flu_dengue, gapminder_df, by = c("Country", "Year"))
+
+#Het lijkt erop dat er niks veranderd hoeft te worden aan gapminder_df voor joinen in DBeaver met een compound key = waarde onder Country én Year i.p.v. een unieke identifiër voor eke Country + Year combo.
+
+#select
+#flu_df."Country",
+#flu_df."Year" ,
+#flu_df."Influenza_activity",
+#dengue_df."Dengue_activity",
+#gapminder_df."infant_mortality",
+#gapminder_df."life_expectancy",
+#gapminder_df."fertility",
+#gapminder_df."population",
+#gapminder_df."gdp",
+#gapminder_df."continent",
+#gapminder_df."region"
+#from
+#flu_df
+#left join dengue_df
+#on dengue_df."Country" = flu_df."Country" 
+#and dengue_df."Year" = flu_df."Year"
+#left join gapminder_df
+#on gapminder_df."Country" = flu_df."Country"
+#and gapminder_df."Year" = flu_df."Year";
+
+flu_dengue_gapminder <- read_csv(here::here("flu_dengue_gapminder.csv"))
+
+flu_dengue_gapminder
+summary(flu_dengue_gapminder)
+
+#Beschrijvende statistiek: tabel met per land per de gem. Influenza en Knokkelkoorts activiteit, de gem. kindersterfte, de gem. levensverwachting, het gem. aantal geboorten en de gem. populatie grootte.
+
+## SLAAT NERGENS OP?! PER JAAR!
+FLU <- flu_dengue_gapminder %>% group_by(Country) %>% summarise(Gem_Influenza_act = mean(Influenza_activity))
+DENG <- flu_dengue_gapminder %>% group_by(Country) %>% summarise(Gem_Knokkelkoorts_act = mean(Dengue_activity))
+MORT <- flu_dengue_gapminder %>% group_by(Country) %>% summarise(Gem_kindersterfte = mean(infant_mortality))
+LIFE <- flu_dengue_gapminder %>% group_by(Country) %>% summarise(Gem_levensverwachting= mean(life_expectancy))
+FERT <- flu_dengue_gapminder %>% group_by(Country) %>% summarise(Gem_geboorten = mean(fertility))
+POPU <- flu_dengue_gapminder %>% group_by(Country) %>% summarise(Gem_populatie = mean(population))
+
+desc_stat <- flu_dengue_gapminder %>% select(Country) %>% unique %>% mutate(FLU, DENG, MORT, LIFE, FERT, POPU)
+
+##HIER MOOIE TABEL MAKEN MET KNITR
+
+#desc_stat <- rename(desc_stat, Land = Country)
+
+#plot 1: Influenza activiteit door de jaren heen
+fdg <- flu_dengue_gapminder %>% filter(Influenza_activity > 0)
+
+ggplot(data = fdg, aes(x = Year, y = Influenza_activity)) +
+  geom_line(aes(color = Country), alpha = 0.8) +
+  labs(title = "Influenza activiteit door de jaren heen", subtitle = "Voor 29 landen het aantal Influenza gevallen van 2002 tot \nen met 2015.", x = "Jaar", y = "Influenza activiteit (gevallen)", color = "Land") +
+  theme_bw()
+
+#plot 2: Dengue activiteit door de jaren heen
+fdg2 <- flu_dengue_gapminder %>% filter(Dengue_activity > 0)
+
+ggplot(data = fdg2, aes(x = Year, y = Dengue_activity)) +
+  geom_line(aes(color = Country), alpha = 0.8) +
+  labs(title = "Knokkelkoorts activiteit door de jaren heen", subtitle = "Voor 4 landen het aantal Knokkelkoorts gevallen van 2002 tot \nen met 2015.", x = "Jaar", y = "Knokkelkoorts activiteit (gevallen)", color = "Land") +
+  theme_bw()
+
+#plot 3: Verband tussen Influenza_activity en infant_mortality per land door de jaren heen
+fdg3 <- flu_dengue_gapminder %>% filter(Influenza_activity > 0 & infant_mortality > 0)
+
+cor.test(fdg3$Influenza_activity, fdg3$infant_mortality, method=c("pearson")) #p-value = 0.6713, geen stat. sig. verband
+
+cor_coefficient <- round(cor.test(fdg3$Influenza_activity, fdg3$infant_mortality, method=c("pearson"))$estimate,2)
+
+ggplot(data = fdg3, aes(x = Influenza_activity, y = infant_mortality)) +
+  geom_point(aes(color = Country), size = 1, alpha = 0.8) +
+  geom_smooth(se=F, color = "red") +
+  labs(title = "Verband tussen Influenza activiteit en kindersterfte wereldwijd", subtitle = "Voor 29 landen is van 2002 tot en met 2015 per jaar het \naantal Influenza gevallen en de sterfte onder kinderen gemeten.", y = "Kindersterfte (aantal)", x = "Influenza activiteit (gevallen)") +
+  theme_bw() +
+  annotate("text", x = 112500, y = 45, size = 4, color = "red", label = paste("Pearson's r = ", cor_coefficient))
+```
+
+
+<!--chapter:end:07_portfolio_assignment_7.Rmd-->
+
+# Vaardigheid 8: Een R package maken
+
+R packages zijn collecties van functies en data sets die gebruikt worden om tools te delen met de community. Van het inlezen van ruwe data tot het maken van tabellen en grafieken: overal worden packages voor gebruikt.
+
+Ik heb zelf ook een R package gemaakt: paratests. Dit package bestaat op dit moment uit vier functies die het uitvoeren van (non)-parametrische toetsen makkelijker maken. Specifiek zijn dit functies voor een staafdiagram, Shapiro Wilk test, ANOVA en verband grafiek.
+
+Via [deze link](https://github.com/stephaniedewit/paratests) kan mijn package gedownload worden of run devtools::install_github("stephaniedewit/paratests") in RStudio Console. 
+
+Na het runnen van library(paratests) en load_all() kunnen de functies aangehaald worden. Run ?functie_naam() voor het gebruik van een functie of run browseVignettes("paratests") voor een demonstratie van het package.
+
+<!--chapter:end:08_portfolio_assignment_8.Rmd-->
+

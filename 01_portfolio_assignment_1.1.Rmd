@@ -1,70 +1,95 @@
-# Portfolio assignment 1.1: _C. elegans_ data
+# Vaardigheid 1: semi-reproduceerbare data analyseren
 
-```{r setup 1, include=FALSE, eval=FALSE}
-install.packages("tidyverse")
-install.packages("readxl")
-```
+De _Reproducible Research_ beweging streeft ernaar dat onderzoekers al hun data, gebruikte methodes en codes openbaar maken. Dit verhoogt de reproduceerbaarheid van hun onderzoek en daarmee de kwaliteit ervan, evenals het algehele vertrouwen in de wetenschap. Hieronder laat ik zien dat ik overweg kan met data die verkregen is volgens een niet- of semi-reproduceerbare workflow.
 
-```{r setup 2, include=FALSE}
-library(tidyverse)
-library(readxl)
-knitr::opts_chunk$set(message=FALSE, warning=FALSE)
-```
-
-__Engelse namen aanpassen naar Nederlands, verschuif Y-as labels verder van as vandaan__
-
-
-__Het _C. elegans_ kweekplaat experiment__
+## _C. elegans_ kweekplaat experiment
 
 Volwassen _C. elegans_ nematoden zijn blootgesteld aan verschillende concentraties naftaleen, 2,6-di-isopropylnaftaleen en decaan, waarna is onderzocht of deze blootstellingen en negatief effect hebben op het aantal nakomelingen. S-medium dient als negatieve controle voor dit effect, 1,5% ethanol dient als positieve controle.
 
-De belangrijkste variabelen in de verkregen dataset (.data_raw/data01_assignment_1.1_c.elegans/CE.LIQ.FLOW.062_Tidydata.xlsx) zijn:
+De belangrijkste variabelen in de gekregen dataset (CE.LIQ.FLOW.062_Tidydata.xlsx) zijn:
 
-  expType: de behandelconditie.
+* __expType__: de behandelconditie.
 
-  RawData: het aantal nakomelingen geteld na de incubatietijd.
+* __RawData__: het aantal nakomelingen geteld na de incubatietijd.
   
-  compName: de generieke naam van de stof.
+* __compName__: de generieke naam van de stof.
   
-  compConcentration: de concentratie van de stof.
+* __compConcentration__: de concentratie van de stof.
   
 
 Gebruikte CRAN packages voor de analyse: {ggplot2}
 
-__A.__
-
-Het Excel bestand heeft een tidy opmaak, maar bevat verschillende variabelen die voor elke onderzochte vial hetzelfde zijn. Zoals: elegansStrain, bacterialStrain, incubateTemperature etc. Het bestand bevat één sheet waarin de aanpassingen aan de parameter 'levels' zijn gedocumenteerd en één sheet met alle unieke 'level' opties per parameter. Er staan ook 'levels' tussen die niet zijn gebruikt in dit experiment; zo is er geïncubeerd bij 20 (waarschijnlijk) graden Celsius maar 15, 16, 25 en RT(?) graden Celcius hadden ook gekund? Er mist een exacte beschrijven van de parameters en hun 'levels': zijn de graden inderdaad in Celsius? Betekent het pct 'level' van compConcentration procent? 
-
-5 MISSENDE WAARDEN
-
-__B.__
-
-```{r 1.1 B}
-#Upload bestand CE.LIQ.FLOW.062_Tidydata.xlsx naar de ./data_raw/data01_assignment_1.1_c.elegans folder
-
-#Lees het bestand in in R als tibble:
-elegans<-read_excel("C:/Users/steph/DSFB2/workflows_portfolio_OPNIEUW/data_raw/data01_assignment_1.1/CE.LIQ.FLOW.062_Tidydata.xlsx")
-summary(elegans)
-
-#Er missen 5 RawData waarden in het Excel bestand en dus ook in de tibble. De bijbehorende rijen kunnen uit de tibble verwijderd worden, maar {ggplot2} kan ze ook zelf weglaten: Warning: Removed 5 rows containing missing values (geom_point).
+```{css}
+test {
+background-color: red;
+}
 ```
 
 
-__C.__
+```{r, include = FALSE, class.code = .test}
+#install.packages("tidyverse")
+#install.packages("readxl")
+library(tidyverse)
+library(readxl)
 
-Na het importeren van de data naar R is variabele RawData van het data type double geworden, dit moet integer zijn. compName is van het data type character, dit is prima. De variabele moet wel tot factor gemaakt worden voor gebruik in een R ggplot grafiek. Variabele compConcentration is van het data type character, dit moet double zijn.
+knitr::opts_chunk$set(message=FALSE, warning=FALSE)
+```
+
+Het Excel bestand heeft een tidy opmaak, maar bevat verschillende, onnodige variabelen die voor elke onderzochte vial dezelfde waarde aannemen zijn. De stof concentraties worden gegeven in nM maar de concentratie ethanol wordt gegeven in procent. Verder missen vijf RawData waarden. Het bestand bevat één sheet waarin de aanpassingen aan de parameter levels zijn gedocumenteerd en één sheet met alle unieke level opties per parameter. Er mist wel een exacte beschrijven van de parameters en hun levels: zijn de graden in Celsius? Betekent het pct 'level' van compConcentration procent? 
+
+```{r}
+#Lees het bestand in in R als tibble:
+elegans<-read_excel(here::here("data_raw", "data01_assignment_1.1", "CE.LIQ.FLOW.062_Tidydata.xlsx"))
+summary(elegans)
+```
+
+_De vijf missende waarden kunnen uit de tabel verwijderd worden, maar {ggplot2} grafieken negeren ze automatisch_.
+
+Er moet het een en ander aangepast worden aan de ingelezen data voordat een fatsoenlijke grafiek gemaakt kan worden: 
+
+__A)__ Na het importeren van de data naar R, zijn de variabelen van data type veranderd. RawData is van het data type double geworden, dit moet integer zijn. Als de compConcentration variabele, nu van het data type character, niet als double wordt opgegeven, ontstaat een foute X-as. De variabele compName moet tot factor gemaakt worden voor gebruik in een {ggplot2} grafiek.
+
+__B)__ Het percentage ethanol moet als volgt omgerekend worden naar nM: __nMol/L = (percentage ethanol * dichtheid in g/L ) / (molaire massa in g/mol * 100) * 1000000__
+
+1.5% ethanol = 256891.686564 nmol/L
+
+0.5% ethanol = 85630.562188 nmol/L
+
+_De dichtheid van het gebruikte ethanol is nodig om de percentages om te rekenen naar nM, maar niet gegeven. Daarom wordt uitgegaan van de standaard 789 g/L_.
+
+```{r}
+#Verander de ethanol concentraties van procent naar nM:
+elegans_new<-elegans
+elegans_new$compConcentration<-elegans_new$compConcentration%>%str_replace_all("1.5","256891.686564")
+elegans_new$compConcentration<-elegans_new$compConcentration%>%str_replace_all("0.5","85630.562188")
+elegans_new$compUnit<-elegans_new$compUnit%>%str_replace_all("pct","nM")
+```
+
+__C)__ Zet de stof concentraties op een log10-schaal en voeg variatie toe aan de punten tegen overlap.
+
+```{r, fig.cap="__Figuur 1: Aantal _C. elegans_ nakomelingen na verschillende blootstellingen (versie 1).__ Het aantal nakomelingen is geteld na incubatie voor een onbekende tijd van nematoden in S-medium en bij verschillende concentraties naftaleen, 2,6-di-isopropylnaftaleen, decaan en ethanol."}
+elegans_new%>%ggplot(aes(x=log10(as.double(compConcentration)),y=as.integer(RawData)))+
+  geom_point(aes(colour=as.factor(compName),shape=as.factor(expType)),size=1.5,position="jitter")+ #Jitter voegt wat variatie toe tegen overlap tussen de punten
+  labs(x="Log10(stof concentratie) (nM)",y="Aantal nakomelingen na blootstelling",colour="Stof",shape="Conditie")+
+  theme_bw()
+```
 
 
-__D.__
 
-```{r 1.1 D, fig.cap="__Figuur 1: Aantal _C. elegans_ nakomelingen na verschillende blootstellingen versie 1.__ Het aantal nakomelingen is geteld na incubatie voor een onbekende tijd van nematoden in S-medium en bij verschillende concentraties naftaleen, 2,6-di-isopropylnaftaleen, decaan en ethanol."}
+
+
+
+
+
+
+Hieronder een eerste versie van een grafiek die voor de verschillende stoffen en concentraties het effect op het aantal nakomelingen weergeeft.
+
+```{r, fig.cap="__Figuur 1: Aantal _C. elegans_ nakomelingen na verschillende blootstellingen versie 1.__ Het aantal nakomelingen is geteld na incubatie voor een onbekende tijd van nematoden in S-medium en bij verschillende concentraties naftaleen, 2,6-di-isopropylnaftaleen, decaan en ethanol."}
 elegans%>%ggplot(aes(x=as.double(compConcentration),y=as.integer(RawData)))+
   geom_point(aes(colour=as.factor(compName),shape=as.factor(expType)),size=1.5)+ 
   labs(x="Stof concentratie (nM/pct)",y="Aantal nakomelingen na blootstelling",colour="Stof",shape="Conditie")+
   theme_bw()
 ```
-
-__E.__
 
 Indien de compConcentration variabele, van het data type character, niet als double wordt opgegeven, ontstaat een foute X-as. 
 
