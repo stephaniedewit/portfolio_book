@@ -155,8 +155,14 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Hello World</a></li>
-<li class="chapter" data-level="2" data-path="portfolio-assignment-1.1-c.-elegans-data.html"><a href="portfolio-assignment-1.1-c.-elegans-data.html"><i class="fa fa-check"></i><b>2</b> Portfolio assignment 1.1: <em>C. elegans</em> data</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introductie</a></li>
+<li class="chapter" data-level="2" data-path="vaardigheid-1-semi-reproduceerbare-data-analyseren.html"><a href="vaardigheid-1-semi-reproduceerbare-data-analyseren.html"><i class="fa fa-check"></i><b>2</b> Vaardigheid 1: semi-reproduceerbare data analyseren</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="vaardigheid-1-semi-reproduceerbare-data-analyseren.html"><a href="vaardigheid-1-semi-reproduceerbare-data-analyseren.html#c.-elegans-kweekplaat-experiment"><i class="fa fa-check"></i><b>2.1</b> <em>C. elegans</em> kweekplaat experiment</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="vaardigheid-1-semi-reproduceerbare-data-analyseren.html"><a href="vaardigheid-1-semi-reproduceerbare-data-analyseren.html#normalisatie-met-het-drc-package"><i class="fa fa-check"></i><b>2.1.1</b> Normalisatie met het {drc} package</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="3" data-path="portfolio-assignment-1.2-reproducibility.html"><a href="portfolio-assignment-1.2-reproducibility.html"><i class="fa fa-check"></i><b>3</b> Portfolio assignment 1.2: Reproducibility</a></li>
 <li class="chapter" data-level="4" data-path="portfolio-assignment-2-folder-trees.html"><a href="portfolio-assignment-2-folder-trees.html"><i class="fa fa-check"></i><b>4</b> Portfolio assignment 2: Folder trees</a></li>
 <li class="chapter" data-level="5" data-path="portfolio-assignment-3.1-cv.html"><a href="portfolio-assignment-3.1-cv.html"><i class="fa fa-check"></i><b>5</b> Portfolio assignment 3.1: CV</a>
@@ -193,10 +199,9 @@ div.csl-indent {
 </div>
 <div id="vaardigheid-8-een-r-package-maken" class="section level1 hasAnchor" number="9">
 <h1><span class="header-section-number">9</span> Vaardigheid 8: Een R package maken<a href="vaardigheid-8-een-r-package-maken.html#vaardigheid-8-een-r-package-maken" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>R packages zijn collecties van functies en data sets die gebruikt worden om tools te delen met de community. Van het inlezen van ruwe data tot het maken van tabellen en grafieken: overal worden packages voor gebruikt.</p>
-<p>Ik heb zelf ook een R package gemaakt: paratests. Dit package bestaat op dit moment uit vier functies die het uitvoeren van (non)-parametrische toetsen makkelijker maken. Specifiek zijn dit functies voor een staafdiagram, Shapiro Wilk test, ANOVA en verband grafiek.</p>
-<p>Via <a href="https://github.com/stephaniedewit/paratests">deze link</a> kan mijn package gedownload worden of run devtools::install_github(“stephaniedewit/paratests”) in RStudio Console.</p>
-<p>Na het runnen van library(paratests) en load_all() kunnen de functies aangehaald worden. Run ?functie_naam() voor het gebruik van een functie of run browseVignettes(“paratests”) voor een demonstratie van het package.</p>
+<p>R packages zijn collecties van functies en data sets die gebruikt worden om tools te delen binnen de community. Van het inlezen van ruwe data tot het maken van tabellen en grafieken: overal worden packages voor gebruikt.</p>
+<p>Ik heb zelf ook een R package gemaakt: {paratests}. Dit package bestaat op dit moment uit vier functies die het uitvoeren van (non)-parametrische toetsen makkelijker maken. Specifiek zijn dit functies voor een staafdiagram, Shapiro Wilk test, ANOVA en verband grafiek.</p>
+<p>Via <a href="https://github.com/stephaniedewit/paratests">deze link</a> kan mijn package gedownload worden, of run devtools::install_github(“stephaniedewit/paratests”) in RStudio Console. Na het runnen van library(“paratests”) kunnen de functies aangehaald worden. Run ?functie_naam() voor informatie over het gebruik van een functie of run browseVignettes(“paratests”) voor een demonstratie van de package.</p>
 
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div class="csl-entry">
@@ -206,7 +211,19 @@ Broadley, K. J. 1979. <span>“The <span>Langendorff</span> Heart Preparation—
 Kazandjian, T. D., D. Petras, S. D. Robinson, J. van Thiel, H. W. Greene, K. Arbuckle, A. Barlow, et al. 2021. <span>“Convergent <span>Evolution</span> of <span>Pain-Inducing Defensive Venom Components</span> in <span>Spitting Cobras</span>.”</span> <em>Science (New York, N.Y.)</em> 371 (6527): 386–90. <a href="https://doi.org/10.1126/science.abb9303">https://doi.org/10.1126/science.abb9303</a>.
 </div>
 <div class="csl-entry">
+<span>“<span>LL</span>.3: <span>The</span> Three-Parameter Log-Logistic Function in Drc: <span>Analysis</span> of <span>Dose-Response Curves</span>.”</span> n.d. Accessed May 24, 2022. <a href="https://rdrr.io/cran/drc/man/LL.3.html">https://rdrr.io/cran/drc/man/LL.3.html</a>.
+</div>
+<div class="csl-entry">
 <span>“Project <span>Regenwormen</span>: <span>Data Sciences</span> for <span>Biology</span> 2.”</span> n.d. Accessed May 7, 2022. <a href="https://canvas.hu.nl/courses/26999/pages/project-regenwormen?module_item_id=720432">https://canvas.hu.nl/courses/26999/pages/project-regenwormen?module_item_id=720432</a>.
+</div>
+<div class="csl-entry">
+Ritz, Christian, Florent Baty, Jens C. Streibig, and Daniel Gerhard. 2015. <span>“Dose-<span>Response Analysis Using R</span>.”</span> <em>PLOS ONE</em> 10 (12): e0146021. <a href="https://doi.org/10.1371/journal.pone.0146021">https://doi.org/10.1371/journal.pone.0146021</a>.
+</div>
+<div class="csl-entry">
+<span>“<span>RPubs</span> - Four-Parameter Log-Logistic Model.”</span> n.d. Accessed May 24, 2022. <a href="https://rpubs.com/TX-YXL/656451">https://rpubs.com/TX-YXL/656451</a>.
+</div>
+<div class="csl-entry">
+<span>“The Three-Parameter Log-Logistic Function — <span>LL</span>.3.”</span> n.d. Accessed May 24, 2022. <a href="https://doseresponse.github.io/drc/reference/LL.3.html">https://doseresponse.github.io/drc/reference/LL.3.html</a>.
 </div>
 <div class="csl-entry">
 <span>“Thema 3: <span>Regenworm</span>: <span>DOFAR Dierkundig Onderzoek</span>.”</span> n.d. Accessed May 14, 2022. <a href="https://canvas.hu.nl/courses/23205/pages/thema-3-regenworm">https://canvas.hu.nl/courses/23205/pages/thema-3-regenworm</a>.
