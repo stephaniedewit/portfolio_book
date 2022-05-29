@@ -107,3 +107,16 @@ text-decoration: none;
   border-color: #35D1D1;
   padding-left: 11px !important;
 }
+
+/* Change code chunk lay-out */
+
+.book .book-body .page-wrapper .page-inner section.normal pre {
+    background: #fff !important;
+    border: 1px solid !important;
+    border-color: #7F30CF !important;
+}
+
+.watch-out {
+  font-weight: bold;
+}
+

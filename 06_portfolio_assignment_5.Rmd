@@ -1,8 +1,8 @@
-# Vaardigheid 5: correct refereren m.b.v. een _reference manager_
+# Vaardigheid 5: Correct refereren m.b.v. een _reference manager_
 
-Parallel aan de Workflows lessen van Data Sciences for Biology 2 heb ik samen met twee medestudenten een project uitgevoerd. Hieronder laat ik met een introductie op dit project zien dat ik de _reference manager_ Zotero kan gebruiken om te parafraseren.
+Parallel aan de Workflows lessen van _Data Sciences for Biology 2_ heb ik samen met twee medestudenten een project uitgevoerd. Hieronder laat ik met een introductie op dit project zien, dat ik de _reference manager_ __Zotero__ kan gebruiken om te parafraseren.
 
-```{r citeer stappenplan, include=FALSE}
+```{r citeer stappenplan, include = FALSE}
 #Stappenplan:
 #1. Start een collectie in Zotero
 #2. Voeg papers toe met de browser connector
@@ -14,91 +14,8 @@ Parallel aan de Workflows lessen van Data Sciences for Biology 2 heb ik samen me
 
 ## DSFB2 2022 Project Regenwormen: Introductie
 
-Oud-student aan Hogeschool Utrecht Jory van Thiel heeft samen met instituten in Leiden en Liverpool onderzoek gedaan naar de convergente evolutie van het defensieve gif van spugende cobras. Drie cobra soorten hebben convergent, of te wel onafhankelijk van elkaar, het vermogen ontwikkeld om gif te spugen ter verdediging, in tegen stelling tot andere cobras die gif inspuiten in een prooi. Jory en de andere internationale onderoekers hebben laten zien dat het gif van spugende soorten wordt gekarakteriseerd door een significante upregulatie in fosfolipase A2, wat de activatie van sensorische zoogdier neuronen door gif cytotoxines stimuleert. Dit veroorzaakt meer pijn in, bijvoorbeeld, de ogen van een roofdier dan gif van bijtende cobras zal doen [@kazandjianConvergentEvolutionPainInducing2021].
+Oud-student aan Hogeschool Utrecht Jory van Thiel heeft, samen met instituten in Leiden en Liverpool, onderzoek gedaan naar de convergente evolutie van het defensieve gif van spugende cobras. Drie cobra soorten hebben convergent, of te wel onafhankelijk van elkaar, het vermogen ontwikkeld om gif te spugen ter verdediging, in tegen stelling tot andere cobras die gif inspuiten in een prooi. Jory en de andere onderoekers hebben laten zien dat het gif van spugende soorten wordt gekarakteriseerd door een significante upregulatie in fosfolipase A2, wat de activatie van sensorische zoogdier neuronen door cytotoxines in het gif stimuleert. Dit veroorzaakt meer pijn in, bijvoorbeeld, de ogen van een roofdier dan gif van bijtende cobras zal doen [@kazandjianConvergentEvolutionPainInducing2021].
 
-<br>
-BMR projecticum studenten zijn door Jory gevraagd om te onderzoeken wat het effect is van fosfolipase A2 op skeletspiercellen. Hogeschool Utrecht docenten Ronald Vlasblom en Robert Jan Veldman keken daarnaast naar het effect van fosfolipase A2 op ratten hartjes in een Langendorff opstelling. In een dergelijke opstelling worden de hartjes via de aorta retrograde geperfundeerd met een zuurstof- en voedingsrijke oplossing. De omgekeerde vloeistofdruk, van aorta naar linker hartkamer, zorgt ervoor dat de aorta kleppen sluiten en de vloeistof naar de kransslagaders wordt gedwongen. Dit voedt de hartspier, die hierdoor enkele uren buiten de rat kan blijven kloppen [@broadleyLangendorffHeartPreparation1979]. Ronald en Robert Jan lieten zien dat na toevoeging van 40 µg gif van de spugende cobra _Naja pallida_ snel een verstoord hartritme en zelfs een hartstilstand volgde [@ProjectRegenwormenData]. 
+  BMR projecticum studenten zijn afgelopen jaar door Jory gevraagd om te onderzoeken wat het effect is van fosfolipase A2 op skeletspiercellen. Hogeschool Utrecht docenten Ronald Vlasblom en Robert Jan Veldman keken daarnaast naar het effect van fosfolipase A2 op ratten hartjes in een Langendorff opstelling. In een dergelijke opstelling worden de hartjes via de aorta retrograde geperfundeerd met een zuurstof- en voedingsrijke oplossing. De omgekeerde vloeistofdruk, van aorta naar linker hartkamer, zorgt ervoor dat de aorta kleppen sluiten en de vloeistof naar de kransslagaders wordt gedwongen. Dit voedt de hartspier, die hierdoor enkele uren buiten de rat kan blijven kloppen [@broadleyLangendorffHeartPreparation1979]. Ronald en Robert Jan lieten zien dat na toevoeging van 40 µg gif van de spugende cobra _Naja pallida_ snel een verstoord hartritme en zelfs een hartstilstand volgde [@ProjectRegenwormenData]. 
 
-<br>
-De Universiteit van Liverpool wil deze observaties graag gebruiken binnen hun onderzoek naar de acute myotoxiciteit van slangengif en het ontwikkelen van blokkers om dit effect te ondervangen. Op dit moment helpen studenten onder leiding van Ronald met het ontwikkelen van proefdiervrije onderzoeksmodellen voor deze onderzoeksvragen. Ronald en Robert Jan lieten namelijk zien dat defensief gif een zelfde effect heeft op de contractiekracht en -frequentie van het gladde spierweefsel van de crop-gizzard van een regenworm [@ProjectRegenwormenData]. De crop-gizzard wordt uit een regenworm geïsoleerd en in een orgaanbad van Ringer buffer aan een verplaatsingsmeter gehangen. In de buffer blijft het spierweefsel enige tijd functioneel. Als het contracteert, verplaatst het de hefboom van de verplaatsingsmeter. Hoe sterker of vaker het weefsel contracteert, hoe sterker of vaker de hefboom verplaatst. Deze verplaatsingen worden geregistreerd als veranderingen in spanning over tijd en komen op de laptop van Ronald en de studenten binnen in het programma LabChart [@ProjectRegenwormenData; @ThemaRegenwormDOFAR, p. 3]. Om het effect van een giftoediening te bepalen, worden veranderingen in contractiekracht en -frequentie met het oog opgepikt uit de tracings in LabChart. Dit is tijdsintensief en gevoelig voor fouten. Daarom heeft Ronald mij en twee medestudenten gevraagd om een automatische analyse voor de tracings te coderen. De komende weken tot de zomervakantie zullen wij proberen om voor Ronald en zijn studenten een interactieve Shiny app te bouwen die, voor gedefinieerde tijdsvensters van interesse, in een grafiek de kracht en duur van elke contractie laat zien evenals de _time to contraction_, _time to relaxation_ en contractie frequentie.
-
-
-
-
-
-
-
-
-
-in sprints van een week 
-
-en komen als een time series tracing binnen 
-
-Als het spierweefsel contracteert 
-
-... crop-gizzard opstelling ... hoe data geanalyseerd wordt ... vraagstelling naar ons ...
-
-spugende cobra naja pallida
-
-VARISPLADIB
-
-voor Jory onderzocht of er ook fosfolipase A2 aanwezig is in het gif van de ratelslang Crotalus atrox en 
-
-werking van 
-
-
-
-
-
-
-Atrox niet getest
-
-
-
-All cobra venoms are dominated by three finger toxins (3FTX), while in many species phospholipases A2 (PLA2) are the second most abundant toxin family. Although cytotoxins likely inflict defensive ocular pain, we found no significant difference in the abundances of CTXs between spitting and non-spitting species. PLA2 toxins in spitting cobra venoms potentiate the activating effect of CTXs on sensory neurons. Spitting cobra venoms cause significantly greater activation of sensory neurons than non-spitting cobras, mediated via potentiation by PLA2 toxins.
-
-revealed that spitting cobra venoms have significantly higher PLA2 abundance and activity than those of non-spitting species
-
-he proportion of viable sensory neurons activated by each CTX fraction was significantly increased when combined with a PLA2 fraction, and this result was consistent across representatives of the three spitting lineages Moreover, significant reductions in sensory neuron activation occurred in the presence of the PLA2 inhibitor varespladib, providing further compelling evidence that PLA2s potentiate CTX effects on sensory neurons.
-
-
-However, none of the CTX fractions completely recapitulated the effects of whole venom or re-pooled venom fractions, suggesting synergy between multiple venom components.
-
-T
-
-
-
-
-
-The abundance, enzymatic activity and diversity of PLA2 toxins are associated with convergent evolution of venom spitting.
-
-In summary, spitting cobras highlight how similar selection pressures and shared exaptations can drive convergence at molecular, morphological, behavioral, and functional levels, resulting in the evolution of complex, integrated adaptations in ecologically important traits being funnelled down repeatable pathways.
-
-Defensive venom spitting by snakes is underpinned by convergent increases in pain-enhancing toxins
-
-Convergent evolution is when different organisms independently evolve similar traits
-
-STUDENTEN PROBEREN AAN TE TONEN OF PLA2 AANWEZIG IS IN TWEE GIFSOORTEN EN ONDERZOEKEN HET EFFECT OP SKELETSPIERCELLEN EN ONDERZOEKEN WAT EFFECT IS OP HARTSPIERCELLEN MET EEN HARTJE IN EEN LANGENDORFF, RONALD EN ROBERT JAN ZIJN HIER ZELF MEE BEZIG. 
-
-
-Iets vertellen over onderzoek gifwerking op hartspiercellen: ontrafelen werkingsmechanismen voor ontwikkelen van behandelingen tegen acute effecten van slangengif.
-Onderzoek met Langendorff
-Dierproefvrije onderzoeksmodellen ontwikkelen voor vraagstellingen. Regenworm.
-Piekenpatroon automatisch te laten analyseren
-
-Bronnen: Science spitting image, PowerPoint, bron over Langendorff? Canvas pagina's DKO? Literatuur over... wat? Regenwormen als alternatief?
-
-
-
-
-
-
-Of er phospholipase A2 aanwezig is in slangengif en wat de gevolgen daarvan zijn voor de overleving van spiercellen. --> Onderzoeken wat phospholipase A2 doet met werkende hartspiercellen in een langendorff. Kracht en frequentie veranderingen bij verschillende conc. --> Naja pallida 40 µg immediate rythm distrubances and rapid cardiac arrest. --> Bewijs voor Liverpool + testen of dit te ondervangen is met blokkers. --> Zelfde effect zichtbaar op worm, proefdiervrij model optimaliseren.
-
-Crop-gizzard: https://pubmed.ncbi.nlm.nih.gov/18790067/
-
-https://www.proquest.com/openview/7e0af7510df36ef7ac82c07d72bffa70/1?pq-origsite=gscholar&cbl=18750&diss=y
-
-
-
-
+  De Universiteit van Liverpool wil deze observaties graag gebruiken binnen hun onderzoek naar de acute myotoxiciteit van slangengif en de ontwikkeling van blokkers om dit effect te ondervangen. Op dit moment helpen studenten onder leiding van Ronald met het ontwikkelen van proefdiervrije onderzoeksmodellen voor deze onderzoeksvragen. Dat wil hier zeggen: modellen waarbij geen gebruik wordt gemaakt van ratten hartjes. Ronald en Robert Jan lieten zien dat defensief gif een zelfde effect heeft op de contractiekracht en -frequentie van het gladde spierweefsel van de crop-gizzard van een regenworm [@ProjectRegenwormenData]. De crop-gizzard wordt uit een regenworm geïsoleerd en in een orgaanbad van Ringer buffer aan een verplaatsingsmeter gehangen. In de buffer blijft het spierweefsel enige tijd functioneel. Als het contracteert, verplaatst het de hefboom van de verplaatsingsmeter. Hoe sterker of vaker het weefsel contracteert, hoe sterker of vaker de hefboom verplaatst. Deze verplaatsingen worden geregistreerd als veranderingen in spanning over tijd en komen op de laptop van Ronald en de studenten binnen in het programma LabChart [@ProjectRegenwormenData; @ThemaRegenwormDOFAR]. Om het effect van een giftoediening te bepalen, worden veranderingen in contractiekracht en -frequentie met het oog opgepikt uit de tracings in LabChart. Dit is tijdsintensief en gevoelig voor fouten. Daarom heeft Ronald mij en twee medestudenten gevraagd om een automatische analyse voor de tracings te coderen. De komende weken tot de zomervakantie zullen wij proberen om voor Ronald en zijn studenten een interactieve Shiny app te bouwen die, voor gedefinieerde tijdsvensters van interesse, met behulp van grafieken de kracht en duur van elke contractie laat zien evenals de _time to contraction_, _time to relaxation_ en contractie frequentie.

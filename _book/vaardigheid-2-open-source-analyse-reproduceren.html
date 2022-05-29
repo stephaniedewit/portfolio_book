@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 Vaardigheid 2: Open Source analyse reproduceren | Mijn Data Sciences portfolio</title>
+  <meta name="description" content="3 Vaardigheid 2: Open Source analyse reproduceren | Mijn Data Sciences portfolio" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 Vaardigheid 2: Open Source analyse reproduceren | Mijn Data Sciences portfolio" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 Vaardigheid 2: Open Source analyse reproduceren | Mijn Data Sciences portfolio" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="vaardigheid-1-semi-reproduceerbare-data-analyseren.html"/>
+<link rel="next" href="vaardigheid-3-folder-structuur-gebruiken-volgens-de-guerilla-principles.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.23/datatables.js"></script>
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="portfolio_style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introductie</a></li>
+<li class="chapter" data-level="2" data-path="vaardigheid-1-semi-reproduceerbare-data-analyseren.html"><a href="vaardigheid-1-semi-reproduceerbare-data-analyseren.html"><i class="fa fa-check"></i><b>2</b> Vaardigheid 1: Semi-reproduceerbare data analyseren</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="vaardigheid-1-semi-reproduceerbare-data-analyseren.html"><a href="vaardigheid-1-semi-reproduceerbare-data-analyseren.html#c.-elegans-kweekplaat-experiment"><i class="fa fa-check"></i><b>2.1</b> <em>C. elegans</em> kweekplaat experiment</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="vaardigheid-1-semi-reproduceerbare-data-analyseren.html"><a href="vaardigheid-1-semi-reproduceerbare-data-analyseren.html#normalisatie-met-het-drc-package"><i class="fa fa-check"></i><b>2.1.1</b> Normalisatie met het {drc} package</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="vaardigheid-2-open-source-analyse-reproduceren.html"><a href="vaardigheid-2-open-source-analyse-reproduceren.html"><i class="fa fa-check"></i><b>3</b> Vaardigheid 2: Open Source analyse reproduceren</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="vaardigheid-2-open-source-analyse-reproduceren.html"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#ripeta-criteria"><i class="fa fa-check"></i><b>3.1</b> Ripeta criteria</a></li>
+<li class="chapter" data-level="3.2" data-path="vaardigheid-2-open-source-analyse-reproduceren.html"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#analyse-reproduceren"><i class="fa fa-check"></i><b>3.2</b> Analyse reproduceren</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="vaardigheid-3-folder-structuur-gebruiken-volgens-de-guerilla-principles.html"><a href="vaardigheid-3-folder-structuur-gebruiken-volgens-de-guerilla-principles.html"><i class="fa fa-check"></i><b>4</b> Vaardigheid 3: Folder structuur gebruiken volgens de Guerilla Principles</a></li>
+<li class="chapter" data-level="5" data-path="vaardigheid-4-opmaken-met-rmarkdown-en-html-syntax.html"><a href="vaardigheid-4-opmaken-met-rmarkdown-en-html-syntax.html"><i class="fa fa-check"></i><b>5</b> Vaardigheid 4: Opmaken met RMarkdown en HTML syntax</a></li>
+<li class="chapter" data-level="6" data-path="portfolio-assignment-3.2-plan-van-aanpak-vrije-besteding.html"><a href="portfolio-assignment-3.2-plan-van-aanpak-vrije-besteding.html"><i class="fa fa-check"></i><b>6</b> Portfolio assignment 3.2: Plan van Aanpak vrije besteding</a></li>
+<li class="chapter" data-level="7" data-path="vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager.html"><a href="vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager.html"><i class="fa fa-check"></i><b>7</b> Vaardigheid 5: Correct refereren m.b.v. een <em>reference manager</em></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager.html"><a href="vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager.html#dsfb2-2022-project-regenwormen-introductie"><i class="fa fa-check"></i><b>7.1</b> DSFB2 2022 Project Regenwormen: Introductie</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="vaardigheid-6-werken-met-relational-databases.html"><a href="vaardigheid-6-werken-met-relational-databases.html"><i class="fa fa-check"></i><b>8</b> Vaardigheid 6: Werken met <em>relational databases</em></a></li>
+<li class="chapter" data-level="9" data-path="vaardigheid-8-een-r-package-maken.html"><a href="vaardigheid-8-een-r-package-maken.html"><i class="fa fa-check"></i><b>9</b> Vaardigheid 8: Een R package maken</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Mijn Data Sciences portfolio</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<link href="portfolio_style.css" rel="stylesheet">
+<div class="hero-image-container">
+  <img class= "hero-image" src="images/20200222_STP002.png">
+</div>
+<div id="vaardigheid-2-open-source-analyse-reproduceren" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">3</span> Vaardigheid 2: Open Source analyse reproduceren<a href="vaardigheid-2-open-source-analyse-reproduceren.html#vaardigheid-2-open-source-analyse-reproduceren" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Met onderstaande uitwerkingen wil ik laten zien, dat ik artikelen op reproduceerbaarheid kan beoordelen en (een stukje van) een analyse kan nabootsen waarvan de gebruikte code openbaar is.</p>
+<div id="ripeta-criteria" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Ripeta criteria<a href="vaardigheid-2-open-source-analyse-reproduceren.html#ripeta-criteria" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>De reproduceerbaarheid van een artikel wordt gescored aan de hand van de Ripeta criteria. Ik heb hier het volgende Open Source artikel van Pubmed Central beoordeeld: <strong><a href="https://doi.org/10.1186/s12985-020-01452-5">Chaimayo, C., Kaewnaphan, B., Tanlieng, N. et al. Rapid SARS-CoV-2 antigen detection assay in comparison with real-time RT-PCR assay for laboratory diagnosis of COVID-19 in Thailand. Virol J 17, 177 (2020)</a></strong></p>
+<p>Dit artikel vergelijkt de prestaties van een SARS-CoV-2 antigeen sneltest, de Standard™ Q COVID-19 Ag kit van Biosensor®, met die van een RT-qPCR, specifiek de Allplex™ 2019-nCoV Assay van Seegene®. Een RT-qPCR vormde op het moment van publiatie als de gouden standaard voor het diagnosticeren van SARS-CoV-2 infecties. Er zijn 454 neus-keel monsters afgenomen bij participanten die mogelijk besmet waren met COVID-19. Elk monster is gebruikt voor een RT-qPCR en een antigeen sneltest. De antigeen sneltest liet een gevoeligheid en specificiteit zien vergelijkbaar aan de RT-qPCR en kan gebruikt worden voor screening op SARS-CoV-2 <span class="citation">(Chaimayo et al. 2020)</span>.</p>
+<p>Onderstaande tabel is overgenomen uit het artikel en laat zien hoe voor zes participanten de (ruwe) uitslagen van de PCR en antigeen sneltest niet overenkomen.</p>
+<table class="table table-striped" style="width: auto !important; ">
+<caption>
+<span id="tab:unnamed-chunk-7">Table 3.1: </span><strong>Participanten waarvoor de PCR en antigeen uitslagen niet overeen komen</strong>
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Gender
+</th>
+<th style="text-align:right;">
+Age
+</th>
+<th style="text-align:left;">
+Initial diagnosis
+</th>
+<th style="text-align:left;">
+Specimen type
+</th>
+<th style="text-align:left;">
+PCR Ct-value E
+</th>
+<th style="text-align:left;">
+PCR Ct-value RdRP
+</th>
+<th style="text-align:left;">
+PCR Ct-value N
+</th>
+<th style="text-align:left;">
+Rapid Ag test result
+</th>
+<th style="text-align:left;">
+Interpretation
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+33
+</td>
+<td style="text-align:left;">
+Pneumonia
+</td>
+<td style="text-align:left;">
+NP swab + throat swab
+</td>
+<td style="text-align:left;">
+31.18
+</td>
+<td style="text-align:left;">
+39.20
+</td>
+<td style="text-align:left;">
+35.54
+</td>
+<td style="text-align:left;">
+Negative
+</td>
+<td style="text-align:left;font-weight: bold;">
+False negative
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+67
+</td>
+<td style="text-align:left;">
+Pre-operative
+</td>
+<td style="text-align:left;">
+NP swab + throat swab
+</td>
+<td style="text-align:left;">
+&gt; 40
+</td>
+<td style="text-align:left;">
+&gt; 40
+</td>
+<td style="text-align:left;">
+&gt; 40
+</td>
+<td style="text-align:left;">
+Positive
+</td>
+<td style="text-align:left;font-weight: bold;">
+False positive
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:left;">
+Pre-operative
+</td>
+<td style="text-align:left;">
+NP swab + throat swab
+</td>
+<td style="text-align:left;">
+&gt; 40
+</td>
+<td style="text-align:left;">
+&gt; 40
+</td>
+<td style="text-align:left;">
+&gt; 40
+</td>
+<td style="text-align:left;">
+Positive
+</td>
+<td style="text-align:left;font-weight: bold;">
+False positive
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+61
+</td>
+<td style="text-align:left;">
+Pre-operative
+</td>
+<td style="text-align:left;">
+NP swab + throat swab
+</td>
+<td style="text-align:left;">
+&gt; 40
+</td>
+<td style="text-align:left;">
+&gt; 40
+</td>
+<td style="text-align:left;">
+&gt; 40
+</td>
+<td style="text-align:left;">
+Positive (weakly)
+</td>
+<td style="text-align:left;font-weight: bold;">
+False positive
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+83
+</td>
+<td style="text-align:left;">
+Pre-operative
+</td>
+<td style="text-align:left;">
+NP swab + throat swab
+</td>
+<td style="text-align:left;">
+&gt; 40
+</td>
+<td style="text-align:left;">
+&gt; 40
+</td>
+<td style="text-align:left;">
+&gt; 40
+</td>
+<td style="text-align:left;">
+Positive (weakly)
+</td>
+<td style="text-align:left;font-weight: bold;">
+False positive
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:left;">
+Pre-operative
+</td>
+<td style="text-align:left;">
+NP swab + throat swab
+</td>
+<td style="text-align:left;">
+&gt; 40
+</td>
+<td style="text-align:left;">
+&gt; 40
+</td>
+<td style="text-align:left;">
+&gt; 40
+</td>
+<td style="text-align:left;">
+Positive (weakly)
+</td>
+<td style="text-align:left;font-weight: bold;">
+False positive
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-8">Table 3.2: </span><strong>Ripeta criteria scores voor Chutikarn et al. 2020</strong>
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Transparancy Criteria
+</th>
+<th style="text-align:left;">
+Definition
+</th>
+<th style="text-align:left;">
+Response Type
+</th>
+<th style="text-align:left;">
+Score
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Study Purpose
+</td>
+<td style="text-align:left;">
+A concise statement in the introduction of the article, often in the last paragraph, that establishes the reason the research was conducted. Also called the study objective.
+</td>
+<td style="text-align:left;">
+Binary
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Data Availability Statement
+</td>
+<td style="text-align:left;">
+A statement, in an individual section offset from the main body of text, that explains how or if one can access a study’s data. The title of the section may vary, but it must explicitly mention data; it is therefore distinct from a supplementary materials section.
+</td>
+<td style="text-align:left;">
+Binary
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Data Location
+</td>
+<td style="text-align:left;">
+Where the article’s data can be accessed, either raw or processed.
+</td>
+<td style="text-align:left;">
+Found Value
+</td>
+<td style="text-align:left;">
+All data generated or analysed are included in the published article and its additional files.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Study Location
+</td>
+<td style="text-align:left;">
+Author has stated in the methods section where the study took place or the data’s country/region of origin.
+</td>
+<td style="text-align:left;">
+Binary; Found Value
+</td>
+<td style="text-align:left;">
+Bangkok, Thailand
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Author Review
+</td>
+<td style="text-align:left;">
+The professionalism of the contact information that the author has provided in the manuscript.
+</td>
+<td style="text-align:left;">
+Found Value
+</td>
+<td style="text-align:left;">
+Navin Horthongham is corresponding author. <a href="mailto:navin.hor@mahidol.ac.th" class="email">navin.hor@mahidol.ac.th</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ethics Statement
+</td>
+<td style="text-align:left;">
+A statement within the manuscript indicating any ethical concerns, including the presence of sensitive data.
+</td>
+<td style="text-align:left;">
+Binary
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Funding Statement
+</td>
+<td style="text-align:left;">
+A statement within the manuscript indicating whether or not the authors received funding for their research.
+</td>
+<td style="text-align:left;">
+Binary
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Code Availability
+</td>
+<td style="text-align:left;">
+Authors have shared access to the most updated code that they used in their study, including code used for analysis.
+</td>
+<td style="text-align:left;">
+Binary
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="analyse-reproduceren" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Analyse reproduceren<a href="vaardigheid-2-open-source-analyse-reproduceren.html#analyse-reproduceren" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Ik heb een Open Source paper gekozen uit een <a href="https://www.r-bloggers.com/2022/03/newish-paper-share-the-code-not-just-the-data-a-case-study-of-the-reproducibility-of-jml-articles-published-under-the-open-data-policy/">gegeven studie</a> die heeft onderzocht hoe reproduceerbaar papers gepubliceerd onder het Open Source beleid nou écht zijn. Van dit paper heb ik een stuk code gereproduceerd.</p>
+<p>Het gekozen artikel uit de gegeven studie (Paper06): <strong><a href="https://doi.org/10.1016/j.jml.2019.104070">Arthur G. Samuel, Psycholinguists should resist the allure of linguistic units as perceptual units, Journal of Memory and Language (2020)</a></strong></p>
+<p>De bijbehorende code (Reproducing.Rmd) en dataset (osfstorage-archive/Exp2_Final_Adaptors_CVtestitems) zijn te vinden op <a href="https://osf.io/s794v/">OSF</a>.</p>
+<p>De codes in deze RMarkdown zijn gebruikt om de figuren te maken die in dit paper weergegeven worden. Op een schaal van 1 (zeer slecht) tot 5 (zeer goed) geef ik de leesbaarheid van de codes in dit bestand een 2.</p>
+<p>Hieronder reproduceer ik een deel van de data om figuur 2 uit het artikel na te maken. Het koste me moeite om dit figuur te reproduceren, met een score van 3 op een schaal van 1 (zeer moeilijk) tot 5 (zeer makkelijk).</p>
+<p>Een stuk code met een helperfunctie van de RMarkdown auteur voor het inlezen van de data:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-2"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
+<span id="cb8-3"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(tidyverse)){<span class="fu">install.packages</span>(<span class="st">&#39;tidyverse&#39;</span>)}</span>
+<span id="cb8-4"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(lme4)){<span class="fu">install.packages</span>(<span class="st">&#39;lme4&#39;</span>)}</span>
+<span id="cb8-5"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(readr)){<span class="fu">install.packages</span>(<span class="st">&#39;readr&#39;</span>)}</span>
+<span id="cb8-6"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb8-7"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># A helper function for reading in the unconventionally structured data files</span></span>
+<span id="cb8-8"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-8" aria-hidden="true" tabindex="-1"></a>read_exp_data <span class="ot">&lt;-</span> <span class="cf">function</span>(filenames_BF_ID, to_skip){</span>
+<span id="cb8-9"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-9" aria-hidden="true" tabindex="-1"></a>  BF_ID <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb8-10"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> filenames_BF_ID){</span>
+<span id="cb8-11"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-11" aria-hidden="true" tabindex="-1"></a>    adaptor <span class="ot">&lt;-</span> <span class="fu">substring</span>(i, <span class="dv">1</span>, <span class="dv">1</span>) <span class="co"># first letter of the filename</span></span>
+<span id="cb8-12"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-12" aria-hidden="true" tabindex="-1"></a>    temp <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(i, <span class="at">skip =</span> to_skip) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-13"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>)</span>
+<span id="cb8-14"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-15"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-15" aria-hidden="true" tabindex="-1"></a>    temp1 <span class="ot">&lt;-</span> temp <span class="sc">%&gt;%</span></span>
+<span id="cb8-16"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)</span>
+<span id="cb8-17"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">grepl</span>(<span class="st">&#39;X&#39;</span>, <span class="fu">colnames</span>(temp1)[<span class="dv">3</span>])){</span>
+<span id="cb8-18"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-18" aria-hidden="true" tabindex="-1"></a>      temp1 <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb8-19"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-19" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb8-20"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-20" aria-hidden="true" tabindex="-1"></a>      temp1 <span class="ot">&lt;-</span> temp1 <span class="sc">%&gt;%</span></span>
+<span id="cb8-21"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-21" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">participant.id =</span> <span class="fu">colnames</span>(temp1)[<span class="dv">3</span>],</span>
+<span id="cb8-22"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-22" aria-hidden="true" tabindex="-1"></a>               <span class="at">adaptor =</span> adaptor) <span class="sc">%&gt;%</span></span>
+<span id="cb8-23"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-23" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rename</span>(<span class="at">response =</span> <span class="fu">colnames</span>(temp1)[<span class="dv">3</span>],</span>
+<span id="cb8-24"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-24" aria-hidden="true" tabindex="-1"></a>               <span class="at">RT =</span> <span class="fu">colnames</span>(temp1)[<span class="dv">4</span>])</span>
+<span id="cb8-25"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-25" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb8-26"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-27"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-27" aria-hidden="true" tabindex="-1"></a>    temp2 <span class="ot">&lt;-</span> temp <span class="sc">%&gt;%</span></span>
+<span id="cb8-28"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">6</span>)</span>
+<span id="cb8-29"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">grepl</span>(<span class="st">&#39;X&#39;</span>, <span class="fu">colnames</span>(temp2)[<span class="dv">3</span>])){</span>
+<span id="cb8-30"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-30" aria-hidden="true" tabindex="-1"></a>      temp2 <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb8-31"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-31" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb8-32"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-32" aria-hidden="true" tabindex="-1"></a>      temp2 <span class="ot">&lt;-</span> temp2 <span class="sc">%&gt;%</span></span>
+<span id="cb8-33"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-33" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">participant.id =</span> <span class="fu">colnames</span>(temp2)[<span class="dv">3</span>],</span>
+<span id="cb8-34"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-34" aria-hidden="true" tabindex="-1"></a>               <span class="at">adaptor =</span> adaptor) <span class="sc">%&gt;%</span></span>
+<span id="cb8-35"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-35" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rename</span>(<span class="at">response =</span> <span class="fu">colnames</span>(temp2)[<span class="dv">3</span>],</span>
+<span id="cb8-36"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-36" aria-hidden="true" tabindex="-1"></a>               <span class="at">RT =</span> <span class="fu">colnames</span>(temp2)[<span class="dv">4</span>])</span>
+<span id="cb8-37"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-37" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb8-38"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-39"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-39" aria-hidden="true" tabindex="-1"></a>    temp3 <span class="ot">&lt;-</span> temp <span class="sc">%&gt;%</span></span>
+<span id="cb8-40"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-40" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">7</span>,<span class="dv">8</span>)</span>
+<span id="cb8-41"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">grepl</span>(<span class="st">&#39;X&#39;</span>, <span class="fu">colnames</span>(temp3)[<span class="dv">3</span>])){</span>
+<span id="cb8-42"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-42" aria-hidden="true" tabindex="-1"></a>      temp3 <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb8-43"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-43" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb8-44"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-44" aria-hidden="true" tabindex="-1"></a>      temp3 <span class="ot">&lt;-</span> temp3 <span class="sc">%&gt;%</span></span>
+<span id="cb8-45"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-45" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">participant.id =</span> <span class="fu">colnames</span>(temp3)[<span class="dv">3</span>],</span>
+<span id="cb8-46"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-46" aria-hidden="true" tabindex="-1"></a>               <span class="at">adaptor =</span> adaptor) <span class="sc">%&gt;%</span></span>
+<span id="cb8-47"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-47" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rename</span>(<span class="at">response =</span> <span class="fu">colnames</span>(temp3)[<span class="dv">3</span>],</span>
+<span id="cb8-48"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-48" aria-hidden="true" tabindex="-1"></a>               <span class="at">RT =</span> <span class="fu">colnames</span>(temp3)[<span class="dv">4</span>])</span>
+<span id="cb8-49"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-49" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb8-50"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-50" aria-hidden="true" tabindex="-1"></a>    BF_ID <span class="ot">&lt;-</span> <span class="fu">rbind</span>(BF_ID, temp1, temp2, temp3)</span>
+<span id="cb8-51"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-51" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-52"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(BF_ID)</span>
+<span id="cb8-53"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-53" aria-hidden="true" tabindex="-1"></a>} </span></code></pre></div>
+<p>Een stuk code voor het berekenen van het aantal participanten in (waarschijnlijk) de No-Release conditie:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb9-1" aria-hidden="true" tabindex="-1"></a>wd <span class="ot">&lt;-</span> <span class="st">&quot;C:/Users/steph/DSFB2/workflows_portfolio_OPNIEUW/data_raw/data02_assignment_1.2&quot;</span></span>
+<span id="cb9-2"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(wd)</span>
+<span id="cb9-3"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb9-4" aria-hidden="true" tabindex="-1"></a>filenames_ID <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">pattern =</span> <span class="st">&quot;ID&quot;</span>)</span>
+<span id="cb9-5"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb9-5" aria-hidden="true" tabindex="-1"></a>ID <span class="ot">&lt;-</span> <span class="fu">read_exp_data</span>(filenames_ID, <span class="at">to_skip =</span><span class="dv">4</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-6"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">participant.id =</span> <span class="fu">tolower</span>(participant.id)) </span>
+<span id="cb9-7"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">nlevels</span>(<span class="fu">as.factor</span>(ID<span class="sc">$</span>participant.id))</span></code></pre></div>
+<pre class="watch-out"><code>## [1] 33</code></pre>
+<p>Een stuk code voor het berekenen van het aantal participanten in (waarschijnlijk) de adaptation condition:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(wd)</span>
+<span id="cb11-2"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb11-2" aria-hidden="true" tabindex="-1"></a>filenames_FAD <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">pattern =</span> <span class="st">&quot;FAD&quot;</span>)</span>
+<span id="cb11-3"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb11-3" aria-hidden="true" tabindex="-1"></a>FAD <span class="ot">&lt;-</span> <span class="fu">read_exp_data</span>(filenames_FAD, <span class="at">to_skip =</span><span class="dv">6</span>)</span>
+<span id="cb11-4"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nlevels</span>(<span class="fu">as.factor</span>(FAD<span class="sc">$</span>participant.id))</span></code></pre></div>
+<pre class="watch-out"><code>## [1] 34</code></pre>
+<p>Een stuk code voor het filteren van participanten uit de (waarschijnlijk) No-Release conditie:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(wd)</span>
+<span id="cb13-2"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># filtering</span></span>
+<span id="cb13-3"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb13-3" aria-hidden="true" tabindex="-1"></a>to_filter <span class="ot">&lt;-</span> ID <span class="sc">%&gt;%</span></span>
+<span id="cb13-4"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb13-5"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">adaptor =</span> <span class="fu">ifelse</span>(adaptor <span class="sc">==</span> <span class="st">&quot;B&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;D&quot;</span>),</span>
+<span id="cb13-6"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb13-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">B =</span> <span class="fu">ifelse</span>(response <span class="sc">==</span> <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb13-7"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb13-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">D =</span> <span class="fu">ifelse</span>(response <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb13-8"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb13-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">adaptorB =</span> <span class="fu">ifelse</span>(adaptor <span class="sc">==</span> <span class="st">&quot;B&quot;</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb13-9"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb13-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">adaptorD =</span> <span class="fu">ifelse</span>(adaptor <span class="sc">==</span> <span class="st">&quot;D&quot;</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb13-10"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb13-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">Bgrade =</span> <span class="fu">parse_number</span>(<span class="fu">as.character</span>(AudioWaveFile1))<span class="sc">-</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-11"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Bgrade <span class="sc">==</span> <span class="dv">1</span> <span class="sc">|</span> Bgrade <span class="sc">==</span> <span class="dv">7</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-12"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(participant.id, Bgrade) <span class="sc">%&gt;%</span></span>
+<span id="cb13-13"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">D_response =</span> <span class="fu">mean</span>(D)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-14"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> participant.id, </span>
+<span id="cb13-15"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb13-15" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_from =</span> Bgrade, </span>
+<span id="cb13-16"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb13-16" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from =</span> D_response) <span class="sc">%&gt;%</span></span>
+<span id="cb13-17"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">diff =</span> <span class="st">`</span><span class="at">1</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">7</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-18"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(diff <span class="sc">&lt;</span> <span class="fl">0.6</span>) </span>
+<span id="cb13-19"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-20"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb13-20" aria-hidden="true" tabindex="-1"></a>to_filter</span></code></pre></div>
+<pre class="watch-out"><code>## # A tibble: 4 x 4
+## # Groups:   participant.id [4]
+##   participant.id   `1`   `7`    diff
+##   &lt;chr&gt;          &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+## 1 asav           0.944 0.389  0.556 
+## 2 kjol           0.722 0.194  0.528 
+## 3 kpao           0.972 0.833  0.139 
+## 4 ttys           0.972 1     -0.0278</code></pre>
+<p>Deze codes geven mij dezelfde uitkomst als de RMarkdown auteur. Nu kan ik een figuur, figuur 2 uit het artikel, reproduceren:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-1" aria-hidden="true" tabindex="-1"></a>wd <span class="ot">&lt;-</span> <span class="st">&quot;C:/Users/steph/DSFB2/workflows_portfolio_OPNIEUW/data_raw/data02_assignment_1.2&quot;</span></span>
+<span id="cb15-2"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(wd)</span>
+<span id="cb15-3"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-3" aria-hidden="true" tabindex="-1"></a>FAD <span class="ot">&lt;-</span> FAD <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb15-5"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span> participant.id <span class="sc">%in%</span> to_filter<span class="sc">$</span>participant.id) <span class="sc">%&gt;%</span></span>
+<span id="cb15-6"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">B =</span> <span class="fu">ifelse</span>(response <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb15-7"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">D =</span> <span class="fu">ifelse</span>(response <span class="sc">==</span> <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb15-8"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">adaptorB =</span> <span class="fu">ifelse</span>(adaptor <span class="sc">==</span> <span class="st">&quot;B&quot;</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb15-9"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">adaptorD =</span> <span class="fu">ifelse</span>(adaptor <span class="sc">==</span> <span class="st">&quot;D&quot;</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb15-10"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">Bgrade =</span> <span class="fu">parse_number</span>(<span class="fu">as.character</span>(WaveFile))<span class="sc">-</span><span class="dv">1</span>,<span class="co">#AFAIU the lower the number the closer to B, but I might be wrong</span></span>
+<span id="cb15-11"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">RT =</span> RT<span class="sc">*</span><span class="dv">1000</span>) </span>
+<span id="cb15-12"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure 2</span></span>
+<span id="cb15-14"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-14" aria-hidden="true" tabindex="-1"></a>FAD <span class="sc">%&gt;%</span></span>
+<span id="cb15-15"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(participant.id, Bgrade, adaptor) <span class="sc">%&gt;%</span></span>
+<span id="cb15-16"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">part_mean =</span> <span class="fu">mean</span>(D)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-17"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Bgrade, adaptor) <span class="sc">%&gt;%</span></span>
+<span id="cb15-18"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">acc =</span> <span class="fu">mean</span>(part_mean)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-19"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Bgrade, <span class="at">y =</span> acc, <span class="at">color =</span> adaptor)) <span class="sc">+</span></span>
+<span id="cb15-20"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_line</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>Deze figuur ziet er volgens de auteur hetzelfde uit als figuur 2 in het artikel. De vormen kloppen, maar de Y-as en as titels zijn door de RMarkdown auteur anders gekozen. De Y-as laat fracties zien i.p.v. percentages. Dit kan gemakkelijk aangepast worden:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb16-1" aria-hidden="true" tabindex="-1"></a>FAD <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(participant.id, Bgrade, adaptor) <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">part_mean =</span> <span class="fu">mean</span>(D)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Bgrade, adaptor) <span class="sc">%&gt;%</span></span>
+<span id="cb16-5"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">acc =</span> <span class="fu">mean</span>(part_mean) <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-6"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Bgrade, <span class="at">y =</span> acc, <span class="at">color =</span> adaptor)) <span class="sc">+</span></span>
+<span id="cb16-7"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb16-8"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb16-9"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;red&quot;</span>),<span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;B adapt&quot;</span>,<span class="st">&quot;D adapt&quot;</span>), <span class="at">name =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb16-10"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Released Final Position Adaptors on CV Test Series&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Continuum Step&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Percent </span><span class="sc">\&quot;</span><span class="st">d</span><span class="sc">\&quot;</span><span class="st"> Report&quot;</span>) <span class="sc">+</span></span>
+<span id="cb16-11"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>,<span class="dv">100</span>)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-11"></span>
+<img src="_main_files/figure-html/unnamed-chunk-11-1.png" alt="__Identification of the members of the /ba/-/da/ test series, as a function of the adaptation condition, for adaptors that included released final stops.__ After adaptation with final-/d/ words (red curve/squares) identification as “D” was reduced compared to adaptation with final-/b/ words (blue curve/circles)." width="672" />
+<p class="caption">
+Figure 3.1: <strong>Identification of the members of the /ba/-/da/ test series, as a function of the adaptation condition, for adaptors that included released final stops.</strong> After adaptation with final-/d/ words (red curve/squares) identification as “D” was reduced compared to adaptation with final-/b/ words (blue curve/circles).
+</p>
+</div>
+<p><em>Dit onderschrift is letterlijk overgenomen uit de paper zelf.</em></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="vaardigheid-1-semi-reproduceerbare-data-analyseren.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="vaardigheid-3-folder-structuur-gebruiken-volgens-de-guerilla-principles.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

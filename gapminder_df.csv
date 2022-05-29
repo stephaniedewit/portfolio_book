@@ -1,4 +1,4 @@
-"","Country","Year","infant_mortality","life_expectancy","fertility","population","gdp","continent","region"
+"","country","year","infant_mortality","life_expectancy","fertility","population","gdp","continent","region"
 "1","Albania",1960,115.4,62.87,6.19,1636054,NA,"Europe","Southern Europe"
 "2","Algeria",1960,148.2,47.5,7.65,11124892,13828152297,"Africa","Northern Africa"
 "3","Angola",1960,208,35.98,7.32,5270844,NA,"Africa","Middle Africa"

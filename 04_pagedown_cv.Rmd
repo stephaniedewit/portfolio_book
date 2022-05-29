@@ -1,12 +1,12 @@
-# Portfolio assignment 3.1: CV
+# Vaardigheid 4: Opmaken met RMarkdown en HTML syntax
 
-Ik heb het template 'HTML resume' van {pagedown} gebruikt om met R Markdown een CV als [PDF bestand](https://github.com/stephaniedewit/stephaniedewit.github.io/blob/main/test_cv_pagedown.pdf) te genereren. _Het is niet mogelijk om dergelijke templates toe te voegen aan een book._ 
+Er zijn eindeloos veel opties om een RMarkdown file overzichtelijker en mooier te maken. Hieronder laat ik zien dat ik overweg kan met RMarkdown syntax en een RMarkdown kan koppelen aan CSS files met HTML syntax.
 
-## Template R Markdown syntax
+Ik heb het template 'HTML resume' van {pagedown} gebruikt om met RMarkdown een CV als [PDF bestand](https://github.com/stephaniedewit/stephaniedewit.github.io/blob/main/test_cv_pagedown.pdf) te genereren. _Het is niet mogelijk om dergelijke templates toe te voegen aan een gitbook als deze._ 
 
-YAML header: 
+__YAML header:__
 
-```{r 1}
+```{r}
 #---
 #title: "Stephanie's resume"
 #author: Stephanie de Wit
@@ -21,7 +21,7 @@ YAML header:
 #---
 ```
 
-CSS file:
+__CSS file:__
 
 ```{r}
 #* {
@@ -53,9 +53,9 @@ CSS file:
 #}
 ```
 
-Body:
+__Body:__
 
-```{r 2}
+```{r}
 #Aside
 #========================================================#========================
 #

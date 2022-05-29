@@ -11,7 +11,7 @@ output:
   #bookdown::pdf_book: default ##Niet compatibel met portfolio_assignment_3.2.Rmd?
     number_sections: true
 new_session: yes
-bibliography: assignment_5.bib
+bibliography: portfolio.bib
 ---
 
 # Introductie

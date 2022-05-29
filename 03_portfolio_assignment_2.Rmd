@@ -1,23 +1,19 @@
-# Portfolio assignment 2: Folder trees
+# Vaardigheid 3: Folder structuur gebruiken volgens de Guerilla Principles
 
-```{r setup x, eval=FALSE, include=FALSE}
-install.packages("fs")
-```
+Hieronder demonstreer ik met een folder tree van de _Data Sciences for Biology 1_ DAUR2 lessen, hoe een goede folder structuur eruit ziet. In een notendop:
 
-```{r DAUR2 folder tree, fig.cap="Figuur X: Folder structuur voor mijn DAUR2 werkomgeving."}
+* De RMarkdown files van een project staan in de folder '__Rmd__'.
+* Geschreven functies die worden aangehaald in de RMarkdown files staan in de folder '__R__'.
+* Scripts met overige code die aangehaald worden in de RMarkdown files staan in de folder '__code__'.
+* Ruwe data staan in de folder '__data_raw__'. Binnen deze folder heeft elke dataset een eigen folder In deze folder staat een README file met informatie over hoe de dataset tot stand is gekomen, een folder '__supporting__' voor benodigdheden en eventueel een folder '__v01__' voor een oudere versie van de dataset.
+* Opgeschoonde en/of tidy gemaakte, ruwe data staan in sub-folders in de folder '__data__'. In deze folder is ook een Excel bestand aanwezig met een overzicht van aanwezige data, genaamd "data-log".
+* In de folder '__images__' staan de afbeeldingen die gebruikt worden in de RMarkdown files.
+* In de folder '__doc__' worden overige documenten opgeslagen.
+
+
+```{r}
+#install.packages("fs")
 library(fs)
-dir_tree(path="C:/Users/steph/DSFB1/daur2")
-```
 
-```{r portfolio folder tree, fig.cap="Figuur X: Folder structuur voor mijn DSFB2 Workflows portfolio werkomgeving."}
-dir_tree(path="C:/Users/steph/DSFB2/workflows_portfolio_OPNIEUW")
+dir_tree(path = "C:/Users/steph/DSFB1/daur2")
 ```
-
-```{r lessen folder tree, fig.cap="Figuur X: Folder structuur voor mijn DSFB2 Workflows lessen werkomgeving."}
-dir_tree(path="C:/Users/steph/DSFB2/workflows_lessen")
-```
-
-```{r projecticum folder tree, fig.cap="Figuur X: Folder structuur voor de DSFB2 Regenworm projecticum werkomgeving."}
-dir_tree(path="C:/Users/steph/DSFB2/projecticum_regenworm")
-```
-

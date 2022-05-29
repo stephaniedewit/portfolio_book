@@ -1,81 +1,82 @@
-# Portfolio assignment 7: Relational databases
+# Vaardigheid 6: Werken met _relational databases_
 
-```{r setup xx, include=FALSE}
-knitr::opts_chunk$set(warning=FALSE,message=FALSE)
+Tijdens een data analyse wordt vaak de informatie uit verschillende databases gecombineerd. Een gemeenschappelijk gebruikte taal voor het ophalen, beheren en opslaan van data uit gerelateerde databases is __SQL__. In dergelijke databases is data georganiseerd in tabellen die aan elkaar gekoppeld kunnen worden gebaseerd op gemeenschappelijke eigenschappen.
+
+Met het onderstaande voorbeeld laat ik zien, dat ik met SQL de informatie uit drie verschillende tabellen in DBeaver kan samenvoegen.
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 
 #install.packages("dslabs")
-
 library(tidyverse)
+library(knitr)
+library(kableExtra)
 library(dslabs) #package met gapminder dataset
 ```
 
+Ik maak eerst drie tabellen aan in RStudio: één met de gapminder dataset van het {dslabs} package en twee tabellen met datasets waarin voor verschillende landen de Influenza of Knokkelkoorts activiteit meerdere keren per jaar gemeten is.
 
-```{r flu, dengue en gapminder data inlezen}
+```{r}
+#Tabel 1: 
 gapminder_df <- as.data.frame(gapminder)
+head(gapminder_df, 3)
 
-gapminder_df
-
+#Tabel 2: 
 flu_df <- as.data.frame(read.csv(here::here(
   "flu_data.csv"), skip = 11))
+head(flu_df, 3)
 
-flu_df
-
+#Tabel 3:
 dengue_df <- as.data.frame(read.csv(here::here(
   "dengue_data.csv"), skip = 11))
-
-dengue_df
+head(dengue_df, 3)
 ```
 
-```{r dataframes tidy maken}
-flu_df <- pivot_longer(data = flu_df, cols=c(2:30), names_to = "Country", values_to = "Influenza_activity")
+De Influenza en Knokkelkoorts data is niet tidy. Ik maak de tabellen zelf tidy met:
 
-dengue_df <- pivot_longer(data = dengue_df, cols=c(2:11), names_to = "Country", values_to = "Dengue_activity")
-
-#gapminder was al tidy
+```{r}
+flu_df <- pivot_longer(data = flu_df, cols=c(2:30), names_to = "country", values_to = "influenza_activity")
+dengue_df <- pivot_longer(data = dengue_df, cols=c(2:11), names_to = "country", values_to = "dengue_activity")
 ```
 
-Country in flu en dengue is met een hoofdletter C en type character. Country in gapminder is met een kleine letter c en type factor.
-Date als character in flu en dengue, year in gapminder als integer.
+Voordat ik de tabellen ga samenvoegen in DBeaver, zorg ik er eerst voor dat de variabelen waarop ik de tabellen wil samenvoegen, land en datum, hetzelfde zijn. In de gapminder tabel is de datum aanwezig als jaartallen in een kolom year, In de andere tabellen is de datum aanwezig als jaar-maand-dag in een kolom Date. Tevens is het belangrijk dat de land en datum kolommen dezelfde titel hebben en van hetzelfde datatype zijn.
 
-```{r kolommen met land en jaartal hetzelfde maken voor de drie dataframes}
-#...
-flu_df <- separate(data = flu_df, col = Date, into = c("Year", "Month", "Day"), sep = "-")
-dengue_df <- separate(data = dengue_df, col = Date, into = c("Year", "Month", "Day"), sep = "-")
+```{r}
+# Zorg dat er in de Influenza en Knokkelkoorts tabel een kolom aanwezig is met de jaartallen, net als in de gapminder tabel:
+flu_df <- separate(data = flu_df, col = Date, into = c("year", "month", "day"), sep = "-")
+dengue_df <- separate(data = dengue_df, col = Date, into = c("year", "month", "day"), sep = "-")
 
-#...
-flu_df$Country <- as.factor(flu_df$Country)
-dengue_df$Country <- as.factor(dengue_df$Country)
+# Maak nieuwe tabellen, met de Influenza of Knokkelkoorts activiteit per jaar i.p.v. per dag:
+flu_df <- flu_df %>% group_by(country, year) %>% summarise_each(funs(sum), influenza_activity)
+dengue_df <- dengue_df %>% group_by(country, year) %>% summarise_each(funs(sum), dengue_activity)
+## Afgekeken van https://stackoverflow.com/questions/25089665/error-only-defined-on-a-data-frame-with-all-numeric-variables-with-ddply-on-lar
 
-flu_df$Year <- as.integer(flu_df$Year)
-dengue_df$Year <- as.integer(dengue_df$Year)
+# Maak in deze tabellen de kolommen waarop wordt samengevoegd van hetzelfde datatype als in de gapminder tabel:
+flu_df$country <- as.factor(flu_df$country)
+dengue_df$country <- as.factor(dengue_df$country)
 
-#Alle drie dezelfde kolomnamen:
-gapminder_df <- rename(gapminder_df, Year = year)
-gapminder_df <- rename(gapminder_df, Country = country)
+flu_df$year <- as.integer(flu_df$year)
+dengue_df$year <- as.integer(dengue_df$year)
 
-#...
-## via https://stackoverflow.com/questions/25089665/error-only-defined-on-a-data-frame-with-all-numeric-variables-with-ddply-on-lar
-flu_df <- flu_df %>% group_by(Country, Year) %>% summarise_each(funs(sum),Influenza_activity)
-
-dengue_df <- dengue_df %>% group_by(Country, Year) %>% summarise_each(funs(sum),Dengue_activity)
-
-#Maak er opnieuw dataframes van:
+# Maak opnieuw dataframes van de tabellen:
 flu_df <- as.data.frame(flu_df)
 dengue_df <- as.data.frame(dengue_df)
 
-#Schrijf de drie dataframes om naar .csv en .rds:
+# Sla drie dataframes op als CSV en RDS files:
 write.csv(gapminder_df, file = "gapminder_df.csv")
 write.csv(flu_df, file = "flu_df.csv")
 write.csv(dengue_df, file = "dengue_df.csv")
-
 saveRDS(gapminder_df, "C:/Users/steph/DSFB2/portfolio_book/gapminder_df.rds")
 saveRDS(flu_df, "C:/Users/steph/DSFB2/portfolio_book/flu_df.rds")
 saveRDS(dengue_df, "C:/Users/steph/DSFB2/portfolio_book/dengue_df.rds")
 ```
 
-```{r van RStudio naar DBeaver,eval=FALSE}
+De kolommen met land en datum zijn nu hetzelfde en de tabellen kunnen geüpload worden naar DBeaver:
+
+```{r van RStudio naar DBeaver, eval = FALSE}
 library(DBI)
 
+# Maak verbinding met mijn database in DBeaver:
 con <- dbConnect(RPostgres::Postgres(),
                  dbname = "workflowsdb",
                  host="localhost",
@@ -83,183 +84,126 @@ con <- dbConnect(RPostgres::Postgres(),
                  user="postgres",
                  password="...")
 
+# Stuur de tabellen naar de database:
 dbWriteTable(con, "flu_df", flu_df)
-
 dbWriteTable(con, "dengue_df", dengue_df)
-
 dbWriteTable(con, "gapminder_df", gapminder_df)
 
+# Sluit de verbinding weer:
 dbDisconnect(con)
 ```
 
-```{r DBeaver inspection of content}
-#Om een of andere reden moet ik nu ineens 'dd' opgeven achter de tabel en dd."..." voor een kolom?
+Om de data(overdracht) te inspecteren, heb ik in DBeaver de Data, Properties en ER Diagram tabs van de tabellen bekeken. Daarnaast heb ik de volgende SQL queries uitgevoerd, waarmee ik specifieke data uit de tabellen opvraag en controleer of dit correct werkt:
 
-#Naast het aanklikken en doornemen Data, Properties en ER Diagram van de tabellen, heb ik de data geïnspecteerd met de volgende queries:
+```{r, out.width = "300px", echo = FALSE}
+knitr::include_graphics(here::here("images", "queries1.png"))
 
-#SELECT
-#dd."Country",
-#dd."Dengue_activity",
-#dd."Year"
-#FROM dengue_df dd 
-#WHERE "Year"=2009;
-
-#SELECT
-#dd."Country",
-#dd."Influenza_activity",
-#dd."Year"
-#FROM flu_df dd 
-#WHERE "Year"=2009;
-
-#SELECT
-#dd."Country",
-#dd."infant_mortality",
-#dd."Year"
-#FROM gapminder_df dd 
-#WHERE "Year"=2009;
-
-#SELECT
-#dd."Country",
-#dd."Dengue_activity",
-#dd."Year"
-#FROM dengue_df dd 
-#ORDER BY
-#dd."Dengue_activity" asc
-
-#SELECT
-#dd."Country",
-#dd."Influenza_activity",
-#dd."Year"
-#FROM flu_df dd 
-#ORDER BY
-#dd."Influenza_activity" ASC;
-
-#SELECT
-#dd."Country",
-#dd."infant_mortality",
-#dd."Year"
-#FROM gapminder_df dd 
-#ORDER BY
-#dd."infant_mortality" ASC;
-
-#SELECT
-#DISTINCT dd."Year"
-#FROM
-#gapminder_df dd
-#ORDER BY
-#dd."Year" ASC;
+knitr::include_graphics(here::here("images", "queries2.png"))
 ```
 
-
-```{r dplyr inspection of content}
-class(dengue_df)
-str(dengue_df)
-summary(dengue_df)
-
-class(flu_df)
-str(flu_df)
-summary(flu_df)
-
-class(gapminder_df)
-str(gapminder_df)
-summary(gapminder_df)
-
-#Bovenstaande queries zijn vertaald naar dezelfde analyse in R, wat dezelfde resultaten gaf:
-
-dengue_df %>% filter(Year == 2009) %>% select(Country, Dengue_activity, Year)
-
-flu_df %>% filter(Year == 2009) %>% select(Country, Influenza_activity, Year)
-
-gapminder_df %>% filter(Year == 2009) %>% select(Country, infant_mortality, Year)
-
-
-
-dengue_df %>% select(Country, Dengue_activity, Year) %>% arrange(Dengue_activity)
-
-flu_df %>% select(Country, Influenza_activity, Year) %>% arrange(Influenza_activity)
-
-gapminder_df %>% select(Country, infant_mortality, Year) %>% arrange(infant_mortality)
-
-#Beter maar lukt niet in SQL: #gapminder_df %>% select(Country, infant_mortality, Year) %>% group_by(Country, Year) %>% summarise(infant_mortality) %>% arrange()
-
-
-
-gapminder_df %>% select(Year) %>% arrange() %>% unique()
-```
+De queries gaven de verwachtte output. Ze zijn vertaald naar een zelfde inspectie in R:
 
 ```{r}
-#Load the gapminder data in R?
-readRDS(here::here("gapminder_df.rds"))
-readRDS(here::here("flu_df.rds"))
-readRDS(here::here("dengue_df.rds"))
+str(dengue_df)
+str(flu_df)
+str(gapminder_df)
 
-#Flu_df en dengue_df zijn "joinbaar" met elkaar...
-flu_dengue <- left_join(flu_df, dengue_df, by = c("Country", "Year"))
+# Per land de Influenza activiteit, Knokkelkoorts activiteit en kindersterfte in 2009:
+head(flu_df %>% filter(year == 2009) %>% select(country, influenza_activity, year))
+head(dengue_df %>% filter(year == 2009) %>% select(country, dengue_activity, year))
+head(gapminder_df %>% filter(year == 2009) %>% select(country, infant_mortality, year))
 
-#...en met gapminder_df
-left_join(flu_dengue, gapminder_df, by = c("Country", "Year"))
+# De laagst gemeten Influenza activiteit, Knokkelkoorts activiteiten kindersterfte:
+head(dengue_df %>% select(country, dengue_activity, year) %>% arrange(dengue_activity))
+head(flu_df %>% select(country, influenza_activity, year) %>% arrange(influenza_activity))
+head(gapminder_df %>% select(country, infant_mortality, year) %>% arrange(infant_mortality))
 
-#Het lijkt erop dat er niks veranderd hoeft te worden aan gapminder_df voor joinen in DBeaver met een compound key = waarde onder Country én Year i.p.v. een unieke identifiër voor eke Country + Year combo.
+# De jaartallen in de gapminder dataset:
+gapminder_df %>% select(year) %>% arrange() %>% unique() %>% as.character()
+```
 
-#select
-#flu_df."Country",
-#flu_df."Year" ,
-#flu_df."Influenza_activity",
-#dengue_df."Dengue_activity",
-#gapminder_df."infant_mortality",
-#gapminder_df."life_expectancy",
-#gapminder_df."fertility",
-#gapminder_df."population",
-#gapminder_df."gdp",
-#gapminder_df."continent",
-#gapminder_df."region"
-#from
-#flu_df
-#left join dengue_df
-#on dengue_df."Country" = flu_df."Country" 
-#and dengue_df."Year" = flu_df."Year"
-#left join gapminder_df
-#on gapminder_df."Country" = flu_df."Country"
-#and gapminder_df."Year" = flu_df."Year";
+De inspectie in R gaf dezelfde resultaten als de queries. De tabellen kunnen nu samengevoegd worden gebaseerd op de _compound key_ van de tabellen country en year. Ik doe dit eerst in R...:
 
+
+```{r}
+#readRDS(here::here("gapminder_df.rds"))
+#readRDS(here::here("flu_df.rds"))
+#readRDS(here::here("dengue_df.rds"))
+
+# Voeg flu_df en dengue_df samen...:
+flu_dengue <- left_join(flu_df, dengue_df, by = c("country", "year"))
+
+#...en voeg gapminder_df toe:
+flu_dengue_gapminder_R <- left_join(flu_dengue, gapminder_df, by = c("country", "year"))
+
+head(flu_dengue_gapminder_R, 5)
+```
+
+...en vervolgens in DBeaver:
+
+```{r, out.width = "500px", echo = FALSE}
+knitr::include_graphics(here::here("images", "queries3.png"))
+```
+
+De output tabel van bovenstaande querie is opgeslagen als een CSV file: flu_dengue_gapminder.csv.
+
+```{r}
 flu_dengue_gapminder <- read_csv(here::here("flu_dengue_gapminder.csv"))
 
-flu_dengue_gapminder
+#kbl(head(flu_dengue_gapminder, 10), caption = "__De gapminder dataset samengevoegd met de Influenza en \nKnokkelkoorts activiteit data__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1:5, bold = TRUE)
+
+library(DT)
+DT::datatable(head(flu_dengue_gapminder, 10))
+
 summary(flu_dengue_gapminder)
+```
 
-#Beschrijvende statistiek: tabel met per land per de gem. Influenza en Knokkelkoorts activiteit, de gem. kindersterfte, de gem. levensverwachting, het gem. aantal geboorten en de gem. populatie grootte.
+Tijd om de daadwerkelijke data te gaan analyseren. Ik wil eerst een overzicht van per jaar, per land de gemiddelde Influenza activiteit, Knokkelkoorts activiteit, kindersterfte, levensverwachting, geboorten en populatie over de periode van 2002 - 2015. 
 
-## SLAAT NERGENS OP?! PER JAAR!
-FLU <- flu_dengue_gapminder %>% group_by(Country) %>% summarise(Gem_Influenza_act = mean(Influenza_activity))
-DENG <- flu_dengue_gapminder %>% group_by(Country) %>% summarise(Gem_Knokkelkoorts_act = mean(Dengue_activity))
-MORT <- flu_dengue_gapminder %>% group_by(Country) %>% summarise(Gem_kindersterfte = mean(infant_mortality))
-LIFE <- flu_dengue_gapminder %>% group_by(Country) %>% summarise(Gem_levensverwachting= mean(life_expectancy))
-FERT <- flu_dengue_gapminder %>% group_by(Country) %>% summarise(Gem_geboorten = mean(fertility))
-POPU <- flu_dengue_gapminder %>% group_by(Country) %>% summarise(Gem_populatie = mean(population))
+Ik vermoed dat Knokkelkoorts over het algemeen vooral voorkwam in (sub)tropische gebieden én dat er meer kindersterfte heeft plaatsgevonden in landen waarin in een bepaald jaar de Influenza of Knokkelkoorts activiteit zeer hoog was.
 
-desc_stat <- flu_dengue_gapminder %>% select(Country) %>% unique %>% mutate(FLU, DENG, MORT, LIFE, FERT, POPU)
+```{r}
+# Bereken de gemiddelden van de variabelen per jaar en land:
+FLU <- flu_dengue_gapminder %>% group_by(Country, Year) %>% summarise(Gem_Influenza_act = mean(Influenza_activity))
+DENG <- flu_dengue_gapminder %>% group_by(Country, Year) %>% summarise(Gem_Knokkelkoorts_act = mean(Dengue_activity))
+MORT <- flu_dengue_gapminder %>% group_by(Country, Year) %>% summarise(Gem_kindersterfte = mean(infant_mortality))
+LIFE <- flu_dengue_gapminder %>% group_by(Country, Year) %>% summarise(Gem_levensverwachting= mean(life_expectancy))
+FERT <- flu_dengue_gapminder %>% group_by(Country, Year) %>% summarise(Gem_geboorten = mean(fertility))
+POPU <- flu_dengue_gapminder %>% group_by(Country, Year) %>% summarise(Gem_populatie = mean(population))
 
-##HIER MOOIE TABEL MAKEN MET KNITR
+# Voeg de gemiddelden samen tot een tabel:
+desc_stat <- flu_dengue_gapminder %>% select(Country, Year) %>% unique %>% mutate(FLU, DENG, MORT, LIFE, FERT, POPU) %>% arrange(Year)
 
-#desc_stat <- rename(desc_stat, Land = Country)
+#kbl(tail(desc_stat, 58), caption = "__Per jaar, per land de gemiddelden van de gemeten variabelen__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1:2, bold = TRUE)
 
-#plot 1: Influenza activiteit door de jaren heen
+library(DT)
+DT::datatable(tail(desc_stat,58))
+```
+
+Ik ben geïnteresseerd in de trends van Influenza en Knokkelkoorts activiteit door de jaren heen en wil het verband tussen deze activiteit en kindersterfte toetsen.
+
+```{r, fig.cap = "__Influenza activiteit door de jaren heen.__ Voor 29 landen het aantal Influenza gevallen van 2002 tot en met 2015.", echo = FALSE}
+# Plot 1: Influenza activiteit door de jaren heen
 fdg <- flu_dengue_gapminder %>% filter(Influenza_activity > 0)
 
 ggplot(data = fdg, aes(x = Year, y = Influenza_activity)) +
   geom_line(aes(color = Country), alpha = 0.8) +
-  labs(title = "Influenza activiteit door de jaren heen", subtitle = "Voor 29 landen het aantal Influenza gevallen van 2002 tot \nen met 2015.", x = "Jaar", y = "Influenza activiteit (gevallen)", color = "Land") +
+  labs(x = "Jaar", y = "Influenza activiteit (gevallen)", color = "Land") +
   theme_bw()
+```
 
-#plot 2: Dengue activiteit door de jaren heen
+```{r, fig.cap = "__Knokkelkoorts activiteit door de jaren heen__. Voor 4 landen het aantal Knokkelkoorts gevallen van 2002 tot en met 2015."}
+# Plot 2: Knokkelkoorts activiteit door de jaren heen
 fdg2 <- flu_dengue_gapminder %>% filter(Dengue_activity > 0)
 
 ggplot(data = fdg2, aes(x = Year, y = Dengue_activity)) +
   geom_line(aes(color = Country), alpha = 0.8) +
-  labs(title = "Knokkelkoorts activiteit door de jaren heen", subtitle = "Voor 4 landen het aantal Knokkelkoorts gevallen van 2002 tot \nen met 2015.", x = "Jaar", y = "Knokkelkoorts activiteit (gevallen)", color = "Land") +
+  labs(x = "Jaar", y = "Knokkelkoorts activiteit (gevallen)", color = "Land") +
   theme_bw()
+```
 
-#plot 3: Verband tussen Influenza_activity en infant_mortality per land door de jaren heen
+```{r, fig.cap = "__Per land het verband tussen Influenza activiteit en kindersterfte door de jaren heen__. Voor 29 landen is van 2002 tot en met 2015 per jaar het aantal Influenza gevallen en de sterfte onder kinderen gemeten."}
+# Plot 3: Verband tussen Influenza_activity en infant_mortality per land door de jaren heen
 fdg3 <- flu_dengue_gapminder %>% filter(Influenza_activity > 0 & infant_mortality > 0)
 
 cor.test(fdg3$Influenza_activity, fdg3$infant_mortality, method=c("pearson")) #p-value = 0.6713, geen stat. sig. verband
@@ -268,9 +212,22 @@ cor_coefficient <- round(cor.test(fdg3$Influenza_activity, fdg3$infant_mortality
 
 ggplot(data = fdg3, aes(x = Influenza_activity, y = infant_mortality)) +
   geom_point(aes(color = Country), size = 1, alpha = 0.8) +
-  geom_smooth(se=F, color = "red") +
-  labs(title = "Verband tussen Influenza activiteit en kindersterfte wereldwijd", subtitle = "Voor 29 landen is van 2002 tot en met 2015 per jaar het \naantal Influenza gevallen en de sterfte onder kinderen gemeten.", y = "Kindersterfte (aantal)", x = "Influenza activiteit (gevallen)") +
+  geom_smooth(se = F, color = "red") +
+  labs(y = "Kindersterfte (aantal)", x = "Influenza activiteit (gevallen)") +
   theme_bw() +
   annotate("text", x = 112500, y = 45, size = 4, color = "red", label = paste("Pearson's r = ", cor_coefficient))
 ```
 
+```{r, fig.cap = "__Per land het verband tussen Knokkelkoorts acitviteit en kindersterfte door de jaren heen__. Voor 29 landen is van 2002 tot en met 2015 per jaar het aantal Knokkelkoorts gevallen en de sterfte onder kinderen gemeten."}
+# Plot 4: Verband tussen Dengue_activity en infant_mortality per land door de jaren heen
+fdg4 <- flu_dengue_gapminder %>% filter(Dengue_activity > 0 & infant_mortality > 0)
+
+ggplot(data = fdg4, aes(x = Dengue_activity, y = infant_mortality)) +
+  geom_point(aes(color = Country), size = 1, alpha = 0.8) +
+  geom_smooth(se = F, color = "red") +
+  labs(y = "Kindersterfte (aantal)", x = "Knokkelkoorts activiteit (gevallen)") +
+  theme_bw() +
+  annotate("text", x = 10, y = 50, size = 4, color = "red", label = paste("Pearson's r = ", cor_coefficient))
+```
+
+__CONCLUSIE__
