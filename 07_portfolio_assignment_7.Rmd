@@ -4,6 +4,8 @@ Tijdens een data analyse wordt vaak de informatie uit verschillende databases ge
 
 Met het onderstaande voorbeeld laat ik zien, dat ik met SQL de informatie uit drie verschillende tabellen in DBeaver kan samenvoegen.
 
+## Samenvoegen van virus-activiteit dummy data met gapminder dataset
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 

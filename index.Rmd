@@ -8,7 +8,6 @@ output:
     includes:
       before_body: hero-image.html
     css: portfolio_style.css
-  #bookdown::pdf_book: default ##Niet compatibel met portfolio_assignment_3.2.Rmd?
     number_sections: true
 new_session: yes
 bibliography: portfolio.bib

@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Mijn Data Sciences portfolio</title>
-  <meta name="description" content="Mijn Data Sciences portfolio" />
+  <title>10 Vaardigheid 8: RMarkdowns parameteriseren | Mijn Data Sciences portfolio</title>
+  <meta name="description" content="10 Vaardigheid 8: RMarkdowns parameteriseren | Mijn Data Sciences portfolio" />
   <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Mijn Data Sciences portfolio" />
+  <meta property="og:title" content="10 Vaardigheid 8: RMarkdowns parameteriseren | Mijn Data Sciences portfolio" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Mijn Data Sciences portfolio" />
+  <meta name="twitter:title" content="10 Vaardigheid 8: RMarkdowns parameteriseren | Mijn Data Sciences portfolio" />
   
   
   
@@ -28,8 +28,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
+<link rel="prev" href="vaardigheid-7-een-r-package-maken.html"/>
 
-<link rel="next" href="vaardigheid-1-semi-reproduceerbare-data-analyseren.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -213,23 +213,59 @@ div.csl-indent {
 <div class="hero-image-container">
   <img class= "hero-image" src="images/20200222_STP002.png">
 </div>
-<div id="header">
-<h1 class="title">Mijn Data Sciences portfolio</h1>
-<h2 class="subtitle"><em>Door: Stephanie de Wit <br> Datum: 15-05-22 <br><br> Tijdens het tweede deel van de <em>Data Sciences for Biology</em> minor te Hogeschool Utrecht heb ik gewerkt aan een portfolio van mijn vaardigheden binnen R.</em></h2>
-</div>
-<div id="introductie" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">1</span> Introductie<a href="index.html#introductie" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Ik ben een nieuwsgierige, scherpe en gedreven <em>Life Sciences</em> studente van 24 jaar oud. Momenteel rond ik mijn derde studiejaar af met een Data Sciences minor en ben ik opzoek naar een uitdagende afstudeerstage. Ik smul van studiemateriaal over genetica, neurowetenshap, immunologie en tumorcelbiologie en werk graag met recombinante DNA technieken, celkweek en eiwit analyse technieken. Het is mijn ambitie om als moleculair bioloog onderzoek te doen naar het ontstaan, voorkomen en bestrijden van ziekten. Als ik niet aan het lezen ben in <em>Campbell, Biology</em> of documentaires kijk over het heelal, ga ik graag tafelen met vrienden, dansen in de discotheek, naar het museum of de dierentuin en op stedentripjes.</p>
-<!-- If you need PDF output, uncomment bookdown::pdf_book above in YAML. You will need a LaTeX installation, e.g., https://yihui.name/tinytex/ -->
+<div id="vaardigheid-8-rmarkdowns-parameteriseren" class="section level1 hasAnchor" number="10">
+<h1><span class="header-section-number">10</span> Vaardigheid 8: RMarkdowns parameteriseren<a href="vaardigheid-8-rmarkdowns-parameteriseren.html#vaardigheid-8-rmarkdowns-parameteriseren" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Vaak wilt men de parameters binnen een analyse kunnen variëren, zoals de dataset waarop de analyse wordt uitgevoerd. Hieronder laat ik met een voorbeeld zien, dat ik RMarkdown parameterisatie kan gebruiken om soepel te switchen tussen parameters.</p>
+<div id="ecdc-data-nieuwgemelde-covid-19-gevallen-en--doden" class="section level2 hasAnchor" number="10.1">
+<h2><span class="header-section-number">10.1</span> ECDC data nieuwgemelde COVID-19-gevallen en -doden<a href="vaardigheid-8-rmarkdowns-parameteriseren.html#ecdc-data-nieuwgemelde-covid-19-gevallen-en--doden" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Gebaseerd op <a href="https://www.ecdc.europa.eu/en/publications-data/data-daily-new-cases-covid-19-eueea-country">publieke data</a> van de European Center for Disease Prevention and Control (ECDC), heb ik een <a href="https://github.com/stephaniedewit/stephaniedewit.github.io/blob/main/parameterized_Rmd_COVID.Rmd">geparameteriseerd RMarkdown rapport</a> geschreven dat voor een gegeven land en periode per dag het aantal nieuwgemelde COVID-19-gevallen en -doden laat zien.</p>
+<p>De te variëren parameters worden aan de YAML header toegevoegd binnen het params veld en ingesteld volgens:</p>
+<p><strong>params:</strong><br>
+<strong>parameter_1: karakter</strong><br>
+<strong>parameter_2: numerieke waarde</strong><br>
+<strong>parameter_3: numerieke waarde</strong><br></p>
+<p>In een R chunk wordt een parameter aangehaald met: <strong>params$parameter_naam</strong>.</p>
+<p>Klik <a href="https://github.com/stephaniedewit/stephaniedewit.github.io/blob/main/parameterized_Rmd_COVID.pdf">hier</a> voor een voorbeeld van het gerenderde rapport. <em>Het is onmogelijk gebleken om parameters toe te voegen aan een gitbook RMarkdown</em>.</p>
+<p><em>Het is onmogelijk gebleken om een numerieke range op te geven als parameter, bijvoorbeeld maand 3 t/m 5. Daarom heb ik besloten om een code te schrijven die voor elke opgegeven maand ook de gevallen en doden van de maand ervoor en erna laat zien.</em></p>
 
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div class="csl-entry">
+Broadley, K. J. 1979. <span>“The <span>Langendorff</span> Heart Preparation—<span>Reappraisal</span> of Its Role as a Research and Teaching Model for Coronary Vasoactive Drugs.”</span> <em>Journal of Pharmacological Methods</em> 2 (2): 143–56. <a href="https://doi.org/10.1016/0160-5402(79)90038-X">https://doi.org/10.1016/0160-5402(79)90038-X</a>.
+</div>
+<div class="csl-entry">
+Chaimayo, Chutikarn, Bualan Kaewnaphan, Nattaya Tanlieng, Niracha Athipanyasilp, Rujipas Sirijatuphat, Methee Chayakulkeeree, Nasikarn Angkasekwinai, et al. 2020. <span>“Rapid <span>SARS-CoV-2</span> Antigen Detection Assay in Comparison with Real-Time <span>RT-PCR</span> Assay for Laboratory Diagnosis of <span>COVID-19</span> in <span>Thailand</span>.”</span> <em>Virology Journal</em> 17 (1): 177. <a href="https://doi.org/10.1186/s12985-020-01452-5">https://doi.org/10.1186/s12985-020-01452-5</a>.
+</div>
+<div class="csl-entry">
+Kazandjian, T. D., D. Petras, S. D. Robinson, J. van Thiel, H. W. Greene, K. Arbuckle, A. Barlow, et al. 2021. <span>“Convergent <span>Evolution</span> of <span>Pain-Inducing Defensive Venom Components</span> in <span>Spitting Cobras</span>.”</span> <em>Science (New York, N.Y.)</em> 371 (6527): 386–90. <a href="https://doi.org/10.1126/science.abb9303">https://doi.org/10.1126/science.abb9303</a>.
+</div>
+<div class="csl-entry">
+<span>“<span>LL</span>.3: <span>The</span> Three-Parameter Log-Logistic Function in Drc: <span>Analysis</span> of <span>Dose-Response Curves</span>.”</span> n.d. Accessed May 24, 2022. <a href="https://rdrr.io/cran/drc/man/LL.3.html">https://rdrr.io/cran/drc/man/LL.3.html</a>.
+</div>
+<div class="csl-entry">
+<span>“Project <span>Regenwormen</span>: <span>Data Sciences</span> for <span>Biology</span> 2.”</span> n.d. Accessed May 7, 2022. <a href="https://canvas.hu.nl/courses/26999/pages/project-regenwormen?module_item_id=720432">https://canvas.hu.nl/courses/26999/pages/project-regenwormen?module_item_id=720432</a>.
+</div>
+<div class="csl-entry">
+Ritz, Christian, Florent Baty, Jens C. Streibig, and Daniel Gerhard. 2015. <span>“Dose-<span>Response Analysis Using R</span>.”</span> <em>PLOS ONE</em> 10 (12): e0146021. <a href="https://doi.org/10.1371/journal.pone.0146021">https://doi.org/10.1371/journal.pone.0146021</a>.
+</div>
+<div class="csl-entry">
+<span>“<span>RPubs</span> - Four-Parameter Log-Logistic Model.”</span> n.d. Accessed May 24, 2022. <a href="https://rpubs.com/TX-YXL/656451">https://rpubs.com/TX-YXL/656451</a>.
+</div>
+<div class="csl-entry">
+<span>“The Three-Parameter Log-Logistic Function — <span>LL</span>.3.”</span> n.d. Accessed May 24, 2022. <a href="https://doseresponse.github.io/drc/reference/LL.3.html">https://doseresponse.github.io/drc/reference/LL.3.html</a>.
+</div>
+<div class="csl-entry">
+<span>“Thema 3: <span>Regenworm</span>: <span>DOFAR Dierkundig Onderzoek</span>.”</span> n.d. Accessed May 14, 2022. <a href="https://canvas.hu.nl/courses/23205/pages/thema-3-regenworm">https://canvas.hu.nl/courses/23205/pages/thema-3-regenworm</a>.
+</div>
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
+<a href="vaardigheid-7-een-r-package-maken.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="vaardigheid-1-semi-reproduceerbare-data-analyseren.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

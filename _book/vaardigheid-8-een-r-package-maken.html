@@ -29,7 +29,7 @@
   
   
 <link rel="prev" href="vaardigheid-6-werken-met-relational-databases.html"/>
-
+<link rel="next" href="vaardigheid-9-geparameteriseerde-rmarkdowns.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -185,6 +185,10 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="8" data-path="vaardigheid-6-werken-met-relational-databases.html"><a href="vaardigheid-6-werken-met-relational-databases.html"><i class="fa fa-check"></i><b>8</b> Vaardigheid 6: Werken met <em>relational databases</em></a></li>
 <li class="chapter" data-level="9" data-path="vaardigheid-8-een-r-package-maken.html"><a href="vaardigheid-8-een-r-package-maken.html"><i class="fa fa-check"></i><b>9</b> Vaardigheid 8: Een R package maken</a></li>
+<li class="chapter" data-level="10" data-path="vaardigheid-9-geparameteriseerde-rmarkdowns.html"><a href="vaardigheid-9-geparameteriseerde-rmarkdowns.html"><i class="fa fa-check"></i><b>10</b> Vaardigheid 9: Geparameteriseerde RMarkdowns</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="vaardigheid-9-geparameteriseerde-rmarkdowns.html"><a href="vaardigheid-9-geparameteriseerde-rmarkdowns.html#ecdc-data-aantal-nieuwgemelde-covid-19-gevallen-en--doden"><i class="fa fa-check"></i><b>10.1</b> ECDC data aantal nieuwgemelde COVID-19-gevallen en -doden</a></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -212,43 +216,14 @@ div.csl-indent {
 <p>Ik heb zelf ook een R package gemaakt: {paratests}. Dit package bestaat op dit moment uit vier functies die het uitvoeren van (non)-parametrische toetsen makkelijker maken. Specifiek zijn dit functies voor een staafdiagram, Shapiro Wilk test, ANOVA en verband grafiek.</p>
 <p>Via <a href="https://github.com/stephaniedewit/paratests">deze link</a> kan mijn package gedownload worden, of run devtools::install_github(“stephaniedewit/paratests”) in RStudio Console. Na het runnen van library(“paratests”) kunnen de functies aangehaald worden. Run ?functie_naam() voor informatie over het gebruik van een functie of run browseVignettes(“paratests”) voor een demonstratie van de package.</p>
 
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div class="csl-entry">
-Broadley, K. J. 1979. <span>“The <span>Langendorff</span> Heart Preparation—<span>Reappraisal</span> of Its Role as a Research and Teaching Model for Coronary Vasoactive Drugs.”</span> <em>Journal of Pharmacological Methods</em> 2 (2): 143–56. <a href="https://doi.org/10.1016/0160-5402(79)90038-X">https://doi.org/10.1016/0160-5402(79)90038-X</a>.
-</div>
-<div class="csl-entry">
-Chaimayo, Chutikarn, Bualan Kaewnaphan, Nattaya Tanlieng, Niracha Athipanyasilp, Rujipas Sirijatuphat, Methee Chayakulkeeree, Nasikarn Angkasekwinai, et al. 2020. <span>“Rapid <span>SARS-CoV-2</span> Antigen Detection Assay in Comparison with Real-Time <span>RT-PCR</span> Assay for Laboratory Diagnosis of <span>COVID-19</span> in <span>Thailand</span>.”</span> <em>Virology Journal</em> 17 (1): 177. <a href="https://doi.org/10.1186/s12985-020-01452-5">https://doi.org/10.1186/s12985-020-01452-5</a>.
-</div>
-<div class="csl-entry">
-Kazandjian, T. D., D. Petras, S. D. Robinson, J. van Thiel, H. W. Greene, K. Arbuckle, A. Barlow, et al. 2021. <span>“Convergent <span>Evolution</span> of <span>Pain-Inducing Defensive Venom Components</span> in <span>Spitting Cobras</span>.”</span> <em>Science (New York, N.Y.)</em> 371 (6527): 386–90. <a href="https://doi.org/10.1126/science.abb9303">https://doi.org/10.1126/science.abb9303</a>.
-</div>
-<div class="csl-entry">
-<span>“<span>LL</span>.3: <span>The</span> Three-Parameter Log-Logistic Function in Drc: <span>Analysis</span> of <span>Dose-Response Curves</span>.”</span> n.d. Accessed May 24, 2022. <a href="https://rdrr.io/cran/drc/man/LL.3.html">https://rdrr.io/cran/drc/man/LL.3.html</a>.
-</div>
-<div class="csl-entry">
-<span>“Project <span>Regenwormen</span>: <span>Data Sciences</span> for <span>Biology</span> 2.”</span> n.d. Accessed May 7, 2022. <a href="https://canvas.hu.nl/courses/26999/pages/project-regenwormen?module_item_id=720432">https://canvas.hu.nl/courses/26999/pages/project-regenwormen?module_item_id=720432</a>.
-</div>
-<div class="csl-entry">
-Ritz, Christian, Florent Baty, Jens C. Streibig, and Daniel Gerhard. 2015. <span>“Dose-<span>Response Analysis Using R</span>.”</span> <em>PLOS ONE</em> 10 (12): e0146021. <a href="https://doi.org/10.1371/journal.pone.0146021">https://doi.org/10.1371/journal.pone.0146021</a>.
-</div>
-<div class="csl-entry">
-<span>“<span>RPubs</span> - Four-Parameter Log-Logistic Model.”</span> n.d. Accessed May 24, 2022. <a href="https://rpubs.com/TX-YXL/656451">https://rpubs.com/TX-YXL/656451</a>.
-</div>
-<div class="csl-entry">
-<span>“The Three-Parameter Log-Logistic Function — <span>LL</span>.3.”</span> n.d. Accessed May 24, 2022. <a href="https://doseresponse.github.io/drc/reference/LL.3.html">https://doseresponse.github.io/drc/reference/LL.3.html</a>.
-</div>
-<div class="csl-entry">
-<span>“Thema 3: <span>Regenworm</span>: <span>DOFAR Dierkundig Onderzoek</span>.”</span> n.d. Accessed May 14, 2022. <a href="https://canvas.hu.nl/courses/23205/pages/thema-3-regenworm">https://canvas.hu.nl/courses/23205/pages/thema-3-regenworm</a>.
-</div>
-</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="vaardigheid-6-werken-met-relational-databases.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="vaardigheid-6-werken-met-relational-databases.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="vaardigheid-9-geparameteriseerde-rmarkdowns.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

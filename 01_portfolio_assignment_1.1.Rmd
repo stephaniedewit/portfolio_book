@@ -89,8 +89,7 @@ elegans_norm %>% ggplot(aes(x = log10(as.double(compConcentration)), y = as.inte
 
 Er zijn alleen negatieve fracties aanwezig door de jitter optie.
 
-__Conclusie__
-
+__Conclusie__<br>
 Voor de positieve controle geldt, dat er duidelijk minder nematoden geboren worden na incubatie in 1,5% ethanol ten opzichte van in S-medium (fractie << 1). Bij stof concentraties lager dan ~ 0.06 nM (oftewel log10's lager dan -1.25) worden er evenveel, minder of meer nematoden geboren als binnen de negatieve controle. Bij deze concentraties is er dus geen effect op het aantal nakomelingen. Voor incubatie bij hogere concentraties van de drie geteste stoffen geldt dat er minder nematoden geboren worden als binnen de negatieve controle (fractie << 1).
 
 ### Normalisatie met het {drc} package

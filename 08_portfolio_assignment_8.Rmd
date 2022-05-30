@@ -1,4 +1,4 @@
-# Vaardigheid 8: Een R package maken
+# Vaardigheid 7: Een R package maken
 
 R packages zijn collecties van functies en data sets die gebruikt worden om tools te delen binnen de community. Van het inlezen van ruwe data tot het maken van tabellen en grafieken: overal worden packages voor gebruikt.
 

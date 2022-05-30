@@ -29,7 +29,7 @@
   
   
 <link rel="prev" href="vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager.html"/>
-<link rel="next" href="vaardigheid-8-een-r-package-maken.html"/>
+<link rel="next" href="vaardigheid-7-een-r-package-maken.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -183,8 +183,15 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="7.1" data-path="vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager.html"><a href="vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager.html#dsfb2-2022-project-regenwormen-introductie"><i class="fa fa-check"></i><b>7.1</b> DSFB2 2022 Project Regenwormen: Introductie</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="vaardigheid-6-werken-met-relational-databases.html"><a href="vaardigheid-6-werken-met-relational-databases.html"><i class="fa fa-check"></i><b>8</b> Vaardigheid 6: Werken met <em>relational databases</em></a></li>
-<li class="chapter" data-level="9" data-path="vaardigheid-8-een-r-package-maken.html"><a href="vaardigheid-8-een-r-package-maken.html"><i class="fa fa-check"></i><b>9</b> Vaardigheid 8: Een R package maken</a></li>
+<li class="chapter" data-level="8" data-path="vaardigheid-6-werken-met-relational-databases.html"><a href="vaardigheid-6-werken-met-relational-databases.html"><i class="fa fa-check"></i><b>8</b> Vaardigheid 6: Werken met <em>relational databases</em></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="vaardigheid-6-werken-met-relational-databases.html"><a href="vaardigheid-6-werken-met-relational-databases.html#samenvoegen-van-virus-activiteit-dummy-data-met-gapminder-dataset"><i class="fa fa-check"></i><b>8.1</b> Samenvoegen van virus-activiteit dummy data met gapminder dataset</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="vaardigheid-7-een-r-package-maken.html"><a href="vaardigheid-7-een-r-package-maken.html"><i class="fa fa-check"></i><b>9</b> Vaardigheid 7: Een R package maken</a></li>
+<li class="chapter" data-level="10" data-path="vaardigheid-8-rmarkdowns-parameteriseren.html"><a href="vaardigheid-8-rmarkdowns-parameteriseren.html"><i class="fa fa-check"></i><b>10</b> Vaardigheid 8: RMarkdowns parameteriseren</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="vaardigheid-8-rmarkdowns-parameteriseren.html"><a href="vaardigheid-8-rmarkdowns-parameteriseren.html#ecdc-data-nieuwgemelde-covid-19-gevallen-en--doden"><i class="fa fa-check"></i><b>10.1</b> ECDC data nieuwgemelde COVID-19-gevallen en -doden</a></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -210,6 +217,8 @@ div.csl-indent {
 <h1><span class="header-section-number">8</span> Vaardigheid 6: Werken met <em>relational databases</em><a href="vaardigheid-6-werken-met-relational-databases.html#vaardigheid-6-werken-met-relational-databases" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Tijdens een data analyse wordt vaak de informatie uit verschillende databases gecombineerd. Een gemeenschappelijk gebruikte taal voor het ophalen, beheren en opslaan van data uit gerelateerde databases is <strong>SQL</strong>. In dergelijke databases is data georganiseerd in tabellen die aan elkaar gekoppeld kunnen worden gebaseerd op gemeenschappelijke eigenschappen.</p>
 <p>Met het onderstaande voorbeeld laat ik zien, dat ik met SQL de informatie uit drie verschillende tabellen in DBeaver kan samenvoegen.</p>
+<div id="samenvoegen-van-virus-activiteit-dummy-data-met-gapminder-dataset" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> Samenvoegen van virus-activiteit dummy data met gapminder dataset<a href="vaardigheid-6-werken-met-relational-databases.html#samenvoegen-van-virus-activiteit-dummy-data-met-gapminder-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Ik maak eerst drie tabellen aan in RStudio: één met de gapminder dataset van het {dslabs} package en twee tabellen met datasets waarin voor verschillende landen de Influenza of Knokkelkoorts activiteit meerdere keren per jaar gemeten is.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="vaardigheid-6-werken-met-relational-databases.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Tabel 1: </span></span>
 <span id="cb22-2"><a href="vaardigheid-6-werken-met-relational-databases.html#cb22-2" aria-hidden="true" tabindex="-1"></a>gapminder_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(gapminder)</span>
@@ -518,12 +527,14 @@ Figure 8.3: <strong>Per land het verband tussen Influenza activiteit en kinderst
 <span id="cb61-8"><a href="vaardigheid-6-werken-met-relational-databases.html#cb61-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb61-9"><a href="vaardigheid-6-werken-met-relational-databases.html#cb61-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">10</span>, <span class="at">y =</span> <span class="dv">50</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">label =</span> <span class="fu">paste</span>(<span class="st">&quot;Pearson&#39;s r = &quot;</span>, cor_coefficient))</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-29"></span>
-<img src="_main_files/figure-html/unnamed-chunk-29-1.png" alt="_Per land het verband tussen Knokkelkoorts acitviteit en kindersterfte door de jaren heen__. Voor 29 landen is van 2002 tot en met 2015 per jaar het aantal Knokkelkoorts gevallen en de sterfte onder kinderen gemeten." width="672" />
+<img src="_main_files/figure-html/unnamed-chunk-29-1.png" alt="__Per land het verband tussen Knokkelkoorts acitviteit en kindersterfte door de jaren heen__. Voor 29 landen is van 2002 tot en met 2015 per jaar het aantal Knokkelkoorts gevallen en de sterfte onder kinderen gemeten." width="672" />
 <p class="caption">
-Figure 8.4: _Per land het verband tussen Knokkelkoorts acitviteit en kindersterfte door de jaren heen__. Voor 29 landen is van 2002 tot en met 2015 per jaar het aantal Knokkelkoorts gevallen en de sterfte onder kinderen gemeten.
+Figure 8.4: <strong>Per land het verband tussen Knokkelkoorts acitviteit en kindersterfte door de jaren heen</strong>. Voor 29 landen is van 2002 tot en met 2015 per jaar het aantal Knokkelkoorts gevallen en de sterfte onder kinderen gemeten.
 </p>
 </div>
+<p><strong>CONCLUSIE</strong></p>
 
+</div>
 </div>
             </section>
 
@@ -531,7 +542,7 @@ Figure 8.4: _Per land het verband tussen Knokkelkoorts acitviteit en kindersterf
         </div>
       </div>
 <a href="vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="vaardigheid-8-een-r-package-maken.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="vaardigheid-7-een-r-package-maken.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
