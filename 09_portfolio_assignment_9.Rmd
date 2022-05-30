@@ -15,6 +15,6 @@ __params:__<br>
 
 In een R chunk wordt een parameter aangehaald met: __params$parameter_naam__. 
 
-Klik [hier](https://github.com/stephaniedewit/stephaniedewit.github.io/blob/main/parameterized_Rmd_COVID.pdf) voor een voorbeeld van het gerenderde rapport. _Het is onmogelijk gebleken om parameters toe te voegen aan een gitbook RMarkdown_.
+Klik [hier](https://github.com/stephaniedewit/stephaniedewit.github.io/blob/main/parameterized_Rmd_COVID.pdf) voor een voorbeeld van het rapport voor Nederland in februari, maart en april 2022. _Het is onmogelijk gebleken om parameters toe te voegen aan een gitbook RMarkdown_.
 
 _Het is onmogelijk gebleken om een numerieke range op te geven als parameter, bijvoorbeeld maand 3 t/m 5. Daarom heb ik besloten om een code te schrijven die voor elke opgegeven maand ook de gevallen en doden van de maand ervoor en erna laat zien._

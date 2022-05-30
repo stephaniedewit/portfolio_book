@@ -2,6 +2,6 @@
 
 R packages zijn collecties van functies en data sets die gebruikt worden om tools te delen binnen de community. Van het inlezen van ruwe data tot het maken van tabellen en grafieken: overal worden packages voor gebruikt.
 
-Ik heb zelf ook een R package gemaakt: {paratests}. Dit package bestaat op dit moment uit vier functies die het uitvoeren van (non)-parametrische toetsen makkelijker maken. Specifiek zijn dit functies voor een staafdiagram, Shapiro Wilk test, ANOVA en verband grafiek.
+Ik heb zelf ook een R package gemaakt: {paratests}. Dit package bestaat op dit moment uit vier functies die het uitvoeren van (non)-parametrische toetsen makkelijker maken. Specifiek zijn dit functies voor een staafdiagram van gemiddelden, Shapiro Wilk test, ANOVA en verband grafiek.
 
-Via [deze link](https://github.com/stephaniedewit/paratests) kan mijn package gedownload worden, of run devtools::install_github("stephaniedewit/paratests") in RStudio Console. Na het runnen van library("paratests") kunnen de functies aangehaald worden. Run ?functie_naam() voor informatie over het gebruik van een functie of run browseVignettes("paratests") voor een demonstratie van de package.
+Via [deze link](https://github.com/stephaniedewit/paratests) kan mijn package gedownload worden, of run __devtools::install_github("stephaniedewit/paratests")__ in RStudio Console. Na het runnen van __library("paratests")__ kunnen de functies aangehaald worden. Run __?functie_naam()__ voor informatie over het gebruik van een functie of run __browseVignettes("paratests")__ voor een demonstratie van het package.
