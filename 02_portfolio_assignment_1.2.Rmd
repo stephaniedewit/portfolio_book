@@ -103,7 +103,7 @@ read_exp_data <- function(filenames_BF_ID, to_skip){
 Een stuk code voor het berekenen van het aantal participanten in (waarschijnlijk) de No-Release conditie:
 
 ```{r aantal participanten in conditie ?, message=FALSE, warning=FALSE}
-wd <- "C:/Users/steph/DSFB2/workflows_portfolio_OPNIEUW/data_raw/data02_assignment_1.2"
+wd <- here::here("data_raw", "data02_assignment_1.2")
 setwd(wd)
 
 filenames_ID <- list.files(pattern = "ID")
@@ -151,7 +151,7 @@ to_filter
 Deze codes geven mij dezelfde uitkomst als de RMarkdown auteur. Nu kan ik een figuur, figuur 2 uit het artikel, reproduceren:
 
 ```{r}
-wd <- "C:/Users/steph/DSFB2/workflows_portfolio_OPNIEUW/data_raw/data02_assignment_1.2"
+wd <- here::here("data_raw", "data02_assignment_1.2")
 setwd(wd)
 FAD <- FAD %>%
   drop_na() %>%

@@ -1,0 +1,13 @@
+:BF:ID:,Comment,D:\User1\Arty\Bowers_2day\Bowers_FL_CV\Head_IDBF.csv,Header
+500,ITI,3000,MaximumWait
+8,Number Of Trials,18,NumberOfPasses,1,NumberOfBlocks
+B,Left Button Label,D,Right Button Label
+Played at Trial,AudioWaveFile1,,RT,,RT,,RT,
+6,bda2.wav,0,0,0,0,0,0,
+0,bda3.wav,0,0,0,0,0,0,
+7,bda4.wav,0,0,0,0,0,0,
+5,bda5.wav,0,0,0,0,0,0,
+3,bda6.wav,0,0,0,0,0,0,
+2,bda7.wav,0,0,0,0,0,0,
+4,bda8.wav,0,0,0,0,0,0,
+1,bda9.wav,0,0,0,0,0,0,

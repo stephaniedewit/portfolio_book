@@ -1,8 +1,8 @@
-# Portfolio assignment 3.2: Plan van Aanpak vrije besteding
+# Vrije besteding: een nieuwe _skill_ ontwikkelen
 
-Over twee jaar wil ik werkzaam zijn als biomedisch analist en bijdragen aan onderzoek naar de ontwikkeling, bestrijding en genezing van ziekten. Daarnaast wil ik vaardiger blijven worden in R zodat ik het vernuftig kan gebruiken om mijn onderzoeksresultaten te presenteren en analyseren. Ik ben goed opweg: op dit moment ben ik opzoek naar een afstudeerstage en heb ik al 15/30 EC behaald binnen de Data Science for Biology 1 & 2 minor. 
+Over twee jaar wil ik werkzaam zijn als biomedisch analist en bijdragen aan onderzoek naar de ontwikkeling, bestrijding en genezing van ziekten. Daarnaast wil ik vaardiger blijven worden in R zodat ik het vernuftig kan gebruiken om mijn onderzoeksresultaten te analyseren en presenteren. Ik ben goed opweg: op dit moment ben ik opzoek naar een afstudeerstage en heb ik al 15/30 EC behaald binnen de _Data Science for Biology_ minor. 
 
-Tijdens mijn BMR specialisatie projecticum voor Genmab heb ik gewerkt met een HPLC. De UV-detectie resultaten 'kwamen op de computer binnen' via de software Clarity Lite. De ruwe data van interesse is uit Clarity Lite gekopieerd(ctrl + C) en geplakt in een Excel bestand, waarna er verschillende berekeningen en omzettingen op los zijn gelaten. Er zijn tabellen gemaakt in PowerPoint, grafieken in Excel en er zijn statistische tests uitgevoerd in SPSS. Met het oog op een mogelijke stage bij Genmab, waar ik wellicht weer met een HPLC zal werken, wil ik gaan onderzoeken of het mogelijk is om deze analyse stappen meer 'data science' te maken: minder stappen, minder handmatig werk en minder vatbaar voor fouten. Ik wil uitzoeken of ik de ruwe Clarity Lite data aan een package o.i.d. kan voeren voor een volledige data analyse in RStudio.
+Tijdens mijn BMR specialisatie projecticum voor Genmab heb ik gewerkt met een HPLC. De UV-detectie resultaten kwamen op de computer binnen via de software Clarity Lite. De ruwe data van interesse is uit Clarity Lite gekopieerd(ctrl + C) en geplakt in een Excel bestand, waarna er verschillende berekeningen en omzettingen op los zijn gelaten. Er zijn tabellen gemaakt in PowerPoint, grafieken in Excel en er zijn statistische tests uitgevoerd in SPSS. Met het oog op een mogelijke stage bij Genmab, waar ik wellicht weer met een HPLC zal werken, wil ik gaan onderzoeken of het mogelijk is om deze analyse stappen meer 'data science' te maken: minder stappen, minder handmatig werk en minder vatbaar voor fouten. Ik wil uitzoeken of ik de ruwe Clarity Lite data aan een package o.i.d. kan voeren voor een volledige data analyse in RStudio.
 
 ```{r planning en logboek, echo = FALSE}
 library(tidyverse)
@@ -16,3 +16,66 @@ logboek <- tibble(Dag = c("Maandag","Dinsdag"), Stap = rep(1, 2), Gedaan = c("..
 
 kbl(logboek, caption = "__Tabel 2: Logboek.__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1, bold = TRUE) %>% column_spec(4, color = "red")
 ```
+
+45 minuten: logboek opzetten
+45 minuten - 1 uur: data van HPLC computer gehaald
+
+Plan: één dag oriënteren, als ik dan niet op een package uitkom ga ik de data analyse dupliceren in R.
+
+21:52 - 22:20
+
+Beste optie tot nu toe gevonden: GCalignR
+https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0198311
+
+22:31 overzicht gevonden van packages beschikbaar voor LC-MS data. Er is niks voor alleen LC data. Package leren uitvoeren op neppe dataset?
+https://bioconductor.org/packages/devel/bioc/vignettes/xcms/inst/doc/xcms.html
+
+22:39
+file:///C:/Users/steph/Downloads/v18i04.pdf
+
+21:51 verder gaan
+23:26: niet gelukt om amsrpm.tar.gz package te downloaden met install.packages("amsrpm_1.2.tar.gz", repos=NULL, type="source") in Rtools28 of R Console of met install.packages("amsrpm_1.2.tar.gz", repos=NULL, type="source") in R Terminal. Package wordt niet herkend. 
+http://www.ryantmoore.org/files/ht/htrtargz.pdf
+https://stat.ethz.ch/pipermail/r-help/2008-August/169599.html
+
+Kan geen andere link naar amsrpm package vinden
+
+23:42 nieuwe optie: ptw package.
+https://github.com/rwehrens/ptw
+https://www.yumpu.com/en/document/read/54160321/package-ptw
+
+XCMS
+https://bioconductor.org/packages/3.14/bioc/html/xcms.html
+https://www.uab.edu/proteomics/metabolomics/workshop/2017/day3/intro_to_XCMS_in_R.pdf
+https://bioconductor.org/packages/devel/bioc/vignettes/xcms/inst/doc/xcms.html
+
+00:16 mijn R versie is te oud dus mijn BioConductor versie is te oud en ik kan deze sowieso niet updaten want is steeds 'in gebruik'? BioConducter versie te oud dus kan faaK0 enzo niet installeren.
+Heb nu een oude versie van xcms, 3.15 ofzo.
+
+00:48 nog steeds gigantisch aan het kutten. Heb een laptop met R 4.2, devtools::install("sneumann/xcms") aborts op het laatste moment. Install() na kopiëren van repo werkt ook niet. Hopelijk heeft het te maken met een erouderde versie van RTools.
+
+01:07 Nadat RTools 4.2 was geïnstalleerd, kon ik met install() xcms downloaden in repo. Met BiocManager faahKO geinstalleerd. 
+
+13:10 - 14:16, verder gegaan met XCMS analyse van faahKO samples
+
+14:18
+14:36 random crash van sessie, alles opnieuw uitvoeren voor environment. History en Environment leeg.
+14:50 verdergaan
+16:17 bijna op de helft?
+~16:30 verder
+17:11 bij Alignment aangekomen
+
+22:10 verdergaan
+22:25 error met adjustRtime
+22:48 er zijn blijkbaar vaker problemen met biocparralel met dit package, nog 2x runnen gaf ineens resultaat
+23:15 net over helft
+
+23:25 - 23:35 faahKO artikel gezocht
+00:23 gezocht naar een vervolg op vignette? faahKO artikel zo-zo gelezen, opzoek naar een conclusie xD
+
+00:39
+01:54 afgemaakt en kan workspace delen
+
+11:00 proberen book te builden op laptop dave
+
+

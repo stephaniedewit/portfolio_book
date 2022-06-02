@@ -1,0 +1,3 @@
+The attempt to repoduce the reported analysis is licensed under a CC0 1.0 Universal license.
+
+The data set required to reproduce the analysis retains its original license (including none in case the license is not specified). If you are the author of the data set that had no license and want to inform us about changes in how the data set is licensed, please contact any of the administrators of this repository.

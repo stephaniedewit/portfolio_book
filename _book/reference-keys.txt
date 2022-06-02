@@ -16,7 +16,7 @@ ripeta-criteria
 analyse-reproduceren
 vaardigheid-3-folder-structuur-gebruiken-volgens-de-guerilla-principles
 vaardigheid-4-opmaken-met-rmarkdown-en-html-syntax
-portfolio-assignment-3.2-plan-van-aanpak-vrije-besteding
+vrije-besteding-een-nieuwe-skill-ontwikkelen
 vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager
 dsfb2-2022-project-regenwormen-introductie
 vaardigheid-6-werken-met-relational-databases

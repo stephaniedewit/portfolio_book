@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6 Vrije besteding: een nieuwe skill ontwikkelen | Mijn Data Sciences portfolio</title>
+  <meta name="description" content="6 Vrije besteding: een nieuwe skill ontwikkelen | Mijn Data Sciences portfolio" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="6 Vrije besteding: een nieuwe skill ontwikkelen | Mijn Data Sciences portfolio" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6 Vrije besteding: een nieuwe skill ontwikkelen | Mijn Data Sciences portfolio" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="vaardigheid-4-opmaken-met-rmarkdown-en-html-syntax.html"/>
+<link rel="next" href="vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.23/datatables.js"></script>
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="portfolio_style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introductie</a></li>
+<li class="chapter" data-level="2" data-path="vaardigheid-1-semi-reproduceerbare-data-analyseren.html"><a href="vaardigheid-1-semi-reproduceerbare-data-analyseren.html"><i class="fa fa-check"></i><b>2</b> Vaardigheid 1: Semi-reproduceerbare data analyseren</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="vaardigheid-1-semi-reproduceerbare-data-analyseren.html"><a href="vaardigheid-1-semi-reproduceerbare-data-analyseren.html#c.-elegans-kweekplaat-experiment"><i class="fa fa-check"></i><b>2.1</b> <em>C. elegans</em> kweekplaat experiment</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="vaardigheid-1-semi-reproduceerbare-data-analyseren.html"><a href="vaardigheid-1-semi-reproduceerbare-data-analyseren.html#normalisatie-met-het-drc-package"><i class="fa fa-check"></i><b>2.1.1</b> Normalisatie met het {drc} package</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="vaardigheid-2-open-source-analyse-reproduceren.html"><a href="vaardigheid-2-open-source-analyse-reproduceren.html"><i class="fa fa-check"></i><b>3</b> Vaardigheid 2: Open Source analyse reproduceren</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="vaardigheid-2-open-source-analyse-reproduceren.html"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#ripeta-criteria"><i class="fa fa-check"></i><b>3.1</b> Ripeta criteria</a></li>
+<li class="chapter" data-level="3.2" data-path="vaardigheid-2-open-source-analyse-reproduceren.html"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#analyse-reproduceren"><i class="fa fa-check"></i><b>3.2</b> Analyse reproduceren</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="vaardigheid-3-folder-structuur-gebruiken-volgens-de-guerilla-principles.html"><a href="vaardigheid-3-folder-structuur-gebruiken-volgens-de-guerilla-principles.html"><i class="fa fa-check"></i><b>4</b> Vaardigheid 3: Folder structuur gebruiken volgens de Guerilla Principles</a></li>
+<li class="chapter" data-level="5" data-path="vaardigheid-4-opmaken-met-rmarkdown-en-html-syntax.html"><a href="vaardigheid-4-opmaken-met-rmarkdown-en-html-syntax.html"><i class="fa fa-check"></i><b>5</b> Vaardigheid 4: Opmaken met RMarkdown en HTML syntax</a></li>
+<li class="chapter" data-level="6" data-path="vrije-besteding-een-nieuwe-skill-ontwikkelen.html"><a href="vrije-besteding-een-nieuwe-skill-ontwikkelen.html"><i class="fa fa-check"></i><b>6</b> Vrije besteding: een nieuwe <em>skill</em> ontwikkelen</a></li>
+<li class="chapter" data-level="7" data-path="vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager.html"><a href="vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager.html"><i class="fa fa-check"></i><b>7</b> Vaardigheid 5: Correct refereren m.b.v. een <em>reference manager</em></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager.html"><a href="vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager.html#dsfb2-2022-project-regenwormen-introductie"><i class="fa fa-check"></i><b>7.1</b> DSFB2 2022 Project Regenwormen: Introductie</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="vaardigheid-6-werken-met-relational-databases.html"><a href="vaardigheid-6-werken-met-relational-databases.html"><i class="fa fa-check"></i><b>8</b> Vaardigheid 6: Werken met <em>relational databases</em></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="vaardigheid-6-werken-met-relational-databases.html"><a href="vaardigheid-6-werken-met-relational-databases.html#samenvoegen-van-virus-activiteit-dummy-data-met-gapminder-dataset"><i class="fa fa-check"></i><b>8.1</b> Samenvoegen van virus-activiteit dummy data met gapminder dataset</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="vaardigheid-7-een-r-package-maken.html"><a href="vaardigheid-7-een-r-package-maken.html"><i class="fa fa-check"></i><b>9</b> Vaardigheid 7: Een R package maken</a></li>
+<li class="chapter" data-level="10" data-path="vaardigheid-8-rmarkdowns-parameteriseren.html"><a href="vaardigheid-8-rmarkdowns-parameteriseren.html"><i class="fa fa-check"></i><b>10</b> Vaardigheid 8: RMarkdowns parameteriseren</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="vaardigheid-8-rmarkdowns-parameteriseren.html"><a href="vaardigheid-8-rmarkdowns-parameteriseren.html#ecdc-data-nieuwgemelde-covid-19-gevallen-en--doden"><i class="fa fa-check"></i><b>10.1</b> ECDC data nieuwgemelde COVID-19-gevallen en -doden</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Mijn Data Sciences portfolio</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<link href="portfolio_style.css" rel="stylesheet">
+<div class="hero-image-container">
+  <img class= "hero-image" src="images/20200222_STP002.png">
+</div>
+<div id="vrije-besteding-een-nieuwe-skill-ontwikkelen" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">6</span> Vrije besteding: een nieuwe <em>skill</em> ontwikkelen<a href="vrije-besteding-een-nieuwe-skill-ontwikkelen.html#vrije-besteding-een-nieuwe-skill-ontwikkelen" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Over twee jaar wil ik werkzaam zijn als biomedisch analist en bijdragen aan onderzoek naar de ontwikkeling, bestrijding en genezing van ziekten. Daarnaast wil ik vaardiger blijven worden in R zodat ik het vernuftig kan gebruiken om mijn onderzoeksresultaten te analyseren en presenteren. Ik ben goed opweg: op dit moment ben ik opzoek naar een afstudeerstage en heb ik al 15/30 EC behaald binnen de <em>Data Science for Biology</em> minor.</p>
+<p>Tijdens mijn BMR specialisatie projecticum voor Genmab heb ik gewerkt met een HPLC. De UV-detectie resultaten kwamen op de computer binnen via de software Clarity Lite. De ruwe data van interesse is uit Clarity Lite gekopieerd(ctrl + C) en geplakt in een Excel bestand, waarna er verschillende berekeningen en omzettingen op los zijn gelaten. Er zijn tabellen gemaakt in PowerPoint, grafieken in Excel en er zijn statistische tests uitgevoerd in SPSS. Met het oog op een mogelijke stage bij Genmab, waar ik wellicht weer met een HPLC zal werken, wil ik gaan onderzoeken of het mogelijk is om deze analyse stappen meer ‘data science’ te maken: minder stappen, minder handmatig werk en minder vatbaar voor fouten. Ik wil uitzoeken of ik de ruwe Clarity Lite data aan een package o.i.d. kan voeren voor een volledige data analyse in RStudio.</p>
+<table class="table table-striped" style="width: auto !important; ">
+<caption>
+(#tab:planning en logboek)<strong>Tabel 1: Planning voor vrij te besteden uren.</strong>
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Stap
+</th>
+<th style="text-align:left;">
+Wat
+</th>
+<th style="text-align:left;">
+Wanneer
+</th>
+<th style="text-align:left;">
+Hoelang
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;font-weight: bold;">
+1
+</td>
+<td style="text-align:left;">
+Oriënteren op de (R) packages e.d. die beschikbaar zijn voor chromatografie data analyse in RStudio.
+</td>
+<td style="text-align:left;">
+?
+</td>
+<td style="text-align:left;color: red !important;">
+2,5 uur
+</td>
+</tr>
+<tr>
+<td style="text-align:right;font-weight: bold;">
+2
+</td>
+<td style="text-align:left;">
+Uitzoeken in welke formats de data uit Clarity Lite geëxporteerd kan worden.
+</td>
+<td style="text-align:left;">
+?
+</td>
+<td style="text-align:left;color: red !important;">
+1,5 uur
+</td>
+</tr>
+<tr>
+<td style="text-align:right;font-weight: bold;">
+3
+</td>
+<td style="text-align:left;">
+Afspraak maken om op de HPLC computer op HL7 te mogen snuffelen.
+</td>
+<td style="text-align:left;">
+?
+</td>
+<td style="text-align:left;color: red !important;">
+2 uur
+</td>
+</tr>
+<tr>
+<td style="text-align:right;font-weight: bold;">
+4
+</td>
+<td style="text-align:left;">
+Helder maken: wat wil ik precies dat de packages doen?
+</td>
+<td style="text-align:left;">
+?
+</td>
+<td style="text-align:left;color: red !important;">
+1,5 uur
+</td>
+</tr>
+<tr>
+<td style="text-align:right;font-weight: bold;">
+5
+</td>
+<td style="text-align:left;">
+Twee packages o.i.d. kiezen om verder uit te diepen.
+</td>
+<td style="text-align:left;">
+?
+</td>
+<td style="text-align:left;color: red !important;">
+x
+</td>
+</tr>
+<tr>
+<td style="text-align:right;font-weight: bold;">
+6
+</td>
+<td style="text-align:left;">
+Installeren van packages, werkzaamheid krijgen.
+</td>
+<td style="text-align:left;">
+?
+</td>
+<td style="text-align:left;color: red !important;">
+2 uur
+</td>
+</tr>
+<tr>
+<td style="text-align:right;font-weight: bold;">
+7
+</td>
+<td style="text-align:left;">
+Packages testen met nep data of data geëxporteerd uit Clarity Lite.
+</td>
+<td style="text-align:left;">
+?
+</td>
+<td style="text-align:left;color: red !important;">
+2 uur
+</td>
+</tr>
+<tr>
+<td style="text-align:right;font-weight: bold;">
+8
+</td>
+<td style="text-align:left;">
+Verder verdiepen in het gebruik van de packages.
+</td>
+<td style="text-align:left;">
+?
+</td>
+<td style="text-align:left;color: red !important;">
+~
+</td>
+</tr>
+<tr>
+<td style="text-align:right;font-weight: bold;">
+9
+</td>
+<td style="text-align:left;">
+…
+</td>
+<td style="text-align:left;">
+?
+</td>
+<td style="text-align:left;color: red !important;">
+…
+</td>
+</tr>
+<tr>
+<td style="text-align:right;font-weight: bold;">
+10
+</td>
+<td style="text-align:left;">
+…
+</td>
+<td style="text-align:left;">
+?
+</td>
+<td style="text-align:left;color: red !important;">
+…
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table table-striped" style="width: auto !important; ">
+<caption>
+(#tab:planning en logboek)<strong>Tabel 2: Logboek.</strong>
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Dag
+</th>
+<th style="text-align:right;">
+Stap
+</th>
+<th style="text-align:left;">
+Gedaan
+</th>
+<th style="text-align:left;">
+Tijd
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Maandag
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+…
+</td>
+<td style="text-align:left;color: red !important;">
+…
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Dinsdag
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+…
+</td>
+<td style="text-align:left;color: red !important;">
+…
+</td>
+</tr>
+</tbody>
+</table>
+<p>45 minuten: logboek opzetten
+45 minuten - 1 uur: data van HPLC computer gehaald</p>
+<p>Plan: één dag oriënteren, als ik dan niet op een package uitkom ga ik de data analyse dupliceren in R.</p>
+<p>21:52 - 22:20</p>
+<p>Beste optie tot nu toe gevonden: GCalignR
+<a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0198311" class="uri">https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0198311</a></p>
+<p>22:31 overzicht gevonden van packages beschikbaar voor LC-MS data. Er is niks voor alleen LC data. Package leren uitvoeren op neppe dataset?
+<a href="https://bioconductor.org/packages/devel/bioc/vignettes/xcms/inst/doc/xcms.html" class="uri">https://bioconductor.org/packages/devel/bioc/vignettes/xcms/inst/doc/xcms.html</a></p>
+<p>22:39
+<a href="file:///C:/Users/steph/Downloads/v18i04.pdf" class="uri">file:///C:/Users/steph/Downloads/v18i04.pdf</a></p>
+<p>21:51 verder gaan
+23:26: niet gelukt om amsrpm.tar.gz package te downloaden met install.packages(“amsrpm_1.2.tar.gz”, repos=NULL, type=“source”) in Rtools28 of R Console of met install.packages(“amsrpm_1.2.tar.gz”, repos=NULL, type=“source”) in R Terminal. Package wordt niet herkend.
+<a href="http://www.ryantmoore.org/files/ht/htrtargz.pdf" class="uri">http://www.ryantmoore.org/files/ht/htrtargz.pdf</a>
+<a href="https://stat.ethz.ch/pipermail/r-help/2008-August/169599.html" class="uri">https://stat.ethz.ch/pipermail/r-help/2008-August/169599.html</a></p>
+<p>Kan geen andere link naar amsrpm package vinden</p>
+<p>23:42 nieuwe optie: ptw package.
+<a href="https://github.com/rwehrens/ptw" class="uri">https://github.com/rwehrens/ptw</a>
+<a href="https://www.yumpu.com/en/document/read/54160321/package-ptw" class="uri">https://www.yumpu.com/en/document/read/54160321/package-ptw</a></p>
+<p>XCMS
+<a href="https://bioconductor.org/packages/3.14/bioc/html/xcms.html" class="uri">https://bioconductor.org/packages/3.14/bioc/html/xcms.html</a>
+<a href="https://www.uab.edu/proteomics/metabolomics/workshop/2017/day3/intro_to_XCMS_in_R.pdf" class="uri">https://www.uab.edu/proteomics/metabolomics/workshop/2017/day3/intro_to_XCMS_in_R.pdf</a>
+<a href="https://bioconductor.org/packages/devel/bioc/vignettes/xcms/inst/doc/xcms.html" class="uri">https://bioconductor.org/packages/devel/bioc/vignettes/xcms/inst/doc/xcms.html</a></p>
+<p>00:16 mijn R versie is te oud dus mijn BioConductor versie is te oud en ik kan deze sowieso niet updaten want is steeds ‘in gebruik’? BioConducter versie te oud dus kan faaK0 enzo niet installeren.
+Heb nu een oude versie van xcms, 3.15 ofzo.</p>
+<p>00:48 nog steeds gigantisch aan het kutten. Heb een laptop met R 4.2, devtools::install(“sneumann/xcms”) aborts op het laatste moment. Install() na kopiëren van repo werkt ook niet. Hopelijk heeft het te maken met een erouderde versie van RTools.</p>
+<p>01:07 Nadat RTools 4.2 was geïnstalleerd, kon ik met install() xcms downloaden in repo. Met BiocManager faahKO geinstalleerd.</p>
+<p>13:10 - 14:16, verder gegaan met XCMS analyse van faahKO samples</p>
+<p>14:18
+14:36 random crash van sessie, alles opnieuw uitvoeren voor environment. History en Environment leeg.
+14:50 verdergaan
+16:17 bijna op de helft?
+~16:30 verder
+17:11 bij Alignment aangekomen</p>
+<p>22:10 verdergaan
+22:25 error met adjustRtime
+22:48 er zijn blijkbaar vaker problemen met biocparralel met dit package, nog 2x runnen gaf ineens resultaat
+23:15 net over helft</p>
+<p>23:25 - 23:35 faahKO artikel gezocht
+00:23 gezocht naar een vervolg op vignette? faahKO artikel zo-zo gelezen, opzoek naar een conclusie xD</p>
+<p>00:39
+01:54 afgemaakt en kan workspace delen</p>
+<p>11:00 proberen book te builden op laptop dave</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="vaardigheid-4-opmaken-met-rmarkdown-en-html-syntax.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

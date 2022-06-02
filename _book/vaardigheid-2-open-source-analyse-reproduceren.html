@@ -178,7 +178,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="4" data-path="vaardigheid-3-folder-structuur-gebruiken-volgens-de-guerilla-principles.html"><a href="vaardigheid-3-folder-structuur-gebruiken-volgens-de-guerilla-principles.html"><i class="fa fa-check"></i><b>4</b> Vaardigheid 3: Folder structuur gebruiken volgens de Guerilla Principles</a></li>
 <li class="chapter" data-level="5" data-path="vaardigheid-4-opmaken-met-rmarkdown-en-html-syntax.html"><a href="vaardigheid-4-opmaken-met-rmarkdown-en-html-syntax.html"><i class="fa fa-check"></i><b>5</b> Vaardigheid 4: Opmaken met RMarkdown en HTML syntax</a></li>
-<li class="chapter" data-level="6" data-path="portfolio-assignment-3.2-plan-van-aanpak-vrije-besteding.html"><a href="portfolio-assignment-3.2-plan-van-aanpak-vrije-besteding.html"><i class="fa fa-check"></i><b>6</b> Portfolio assignment 3.2: Plan van Aanpak vrije besteding</a></li>
+<li class="chapter" data-level="6" data-path="vrije-besteding-een-nieuwe-skill-ontwikkelen.html"><a href="vrije-besteding-een-nieuwe-skill-ontwikkelen.html"><i class="fa fa-check"></i><b>6</b> Vrije besteding: een nieuwe <em>skill</em> ontwikkelen</a></li>
 <li class="chapter" data-level="7" data-path="vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager.html"><a href="vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager.html"><i class="fa fa-check"></i><b>7</b> Vaardigheid 5: Correct refereren m.b.v. een <em>reference manager</em></a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager.html"><a href="vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager.html#dsfb2-2022-project-regenwormen-introductie"><i class="fa fa-check"></i><b>7.1</b> DSFB2 2022 Project Regenwormen: Introductie</a></li>
@@ -632,7 +632,7 @@ FALSE
 <span id="cb8-52"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(BF_ID)</span>
 <span id="cb8-53"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb8-53" aria-hidden="true" tabindex="-1"></a>} </span></code></pre></div>
 <p>Een stuk code voor het berekenen van het aantal participanten in (waarschijnlijk) de No-Release conditie:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb9-1" aria-hidden="true" tabindex="-1"></a>wd <span class="ot">&lt;-</span> <span class="st">&quot;C:/Users/steph/DSFB2/workflows_portfolio_OPNIEUW/data_raw/data02_assignment_1.2&quot;</span></span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb9-1" aria-hidden="true" tabindex="-1"></a>wd <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data_raw&quot;</span>, <span class="st">&quot;data02_assignment_1.2&quot;</span>)</span>
 <span id="cb9-2"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(wd)</span>
 <span id="cb9-3"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-4"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb9-4" aria-hidden="true" tabindex="-1"></a>filenames_ID <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">pattern =</span> <span class="st">&quot;ID&quot;</span>)</span>
@@ -678,7 +678,7 @@ FALSE
 ## 3 kpao           0.972 0.833  0.139 
 ## 4 ttys           0.972 1     -0.0278</code></pre>
 <p>Deze codes geven mij dezelfde uitkomst als de RMarkdown auteur. Nu kan ik een figuur, figuur 2 uit het artikel, reproduceren:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-1" aria-hidden="true" tabindex="-1"></a>wd <span class="ot">&lt;-</span> <span class="st">&quot;C:/Users/steph/DSFB2/workflows_portfolio_OPNIEUW/data_raw/data02_assignment_1.2&quot;</span></span>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-1" aria-hidden="true" tabindex="-1"></a>wd <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data_raw&quot;</span>, <span class="st">&quot;data02_assignment_1.2&quot;</span>)</span>
 <span id="cb15-2"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(wd)</span>
 <span id="cb15-3"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-3" aria-hidden="true" tabindex="-1"></a>FAD <span class="ot">&lt;-</span> FAD <span class="sc">%&gt;%</span></span>
 <span id="cb15-4"><a href="vaardigheid-2-open-source-analyse-reproduceren.html#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
