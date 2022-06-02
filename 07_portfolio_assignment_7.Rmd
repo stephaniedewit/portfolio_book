@@ -65,12 +65,12 @@ flu_df <- as.data.frame(flu_df)
 dengue_df <- as.data.frame(dengue_df)
 
 # Sla drie dataframes op als CSV en RDS files:
-write.csv(gapminder_df, file = "gapminder_df.csv")
-write.csv(flu_df, file = "flu_df.csv")
-write.csv(dengue_df, file = "dengue_df.csv")
-saveRDS(gapminder_df, "C:/Users/steph/DSFB2/portfolio_book/gapminder_df.rds")
-saveRDS(flu_df, "C:/Users/steph/DSFB2/portfolio_book/flu_df.rds")
-saveRDS(dengue_df, "C:/Users/steph/DSFB2/portfolio_book/dengue_df.rds")
+#write.csv(gapminder_df, file = "gapminder_df.csv")
+#write.csv(flu_df, file = "flu_df.csv")
+#write.csv(dengue_df, file = "dengue_df.csv")
+#saveRDS(gapminder_df, "C:/Users/steph/DSFB2/portfolio_book/gapminder_df.rds")
+#saveRDS(flu_df, "C:/Users/steph/DSFB2/portfolio_book/flu_df.rds")
+#saveRDS(dengue_df, "C:/Users/steph/DSFB2/portfolio_book/dengue_df.rds")
 ```
 
 De kolommen met land en datum zijn nu hetzelfde en de tabellen kunnen geüpload worden naar DBeaver:
