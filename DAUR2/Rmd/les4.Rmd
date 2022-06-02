@@ -1,0 +1,160 @@
+---
+title: "DAUR2_les4"
+author: "Stephanie de Wit"
+date: "5-4-2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+library("Rsubread")
+library("DESeq2")
+library("pheatmap")
+library("org.Hs.eg.db")
+library(GO.db)
+library(GOstats)
+```
+
+Rijnamen DGE resultaten = Entrez identifiers = 8404, 2040 etc. Hebben we niet veel aan!
+Packages om Entrez identifiers te annoteren tot verschillende soorten output: org.Hs.eg.db (mensen), org.Mm.eg.db (muis) etc. columns(org.Hs.eg.db), help("...")
+
+__Obtaining gene symbols__
+Voor de top 10 meest significante DGE analyse genen.
+```{r}
+top10_genes<-airway_dge_results[order(airway_dge_results$padj)[1:10],]%>% data.frame() #Maak een dataframe van de 10 meest significante DGE analyse genen
+top10_genes<-top10_genes%>% mutate(entrezid=rownames(top10_genes)) #Voeg een kolom toe met de Entrez IDs uit de rijen
+top10_genes$symbol<-mapIds(org.Hs.eg.db,keys=top10_genes$entrezid,keytype="ENTREZID",column="SYMBOL",multiVals="first") #Voeg een kolom toe met de gene symbols gebaseerd op de Entrez IDs
+```
+keytype="ENTREZID" geeft aan welk type identifier wordt opgegeven onder keys (er bestaan ook identifiers anders dan de Entrez IDs).
+multiVals="first" geeft aan dat in het geval dat één Entrez ID matcht met >1 gene symbol, alleen de eerste match wordt gerapporteerd.
+
+__Exercise 4.3__
+```{r cytogenetic mapping}
+top10_genes$cytoband<-mapIds(org.Hs.eg.db,keys=top10_genes$entrezid,keytype="ENTREZID",column="MAP")
+```
+
+__GO term analysis__
+Gene symbols en cytogenetic bands bekend. Which biological processes are activated or turned off by the up- or downregulation of genes? Biological process GO terms beschrijven het biologische process geassoceerd met een DE gen. --> opzoeken met Entrez IDs.
+
+__Onthoud: indexing met meerdere "argumenten" mogelijk én op dataframes en tibbles! GO terms en beschrijvingen verkrijgen als dataframes__
+
+__> max(top10_genes$log2FoldChange)__
+__[1] 7.17212__
+__> which.max(top10_genes$log2FoldChange)__
+__[1] 8__ 8e rij van dataframe
+
+```{r obtaining GO terms}
+top_upregulated<-top10_genes[which.max(top10_genes$log2FoldChange),"entrezid"] #(8e rij, $entrezid) #Verkrijg de Entrez ID van het sterkst upgereguleerde gen
+
+top_upregulated_GOterms<-select(org.Hs.eg.db,keys=top_upregulated,keytype="ENTREZID",columns=c("GO","ONTOLOGY"),multiVals="list")%>%filter(ONTOLOGY=="BP") #We willen niet alleen de eerste GO term zien! Filter op biologische processen.
+unique(top_upregulated_GOterms) #Gebruik unique() omdat er hierboven een derde kolom is meegekomen, die een GO term verder verdeeld tot 'EVIDENCE'.
+```
+
+Zoek de beschrijving van de GO terms op met GO.db package:
+```{r obtaining GO terms descriptions}
+GOterms_descriptions<-select(GO.db,keys=unique(top_upregulated_GOterms$GO),keytype="GOID",columns="DEFINITION") #MultiVals is geen argument van GO.db
+```
+
+__Beter: gene symbol van gen opzoeken op internet!__
+
+__Exercise 4.5__
+```{r obtaining GO terms & descriptions}
+DUSP1_GOterms<-select(org.Hs.eg.db,keys="1843",keytype="ENTREZID",column=c("GO","ONTOLOGY"),multiVals="list")%>%filter(ONTOLOGY=="BP") 
+
+DUSP1_descriptions<-select(GO.db,keys=unique(DUSP1_GOterms$GO),keytype="GOID",columns="DEFINITION")
+DUSP1_descriptions<-na.omit(DUSP1_descriptions) #Verwijder de GO terms zonder beschrijving
+
+DUSP1_descriptions$DEFINITION[str_detect(DUSP1_descriptions$DEFINITION,"glucocorticoid")]
+```
+
+__GO term enrichment analysis met GOstats package__
+Eigenlijk willen we alleen GO terms vinden die horen bij de genen die significant zijn up- of downgereguleerd. Daartoe kunnen we checken welke GO terms over-gerepresenteerd worden door de GO terms van de DGE analyse genen te vergelijken met de GO terms behorend bij alle genen in de dataset.
+
+```{r enrichment analysis}
+upregulated_genes<-airway_dge_results%>%data.frame()%>%filter(log2FoldChange>1,padj<0.01)%>%rownames() #Maak een lijst van de Entrez IDs behorend bij de statistisch significant upgereguleerde genen
+all_genes<-airway_dge_results%>%data.frame()%>%rownames() #Maak een lijst van de Entrez IDs behorend bij alle genen in de dataset
+
+test_object<-new("GOHyperGParams",geneIds=upregulated_genes,universeGeneIds=all_genes,annotation="org.Hs.eg.db",ontology="BP",pvalueCutoff=1,testDirection="over") #pvalueCutoff=1 zodat we alle P-waarden meenemen, die we later corrigeren voor multiple testing #testDirection="over" voor over-representatie
+
+goterm_analysis<-hyperGTest(test_object)
+```
+Niet alle (upgereguleerde) genen afkomstig van de DGE analyse (= aantal upregulated_genes of aantal all_genes) zijn gebruikt voor de enrichment analysis, omdat niet al deze genen bekend zijn in de gebruikte databank.
+
+Gecorrigeerde P-waarden berekenen en significantste GO terms selecteren: __Hoe lager de P-waarde, hoe sterker/significanter een GO term over-gerepresenteerd wordt!__
+```{r enrichment analysis 20 meest significant upgereguleerde GO terms}
+goterm_analysis_results<-summary(goterm_analysis) #Verkrijg een dataframe van de GO term analyse resultaten
+
+goterm_analysis_results$padj<-p.adjust(goterm_analysis_results$Pvalue,method="BH") #Voeg een kolom toe met gecorrigeerde P-waarden volgens de Benjamini en Hochberg methode (i.p.v. bonferroni)
+
+goterm_analysis_results<-goterm_analysis_results%>%filter(Count>5&Count<500) #Verwijder GO terms die behoren bij zeer kleine en zeer grote gene sets(?)
+
+goterm_analysis_top20_2<-goterm_analysis_results[order(goterm_analysis_results$padj)[1:20],] #Selecteer de kolommen van de 20 laagste, gecorrigeerde P-waarden (na $padj ordenen van laag --> hoog).
+```
+
+Scatterplot maken van GO terms (y-as) met bijbehorende P-waarden (x-as):
+```{r}
+goterm_analysis_top20$Term<-factor(goterm_analysis_top20$Term,levels=goterm_analysis_top20$Term[order(goterm_analysis_top20$padj,decreasing = TRUE)]) #In $Term staan de enriched GO terms(?) #Stel de levels van factor $Term handmatig in, zodat het level behorend bij de GO term met de laagste gecorrigeerde P-waarde = hoogste -log10(P-waarde) straks bovenaan op de y-as staat enz. Geeft een lijn in de punten i.p.v. kris-kras.
+
+goterm_analysis_top20%>%ggplot(aes(x=Term,y=-log10(padj)))+
+  geom_point()+
+  coord_flip()+
+  ylab(expression(-log[10](adjusted~italic(P)~value)))+ #Italic maken met ~italic(...)~ 
+  xlab("GO terms")+
+  ggtitle("Top 20 enriched GO terms\n for upregulated genes")+
+  theme_bw()
+```
+
+__Exercise 4.6__
+```{r  GO term enrichment analysis downregulated genes}
+downregulated_genes<-airway_dge_results%>%data.frame()%>%filter(log2FoldChange< -1,padj<0.01)%>%rownames() #< -1 mogelijk!
+all_genes<-airway_dge_results%>%data.frame()%>%rownames()
+
+test_object2<-new("GOHyperGParams",geneIds=downregulated_genes,universeGeneIds=all_genes,annotation="org.Hs.eg.db",ontology="BP",pvalueCutoff=1,testDirection="over") 
+
+goterm_analysis2<-hyperGTest(test_object2)
+
+goterm_analysis2_results<-summary(goterm_analysis2)
+
+goterm_analysis2_results$padj<-p.adjust(goterm_analysis2_results$Pvalue,method="BH")
+
+goterm_analysis2_results<-goterm_analysis2_results%>%filter(Count>5&Count<500)
+
+goterm_analysis2_top20<-goterm_analysis2_results[order(goterm_analysis2_results$padj)[1:20],]
+
+goterm_analysis2_top20$Term<-factor(goterm_analysis2_top20$Term,levels=goterm_analysis2_top20$Term[order(goterm_analysis2_top20$padj,decreasing = TRUE)])
+
+goterm_analysis2_top20%>%ggplot(aes(x=Term,y=-log10(padj)))+
+  geom_point()+
+  coord_flip()+
+  ylab(expression(-log[10](adjusted~italic(P)~value)))+
+  xlab("GO terms")+
+  ggtitle("Top 20 enriched GO terms\n for downregulated genes")+
+  theme_bw()
+```
+
+RNA-seq analyse stappenplan deel 1
+1. FASTQ bestanden (één per sample) uit SRA databank downloaden met de fastq-dump command in een for-do-done loop. (fastq-dump geeft één bestand per read).
+2. Maak per output-bestand een FASTQC Quality Control bestand voor kwaliteitsanalyse van de reads.
+3. (Download het referentie genoom.)
+4. (Maak een genome index file.)
+5. Voer de alignment uit (geeft per sample een BAM file).
+6. Maak een staafdiagram met per sample het percentage uniek geälignde fragmenten.
+
+RNA-seq analyse stappen deel 2
+7. Maak een count table met per sample het aantal fragmenten per gen.
+8. Maak een staafdiagram met per sample het percentage gen-toegewezen fragmenten.
+9. Zet de count table om tot een DESeq object.
+10. Normaliseer de count data in het DESeq object.
+11. Onderzoek hoe de samples aan elkaar gerelateerd zijn met PCA.
+12. Onderzoek hoe de samples aan elkaar gerelateerd zijn met een correlatie heatmap.
+
+RNA-seq analyse stappen deel 3
+13. Voer de DGE analyse uit op de __niet__-genormaliseerde count data.
+14. Visualiseer de DGE analyse resultaten met een count plot en/of volcano plot en/of heatmap.
+
+__RNA-seq analyse stappen deel 4__
+15. Verkrijg de gene symbols met de Entrez IDs van de significantste DGE analyse genen
+16. (Verkrijg de GO terms van de sterkste up- of downgereguleerde genen.)
+17. (Verkrijg de beschrijvingen van de GO terms.)
+18. Zoek naar de over-gerepresenteerde GO terms met GO terms enrichtment analysis

@@ -1,0 +1,125 @@
+---
+title: "DAUR2_les3"
+author: "Stephanie de Wit"
+date: "3-4-2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+library("Rsubread")
+library("DESeq2")
+library("pheatmap")
+```
+
+Uitzoeken wat het verschil in genexpressie is tussen behandelde en onbehandelde cellen: _differential gene expression (DGE) analysis_.
+Corrigeer de P-waarden: alpha = 0.05/aantal vergelijkingen of, en dat doet DESeq2, vermenigvuldig de P-waarden met het aantal vergelijkingen en gebruik alpha = 0.05. _Per gen één behandeld-onbehandeld vergelijking_.
+Een statistisch significant verschil geeft niet aan of een gen up- of downgereguleerd is. Daarom kijken we ook naar de __log2 fold changes (LFC)__: een LCF van -3 staat voor een downregulatie van (2^3=) 8x. _log2(8) = 3_. __Grotere LFC = sterkere up/down-regulatie__.
+
+__Exercise 3.1__
+Gecorrigeerde P-waarde < 0.05 en LCF van -1.45 betekent een statistisch significante downregulatie van ~2,7x.
+
+DGE analyse uitvoeren met DESeq2 package op __ruwe__ count values (in object dds per sample per gen):
+```{r DGE analyse}
+airway_dge<-DESeq(dds)
+airway_dge_results<-results(airway_dge) #Per gen de P-waarde en LFC voor behandeld vs onbehandeld
+summary(airway_dge_results) #Aantal up- en downgereguleerde genen (eis = gecorrigeerde P-waarde < 0.1)
+```
+
+__Exercise 3.2__
+__a)__ LCF = 1 --> 2^1 = 2. De genexpressie is 2x meer of 2x minder t.o.v. onbehandeld.
+__b)__ Voor rapporteren van genen met een gecorrigeerde P-waarde < 0.05 i.p.v. < 0.1 en LCF > 1 i.p.v. > 0 als upregulatie en LCF < 1 i.p.v. < 0 als downregulatie: __results(airway_dge,alpha=0.05,lfcThreshold=1)__.
+__c)__ summary(results(airway_dge,alpha=0.05,lfcThreshold=1)) geeft 68 genen upgereguleerd en 36 genen downgereguleerd.
+
+De DGE analyse resultaten kunnen op drie manieren gevisualiseerd worden: 1) count plot, 2) volcano plot, 3) heatmap.
+__Count plot__
+```{r count plot sterkst upgereguleerde gen}
+sign_genes<-airway_dge_results[which(airway_dge_results$padj<0.05),] #Verkrijg eerst de genen met een significante P-waarde
+topGene<-sign_genes[which.max(sign_genes$log2FoldChange),]
+topGene_name<-rownames(topGene) #Verkrijg nu de naam het gen dat het sterks upgereguleerd is = hoogste LFC
+geneCounts<-plotCounts(dds,gene=topGene_name,intgroup="treatment",returnData=TRUE) #Extraheer uit dds de counts voor het sterkst upgereguleerde gen behandeld en onbehandeld
+
+ggplot(geneCounts,aes(x=treatment,y=count))+
+  scale_y_log10()+ #Maak van de y-as een log-schaal 
+  geom_point(position=position_jitter(width=0.1,height=0),size=3,colour="darkgreen")+ #Voeg random noise toe met jitter (punten verschillen steeds!)
+  xlab("Dexamethasone treatment")+
+  ylab("Fragment count")+ 
+  ggtitle(topGene_name)+
+  theme_bw()
+```
+__Het sterkst upgereguleerde gen komt duidelijk veel sterker tot expressie in de cellen na behandeling.__
+
+__Exercise 3.3__
+Een count plot voor het sterkst downgereguleerde gen:
+```{r count plot sterkst downgereguleerde gen}
+bottomGene<-sign_genes[which.min(sign_genes$log2FoldChange),]
+bottomGene_name<-rownames(bottomGene) #Verkrijg nu de naam het gen dat het sterks upgereguleerd is = hoogste LFC
+geneCounts2<-plotCounts(dds,gene=bottomGene_name,intgroup="treatment",returnData=TRUE) #Extraheer uit dds de counts voor het sterkst upgereguleerde gen behandeld en onbehandeld
+
+ggplot(geneCounts2,aes(x=treatment,y=count))+
+  scale_y_log10()+ #Maak van de y-as een log-schaal 
+  geom_point(position=position_jitter(width=0.1,height=0),size=3,colour="darkgreen")+ #Voeg random noise toe met jitter
+  xlab("Dexamethasone treatment")+
+  ylab("Fragment count")+ 
+  ggtitle(bottomGene_name)+
+  theme_bw()
+```
+
+__Volcano plot__
+-log10(P-waarde) op de y-as t.o.v. de LCF op de x-as. __Hoe lager de P-waarde, hoe hoger de -log10. Hoe verder naar links of rechts op de x-as, hoe sterker de down- of upregulatie__.
+```{r volcano plot}
+airway_dge_plotting<-data.frame(airway_dge_results)%>%filter(!is.na(padj)) #Maak een dataframe zonder missende, gecorrigeerde P-waarden
+airway_dge_plotting<-airway_dge_plotting%>%mutate(signif=if_else(padj<0.05,"padj < 0.05","Not significant")) #Voeg een extra kolom toe die aangeeft of de gecorrigeerde P-waarden significant zijn of niet
+
+airway_dge_plotting%>%ggplot(aes(x=log2FoldChange,y=-log10(padj),color=signif))+ #Groepeer gebaseerd op P-waarde significant of niet
+  geom_point()+ 
+  xlab("log2 fold change")+
+  ylab("-log10 adjusted p-value")+
+  theme_bw()+
+  scale_colour_manual(values=c("grey","darkgreen"),name="Significance")+ #Verander de legende titel en kleuren
+  annotate("text",x=topGene$log2FoldChange,y=-log10(topGene$padj)*0.8,label=topGene_name,colour="blue") #Label het sterkst upgereguleerde gen
+```
+
+__Exercise 3.4__
+```{r volcano plot 2}
+airway_dge_plotting2<-airway_dge_plotting%>%mutate(signif=if_else((padj<0.01&log2FoldChange>1|padj<0.01&log2FoldChange<as.numeric(-1)),"Significant","Not significant"))
+
+airway_dge_plotting2%>%ggplot(aes(x=log2FoldChange,y=-log10(padj),color=signif))+
+  geom_point()+ 
+  xlab("log2 fold change")+
+  ylab("-log10 adjusted p-value")+
+  theme_bw()+
+  scale_colour_manual(values=c("gray","darkred"),name="Significance")+
+  geom_hline(yintercept=2,linetype="dashed")+ #-log10(0.01) = 2
+  geom_vline(xintercept=-1,linetype="dashed")+
+  geom_vline(xintercept=1,linetype="dashed")
+```
+
+__Heatmaps__
+```{r heatmap}
+top10_genes<-rownames(airway_dge_results[order(airway_dge_results$padj)[1:10],]) #Verkrijg de identifiers van de 10 meest significante genen
+count_values<-assay(dds)[top10_genes,] #Extraheer voor deze 10 genen de counts uit dds
+colnames(count_values)<-dds$treatment #Vervang de kolom namen met identifiers voor 'behandeld' en 'onbehandeld'.
+pheatmap(count_values,scale="row",show_rownames=TRUE) #Scaling omdat we geïnteresseerd zijn in het verschil in genexpressie tussen de samples, niet in de absolute expressie waarden. Dit is ook zichtbaar zonder scaling, maar minder duidelijk.
+```
+
+RNA-seq analyse stappenplan deel 1
+1. FASTQ bestanden (één per sample) uit SRA databank downloaden met de fastq-dump command in een for-do-done loop. (fastq-dump geeft één bestand per read).
+2. Maak per output-bestand een FASTQC Quality Control bestand voor kwaliteitsanalyse van de reads.
+3. (Download het referentie genoom.)
+4. (Maak een genome index file.)
+5. Voer de alignment uit (geeft per sample een BAM file).
+6. Maak een staafdiagram met per sample het percentage uniek geälignde fragmenten.
+
+RNA-seq analyse stappen deel 2
+7. Maak een count table met per sample het aantal fragmenten per gen.
+8. Maak een staafdiagram met per sample het percentage gen-toegewezen fragmenten.
+9. Zet de count table om tot een DESeq object.
+10. Normaliseer de count data in het DESeq object.
+11. Onderzoek hoe de samples aan elkaar gerelateerd zijn met PCA.
+12. Onderzoek hoe de samples aan elkaar gerelateerd zijn met een correlatie heatmap.
+
+__RNA-seq analyse stappen deel 3__
+13. Voer de DGE analyse uit op de __niet__-genormaliseerde count data.
+14. Visualiseer de DGE analyse resultaten met een count plot en/of volcano plot en/of heatmap.

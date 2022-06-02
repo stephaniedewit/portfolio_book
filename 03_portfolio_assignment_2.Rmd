@@ -15,5 +15,5 @@ Hieronder demonstreer ik met een folder tree van de _Data Sciences for Biology 1
 #install.packages("fs")
 library(fs)
 
-dir_tree(path = "C:/Users/steph/DSFB1/daur2")
+dir_tree(path = here::here("DAUR2"))
 ```

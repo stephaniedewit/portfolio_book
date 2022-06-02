@@ -1,0 +1,158 @@
+---
+title: "DAUR2_les2"
+author: "Stephanie de Wit"
+date: "31-3-2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+library("Rsubread")
+library("DESeq2")
+library("pheatmap")
+```
+
+__We spreken van geälignde _fragments_ i.p.v. _reads_ omdat we paired-end data anlyseren: de forward en reverse read markeren samen één alignment.__
+
+We willen nu weten hoeveel reads met één bepaald gen overlappen; of te wel hoeveel mRNAs zijn er gemaakt van dit gen = mate van expressie. Voor een count table moeten de genoom locaties gelinkt worden aan genen: built-in (annot.inbuilt="hg38") of https://www.gencodegenes.org/human/.
+
+```{r count table, eval=FALSE}
+bam_dir<-"/home/daur2/rnaseq/rnaseq_airway/bam/" #Variable maken met locatie input BAM files
+counts_dir<-"/home/daur2/rnaseq/rnaseq_airway/counts/" #Variable maken met locatie output count table
+bam_files<-list.files(bam_dir,pattern=".*\\.bam$",full.names=TRUE) #Character vector met BAM files namen
+
+read_counts<-featureCounts(
+  files=bam_files,
+  annot.inbuilt="hg38", #Built-in
+  useMetaFeatures=TRUE,
+  strandSpecific=0,
+  isPairedEnd=TRUE, 
+  countReadPairs=TRUE, 
+  nthreads=10
+)
+```
+__useMetaFeatures=TRUE: fragmenten worden geteld per gen niet per transcript (voor elk gen bestaan meerdere isoformen).__
+__strandSpecific=0: voor een 'unstranded' protocol: er is geen onderscheid gemaakt tussen sense en antisense strengen. (Ook  tel de reads op beide strengen? 1=forward stranded, 2=reversely stranded.)__
+__countReadPairs=TRUE: fragmenten i.p.v. reads worden geteld.__
+
+__Eén sample = één SRA identifier__
+
+```{r bar chart count table $stat}
+count_stats<-read_counts$stat #$Stat extraheren uit count table
+rownames(count_stats)<-count_stats$Status #Waarden onder $Status gebruiken als rij namen...
+count_stats$Status<-NULL #... en $Status verwijderen
+count_stats_plot<-as_tibble(t(count_stats)) #Rijen en kolommen omdraaien. Bij omzetten naar tibble gaan rijnamen alsnog verloren, dus...
+count_stats_plot<-count_stats_plot%>%mutate(Sample=names(count_stats)) #... kolom namen originele count_stats gebruiken in nieuwe variabele
+count_stats_plot<-count_stats_plot%>%mutate(Perc_Assigned=Assigned/colSums(count_stats)*100) #Totale hvh voor elke rij = sample is gelijk aan de som van alle opties die in originele count_stats in één kolom = sample staan.
+count_stats_plot$Sample<-str_remove(count_stats_plot$Sample,pattern=".bam") #Verwijder .bam uit de sample namen
+count_stats_plot<-count_stats_plot%>%select(Sample,Perc_Assigned) #Alleen kolommen interessant voor bar chart overhouden
+
+ggplot(count_stats_plot,aes(x=Sample,y=Perc_Assigned,fill=Sample))+
+  geom_col()+
+  labs(title="Percentage of assigned fragments per sample",x="Sample",y="Assigned fragments (%)")+
+  ylim(0,100)+
+  theme_classic()+
+  theme(axis.ticks.x=element_blank(),axis.text.x=element_blank())
+```
+__Ongeveer 80-85% van de fragmenten kan gekoppeld worden aan een gen.__ _De andere fragmenten ontstaan vanuit andere regio's in het genoom._
+
+
+DESeq2 package om data te normaliseren. Hiervoor eerst count table omzetten tot DESeq object. met DESeqDataSetFromMatrix(). Input: 1) Matrix met fragment counts per gen per sample, 2) Metadata, 3) Experimentele opzet.
+```{r count matrix}
+count_matrix<-read_counts$counts
+```
+
+```{r dataframe}
+metadata<-read_csv("/home/daur2/rnaseq/rnaseq_airway/airway_sampledata.csv")
+metadata<-as.data.frame(metadata) 
+rownames(metadata)<-paste0(metadata$Run,".bam") #Onder $Run staan SRA identifiers
+colnames(count_matrix)==rownames(metadata)
+
+#$dex met condities moet factor worden:
+metadata<-metadata%>%mutate(treatment=str_replace(dex,"trt","treated")) 
+metadata$treatment<-metadata$treatment%>%factor(levels=c("untreated","treated")) #Zet de level volgorde met de controle als het 1e level; dit level wordt gebruikt als referentie.
+```
+__Belangrijk: de kolom namen van het metadata dataframe moeten .bam behouden = hetzelfde zijn als de count_matrix kolommen.__
+```{r DESeq object maken}
+dds<-DESeqDataSetFromMatrix(
+  countData=count_matrix,
+  colData=metadata, 
+  design=~treatment)
+```
+
+De kwaliteit van de RNA-seq controleren met 1) principal component analysis en 2) heatmaps. Hiervoor de counts eerst normaliseren.
+```{r counts distributie per sample}
+quantile(as_tibble(count_matrix)$SRR1039509.bam) #quantile() neemt numerieke vector als argument, count_matrix is een matrix.
+quantile(as_tibble(count_matrix)$SRR1039508.bam)
+quantile(as_tibble(count_matrix)$SRR1039516.bam)
+```
+__Ongeveer 50% van de genen komt niet of nauwelijks tot expressie (~50% genen heeft een count <10)__
+
+
+__Normaliseer de RNA-seq data: maak verschillen in expressie tussen samples die niet veroorzaakt worden door biologische variantie kleiner. Neem de (geöptimaliseerde) log2-waarden van de counts.__
+```{r normaliseren}
+dds_normalized<-rlog(dds)
+```
+
+_each sample is one bam file or one column in the count table_
+
+__Principal component analysis__
+How do the samples relate to each other?
+Het is geen doen om 28395 genen met elkaar te gaan vergelijken. Reduceer het aantal genen door ze "lineair te combineren" met PCA.
+```{r PCA}
+pca<-dds_normalized%>%assay()%>%t()%>%prcomp()
+pca_summary<-summary(pca)$importance
+```
+Geeft 8 nieuwe variabelen(PCs), die elke en ander deel van de varantie dekken. De eerste 4 PCs dekken 90% van de variatie. 28395 --> 4!
+```{r PCA scatterplots}
+pca_plotting<-cbind(metadata,pca$x) #Maak een df met de metadata en PCA waarden: per SRA identifier het celtype, de conditie en PC1 t/m PC8
+
+PC1_var<-round(pca_summary["Proportion of Variance","PC1"]*100,digits=1) 
+PC2_var<-round(pca_summary["Proportion of Variance","PC2"]*100,digits=1)
+PC3_var<-round(pca_summary["Proportion of Variance","PC3"]*100,digits=1)
+PC4_var<-round(pca_summary["Proportion of Variance","PC4"]*100,digits=1)
+#Maak variabelen met de percentages gedekte variatie
+
+ggplot(pca_plotting,aes(x=PC1,y=PC2,colour=treatment,shape=cell_line))+
+  geom_point(size=5)+
+  ggtitle("PCA for airway study")+
+  xlab(paste0("PC1 (", PC1_var, "%)"))+
+  ylab(paste0("PC2 (", PC2_var, "%)"))+
+  theme_bw()
+
+ggplot(pca_plotting,aes(x=PC3,y=PC4,colour=treatment,shape=cell_line))+
+  geom_point(size=5)+
+  ggtitle("PCA for airway study")+
+  xlab(paste0("PC1 (", PC3_var, "%)"))+
+  ylab(paste0("PC2 (", PC4_var, "%)"))+
+  theme_bw()
+```
+__Samples clusteren samen gebaseerd op conditie.__
+
+__Heatmaps met correlaties tussen alle samples__
+```{r correlaties}
+dss_normalized_matrix<-assay(dds_normalized) #Extraheer matrix uit genormaliseerd DESe object
+airway_cor<-cor(dss_normalized_matrix) #Verkrijg de correlatie coëfficiënten tussen de samples
+```
+Visualiseer de correlaties in een heatmap:
+```{r heatmap}
+pheatmap(airway_cor,annotation=metadata[9]) #Annoteer o.b.v. de behandeling.
+```
+Geen clustering: voeg de argmenten cluster_rows=FALSE en cluster_cols=FALSE toe.
+__De clustering laat zien dat de 4 behandelde samples (rechtsonderin) onderling een grotere correlatie hebben en dat geldt ook voor de 4 onbehandelde samples (linksbovenin). De samples clusteren idd samen gebaseerd op behandeling.__
+
+RNA-seq analyse stappenplan deel 1
+1. FASTQ bestanden (één per sample) uit SRA databank downloaden met de fastq-dump command in een for-do-done loop. (fastq-dump geeft één bestand per read).
+2. Maak per output-bestand een FASTQC Quality Control bestand voor kwaliteitsanalyse van de reads.
+3. (Download het referentie genoom.)
+4. (Maak een genome index file.)
+5. Voer de alignment uit (geeft per sample een BAM file).
+6. Maak een staafdiagram met per sample het percentage uniek geälignde fragmenten.
+__RNA-seq analyse stappen deel 2__
+7. Maak een count table met per sample het aantal fragmenten per gen.
+8. Maak een staafdiagram met per sample het percentage gen-toegewezen fragmenten.
+9. Zet de count table om tot een DESeq object.
+10. Normaliseer de count data.
+11. Onderzoek hoe de samples aan elkaar gerelateerd zijn met PCA.
+12. Onderzoek hoe de samples aan elkaar gerelateerd zijn met een heatmap.

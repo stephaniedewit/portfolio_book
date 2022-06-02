@@ -1,0 +1,135 @@
+---
+title: "DAUR2_les1"
+author: "Stephanie de Wit"
+date: "31-3-2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+```
+
+__Exercise 1.1__
+__a.__ Human airway smooth muscle cells (HASM cells).
+__b.__ Dexamethasone, 1 µM voor 18 uur.
+__c.__ Illumina Hi-Seq 2000.
+__d.__ Paired-end: één read van het uiteinde van de sense streng en één read van het uiteinde van de anti-sense streng(cDNA i.p.v. mRNA voor NGS!). _Deze vorm van RNA-seq is betrouwbaarder; beide reads moeten op een zelfde afstand in de referentie sequentie voorkomen en geven de grootte van het cDNA._
+
+1. RNA-seq. dataset (GSE53362) opzoeken in GEO databank,
+2. sample kiezen (GSM1290080?),
+3. koppeling naar SRA databank volgen,
+4. per run één FASTQ bestand (SRR1050838) met de DNA sequenties van de reads en bijbehorende kwaliteitsscores.
+
+Regel 1 = titel en beschrijving, regel 2 = sequentie, regel 4 = quality line: per nucleotide een Phred score die de kans geeft dat het fout is.
+Phred = -10 * log(p). p = foutkans van nucleotide in verhouding (10% = 0,1 etc.). __Hoger = beter!__
+
+
+__Exercise 1.2__
+```{bash 1.2, eval=FALSE}
+fastq-dump --split-3 --outdir "/home/daur2/rnaseq/rnaseq_airway/fastq" --gzip SRR1039508
+```
+__--split-3: paired reads are split into different files (forward reads in '_1’ files, reverse reads in ’_2’ files).__
+__Reads that do not have a mate (only reverse or only forward read is available) are stored in a separate file.__
+__--outdir <path> for output to a specific directory.__
+
+
+__Exercise 1.3__
+De twee reads worden in aparte fastq files bewaard. Er is een aparte file voor reads zonder partner.
+
+
+__Exercise 1.4__
+```{bash 1.3, eval=FALSE}
+for fastq in $(cat sraid.txt) #Tekstbestand met SRR indentifiers (SRR1039508 etc.)
+do
+fastq-dump --split-3 --outdir "/home/daur2/rnaseq/rnaseq_airway/fastq" --gzip $fastq
+done
+```
+
+_cat command herhaalt alle SRA identifiers in het document. {...[@]} om te zeggen "alle elementen uit array"?_
+
+__* in script line geeft aan 'alles', net als .* in een regex!__
+
+
+```{bash fastqc quality control, eval=FALSE}
+gunzip /home/daur2/rnaseq/rnaseq_airway/fastq/*.fastq.gz
+
+fastqc --outdir /home/daur2/rnaseq/rnaseq_airway/fastqc_output/ /home/daur2/rnaseq/rnaseq_airway/fastq/*.fastq
+
+gzip /home/daur2/rnaseq/rnaseq_airway/fastq/*.fastq
+```
+
+
+__Exercise 1.5__
+In FastQC Report met fastqc file van SRR identifiers: kijk naar de Per base sequence quality (Phred score per base positie) en Per sequence quality scores (Aantal reads met een bepaalde Phred score).
+
+
+install.packages() wordt gebruikt om CRAN packages te installeren. Bioconducter packages worden geladen met __BiocManager::install("...")__. Laad eerst BiocManager!
+Help: __browseVignettes("...")__
+
+
+```{bash reference genome, eval=FALSE}
+wget -P "/home/daur2/rnaseq/hg38_genome/" https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_39/GRCh38.primary_assembly.genome.fa.gz #Download link voor hg38
+
+gunzip /home/daur2/rnaseq/hg38_genome/*.fa.gz
+```
+
+
+```{r genome index file voor alignment, eval=FALSE}
+library("Rsubread")
+hg38_ref<-"/home/daur2/rnaseq/hg38_genome/GRCh38.primary_assembly.genome.fa" #Variable met referentie genoom locatie
+hg38_index<-"/home/daur2/rnaseq/hg38_index/hg38_index" #Variable met basename voor index
+buildindex(basename=hg38_index,reference=hg38_ref,gappedIndex=FALSE,indexSplit=FALSE)
+```
+__Een referentie genoom hoef je in principe maar één keer te downloaden om vaker te gebruiken.__
+__gappedIndex=FALSE voor een full genome index, =TRUE voor een gapped index (elke 3 bp) die minder ruimte in neemt.__
+__indexSplit=FALSE zodat index file als één grote file wordt opgeslagen i.p.v. in kleinere, losse files.__
+
+
+```{r alignment met function Rsubread, eval=FALSE}
+library(tidyverse)
+library(Rsubread)
+
+fastq_dir<-"/home/daur2/rnaseq/rnaseq_airway/fastq/" #Variable met fastq files locatie. Laatste slash belangrijk, want er volgen later directions achter!
+hg38_index<-"/home/daur2/rnaseq/hg38_index/hg38_index" #Variable met basename van index
+bam_dir<-"/home/daur2/rnaseq/rnaseq_airway/bam/" #Variable met output locatie voor BAM files. Laatste slash belangrijk, want er volgen later directions achter!
+samples<-list.files(fastq_dir,pattern="_[12].fastq.gz")%>%str_remove(pattern="_[12].fastq.gz")%>%unique() #Variable met unieke sample namen
+
+alignment_statistics<-align(
+  index=hg38_index,
+  readfile1=paste0(fastq_dir,samples,"_1.fastq.gz"),
+  readfile2=paste0(fastq_dir,samples,"_2.fastq.gz"),
+  type="rna",
+  input_format="gzFASTQ",
+  output_format="BAM",
+  unique=TRUE, #Unique=TRUE geeft alleen reads die op één plek in het genoom alignen. Reads die op meerdere plekken alignen zijn onbetrouwbaar terug te plaatsen.
+  nthreads=10) #nthreads geeft aan hoeveel CPU de computer gaat gebruiken voor de alignment.
+
+saveRDS(alignment_statistics,file=paste0(bam_dir,"alignment_statistics.rds")) #Sla alignment op als R file
+```
+__De resultaten van de alignment worden opgeslagen (als R object) in BAM files, met de posities van elke alignment en de scores.__
+
+
+```{r alignment statistics bar chart}
+alignment_statistics<-readRDS("/home/daur2/rnaseq/rnaseq_airway/bam/alignment_statistics.rds")
+align_stats_plot<-as_tibble(t(alignment_statistics)) #Tidy tibble maken
+align_stats_plot<-align_stats_plot%>%mutate(Percent_uniquely_mapped=Uniquely_mapped_fragments/Total_fragments*100) #Kolom toevoegen met percentage uniquely mapped fragments
+align_stats_plot<-align_stats_plot%>%mutate(Sample=c("SRR1039508","SRR1039509","SRR1039512","SRR1039513","SRR1039516","SRR1039517","SRR1039520","SRR1039521")) #Kolom toevoegen met sample namen (zijn verloren gegaan)
+align_stats_plot<-align_stats_plot%>%select(Sample,Percent_uniquely_mapped) #Alleen kolommen interessant voor bar chart overhouden
+
+ggplot(align_stats_plot,aes(x=Sample,y=Percent_uniquely_mapped,fill=Sample))+
+  geom_col()+
+  labs(title="Percentage uniquely mapped fragments per sample",x="Sample",y="Uniquely mapped fragments (%)")+
+  ylim(0,100)+
+  theme_classic()+
+  theme(axis.ticks.x=element_blank(),axis.text.x=element_blank()) #Hiermee worden de slordig weergegeven sample namen op de X-as verwijderd
+```
+__Ongeveer 90% van de fragmenten aligned op één plek in het genoom.__
+
+__RNA-seq analyse stappenplan deel 1__
+1. FASTQ bestanden (één per identifier) uit SRA databank downloaden met de fastq-dump command in een for-do-done loop.
+2. Maak per FASTQ output-bestand (één per read) een FASTQC Quality Control bestand voor kwaliteitsanalyse van de reads.
+3. (Download het referentie genoom.)
+4. (Maak een genome index file.)
+5. Voer de alignment uit (geeft per read een BAM file).
+6. Maak een staafdiagram met per sample het percentage uniek geälignde genen.

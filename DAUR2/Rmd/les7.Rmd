@@ -1,0 +1,81 @@
+---
+title: "DAUR2_les7"
+author: "Stephanie de Wit"
+date: "7-4-2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+
+```
+
+__Species identification with kraken2__
+
+In order to identify the species in our dataset, we need to compare the data with a database of genomes. The __kraken2__ command requires the following parameters:
+
+--db: to redirect to the database that should be used.
+
+--threads: sets the amount of CPUs the server should use for the identification.
+
+--paired: to indicate whether we are using paired-end reads.
+
+--gzip-compressed: to indicate that the input FASTQ files are compressed.
+
+--output: to specify the output file as opposed to printing the results on screen...
+
+--report: ...and generate a file with a more human friendly output format.
+
+--use-names: to include species names on top of the tax ID.
+
+```{bash, engine.opts='-i', echo=TRUE, eval=FALSE}
+conda activate meta
+
+echo "y" | conda install -c bioconda kraken2
+
+#Werkt niet, ook niet indien ~ vervangen wordt voor /home/1767196
+kraken2 --db /home/daur2/metagenomics/minikraken2_v2_8GB_201904_UPDATE/ --threads 2 --paired --gzip-compressed --output ~/daur2/metagenomics/mock1.kraken --report ~/daur2/metagenomics/mock1.report --use-names /home/daur2/metagenomics/reader_data/HU1_MOCK1_L001_R1_001.fastq.gz /home/daur2/metagenomics/reader_data/HU1_MOCK1_L001_R2_001.fastq.gz
+```
+
+The mock1.report textfile contains six columns with the following information:
+
+1) Percentage of fragments covered by the clade rooted at this taxon.
+
+2) Number of fragments covered by the clade rooted at this taxon.
+
+3) Number of fragments assigned directly to this taxon.
+
+4) A rank code, indicating (U)nclassified, (R)oot, (D)omain, (K)ingdom, (P)hylum, (C)lass, (O)rder, (F)amily, (G)enus, or (S)pecies.
+
+5) NCBI taxonomic ID number.
+
+6) Indented scientific name.
+
+__Estimating species abundance using bracken__
+
+Kraken2 reports reads that give a unique hit to a species, so not all the reads are used.  Therefore, the abundance reported by kraken2 cannot be used directly to estimate the abundance of species in our sample. We use the __bracken__ command to convert our report output and estimate the species abundance before we plot our results. Bracken requires the following parameters:
+
+-d: the location of our used database.
+
+-i: the location of our report file.
+
+-o: specify (the path for) a bracken output file.
+
+__Bracken does not perform identification, it only re-estimates the kraken2 abundance results.__
+
+```{bash, engine.opts='-i', echo=TRUE, eval=FALSE}
+echo "y" | conda install -c bioconda bracken
+
+bracken -d /home/daur2/metagenomics/minikraken2_v2_8GB_201904_UPDATE/ -i /home/1767196/daur2/metagenomics/kraken2/mock1/mock1.report -o /home/1767196/daur2/metagenomics/bracken/mock1.bracken #mock1.bracken wordt mock1_bracken_species.report!
+```
+
+__Transforming the data for plotting in R__
+
+Before we use the R package __phyloseq__ to interpret our results, we need to convert our bracken report file with __kraken-biom__ software.
+
+```{bash, engine.opts='-i', echo=TRUE, eval=FALSE}
+echo "y" | conda install -c bioconda kraken-biom
+
+kraken-biom /home/1767196/daur2/metagenomics/kraken2/mock1/mock1_bracken_species.report --fmt json -o /home/1767196/daur2/metagenomics/kraken2/mock1/mock1_bracken_species.biom
+
+conda deactivate
+```

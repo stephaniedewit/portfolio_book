@@ -1,0 +1,76 @@
+---
+title: "DAUR2_les8"
+author: "Stephanie de Wit"
+date: "7-4-2022"
+output: html_document
+---
+__Installing visualizing packages__
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(tidyverse)
+library(BiocManager)
+```
+
+```{r, eval=FALSE}
+BiocManager::install("phyloseq")
+```
+
+```{r}
+library("phyloseq")
+```
+
+__Visualizing the read count per kingdom__
+
+Load in the biom file, import it into another object and inspect the data.
+
+```{r}
+data<-"~/daur2/metagenomics/kraken2/mock1/mock1_bracken_species.biom"
+
+merged_metagenomes<-import_biom(data)
+
+#View(merged_metagenomes@tax_table@.Data)
+```
+
+```{r cleaning up}
+merged_metagenomes@tax_table@.Data<-substring(merged_metagenomes@tax_table@.Data,4) #Substring om de eerste 4 karakters te verwijderen (niet te verwarren met str_sub voor extractie en vervanging)
+
+colnames(merged_metagenomes@tax_table@.Data)<-c("Kingdom","Phylum","Class","Order","Family","Genus","Species")
+
+#View(merged_metagenomes@tax_table@.Data)
+```
+
+```{r inspecting data}
+#Laat de gevonden taxonomische koninkrijken zien:
+merged_metagenomes@tax_table@.Data[,1]%>%unique() #Dit is een matrix; gebruik indexing. Select() is alleen toepasbaar op tibbles/dataframes. #[,1] geeft allen uit $1, [1,] geeft de eerste uit alle kolommen. 
+
+#Bevaar de verschillende data in aparte objects
+merged_metagenomes_b<-subset_taxa(merged_metagenomes,Kingdom=="Bacteria") 
+merged_metagenomes_e<-subset_taxa(merged_metagenomes,Kingdom=="Eukaryota")
+merged_metagenomes_v<-subset_taxa(merged_metagenomes,Kingdom=="Viruses")
+merged_metagenomes_a<-subset_taxa(merged_metagenomes,Kingdom=="Archaea")
+
+#Informatieve headers toevoegen?:
+sample_names(merged_metagenomes_b)<-"bacteria" 
+sample_names(merged_metagenomes_e)<-"eukaryota"
+sample_names(merged_metagenomes_v)<-"viruses"
+sample_names(merged_metagenomes_a)<-"archaea"
+
+#Tel het totale aantal reads en gekwalificeerd per koninkrijk:
+sample_sums(merged_metagenomes) #Geen count o.i.d. want geen tibble/dataframe maar type "phyloseq"
+c(sample_sums(merged_metagenomes_a),sample_sums(merged_metagenomes_b),sample_sums(merged_metagenomes_e),sample_sums(merged_metagenomes_v))
+```
+
+Let's convert our values to an easy accessible data frame with the headers and read sums of the kingdoms, that we will use for plotting the number of reads per kingdom.
+
+```{r, fig.cap="Figure 1: Read count per kingdom: These are the reads that are used by kraken2 to classify reads to a kingdom. Please observe that the majority of read originate from bacterial genomes and confirms that our library preparation indeed only included bacterial DNA. There are some off target hits but those are difficult to visualize since so many reads classify as bacterial."}
+data_t<-data.frame(Samples=c(sample_names(merged_metagenomes_b),sample_names(merged_metagenomes_e),sample_names(merged_metagenomes_a),sample_names(merged_metagenomes_v)),Reads=c(sample_sums(merged_metagenomes_b),sample_sums(merged_metagenomes_e),sample_sums(merged_metagenomes_a),sample_sums(merged_metagenomes_v)))  
+
+ggplot(data_t,aes(x=Samples,y=Reads,fill=Samples))+
+  geom_col()+
+  theme_classic()+
+  ggtitle("Read count per kingdom")+
+  scale_fill_discrete(name="Legend",labels=c("Archaea","Bacteria","Eukaryota","Viruses"))+
+  theme(plot.title=element_text(hjust=0.5))+ #hjust verschuift title richting het midden
+  theme(axis.text.x=element_text(angle=45,hjust=1)) #hjust verschuift labels omlaag
+```
