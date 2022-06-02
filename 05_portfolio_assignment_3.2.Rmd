@@ -77,5 +77,9 @@ Heb nu een oude versie van xcms, 3.15 ofzo.
 01:54 afgemaakt en kan workspace delen
 
 11:00 proberen book te builden op laptop dave
+11:47 gelukt, setwd moeten veranderen, dir_tree en hero image link.
+
+11:53 committen hangt vast dus rookpauze
+12:11 probleem met committen opgelost
 
 
