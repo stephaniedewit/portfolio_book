@@ -1,3 +1,7 @@
+---
+bibliography: portfolio.bib
+---
+
 # Vrije besteding: een nieuwe _skill_ ontwikkelen
 
 ## Introductie
@@ -41,7 +45,7 @@ Het is me niet gelukt om het {amsrpm} package, beschikbaar als [amsrpm.tar.gz](h
 ## Deel 1: Oefenen met de vignette 'LCMS data preprocessing and analysis with xcms'
 
 Het vignette 'LCMS data preprocessing and analysis with xcms', te vinden op [BioConductor](https://bioconductor.org/packages/devel/bioc/vignettes/xcms/inst/doc/xcms.html#4_Chromatographic_peak_detection) of
-onder 'xcms/vignettes/xcms.Rmd' in de repository, demonstreert hoe het {xcms} package gebruikt kan worden voor het importeren en inspecteren van data, preproccesing en de eigenlijke analyse. Daarvoor maakt het gebruik van data uit een [studie](https://www.scripps.edu/cravatt/pdf/SaghatelianTrauger2004.pdf) van Alan Saghatelian et al. uit 2004, beschikbaar als {faahKO} package. Deze onderzoekers zijn opzoek gegaan naar lipiden in het zoogdier brein die gereguleerd worden door het enzym _fatty acid amide hydrolase_ (FAAH). Daartoe hebben ze met LC-MS het metaboloom in kaart gebracht van wild-type muizen en van knock-out muizen met een inactief FAAH gen. __CITEREN NAAR DEZE STUDIE__. In het {faahKO} package is in NetCDF format de ruwe, positive ion en [centroid](https://blog.acdlabs.com/elucidation/2008/03/what-is-the-dif.html) mode LC-MS data aanwezig van ruggengraatmonsters van wild-type (WT) en knock-out (KO) muizen. Het vignette beperkt de analyse tot zes WT muizen en zes KO muizen __CITEER NAAR DE VIGNETTE__. 
+onder 'xcms/vignettes/xcms.Rmd' in de repository, demonstreert hoe het {xcms} package gebruikt kan worden voor de import, inspectie, preproccesing en eigenlijke analyse van de LC-MS data. Daarvoor maakt het gebruik van data uit een [studie](https://www.scripps.edu/cravatt/pdf/SaghatelianTrauger2004.pdf) van Alan Saghatelian et al. uit 2004, beschikbaar als {faahKO} package. Deze onderzoekers zijn opzoek gegaan naar lipiden in het zoogdier brein die gereguleerd worden door het enzym _fatty acid amide hydrolase_ (FAAH). Daartoe hebben ze met LC-MS het metaboloom in kaart gebracht van wild-type muizen en van knock-out muizen met een inactief FAAH gen [@saghatelianAssignmentEndogenousSubstrates2004]. In het {faahKO} package is in NetCDF format de ruwe, positive ion en _[centroid](https://blog.acdlabs.com/elucidation/2008/03/what-is-the-dif.html) mode_ LC-MS data aanwezig van ruggengraatmonsters van wild-type (WT) en knock-out (KO) muizen. Het vignette beperkt de analyse tot zes WT muizen en zes KO muizen [@LCMSDataPreprocessing]. 
 
 BOVENSTAANDE AANPASSEN, EIGEN DRAAI AAN GEGEVEN
 
@@ -67,7 +71,7 @@ pd
 raw_data <- readMSData(files = cdfs, pdata = new("NAnnotatedDataFrame", pd), mode = "onDisk") ## het pdata argument vraagt naar een AnnotatedDataFrame met metadata, onDisk zodat de ruwe data niet opgeslagen wordt in het geheugen (i.v.m. analyse snelheid)
 ```
 
-Het phenodata dataframe functioneert als beschrijving van de experimentele opzet. _Voor een echt experiment wordt een tabel aangemaakt met een beschrijving van elk sample_. 'raw_data' is een 'OnDiskMSnExp' object dat per [spectrum](https://en.wikipedia.org/wiki/Mass_spectrum) de gemeten retentietijden, m/z ratio's, intensiteiten en _total ion currents_ bevat voor alle monsters. 
+Het phenodata dataframe functioneert als beschrijving van de experimentele opzet. _Voor een echt experiment wordt een tabel aangemaakt met een beschrijving van elk sample_. 'raw_data' is een 'OnDiskMSnExp' object dat per [spectrum](https://en.wikipedia.org/wiki/Mass_spectrum) de gemeten retentietijden, m/z ratio's, intensiteiten en _total ion currents_ bevat voor alle monsters [@LCMSDataPreprocessing]. 
 
 ### 2) Data inspectie
 ```{r}
@@ -81,7 +85,7 @@ length(per_file) ## met fromFile kunnen we de rt's, m/z ratio's en intensiteiten
 #View(per_file)
 ```
 
-We beginnen met het plotten van de Base Peak Chromatogrammen (BPCs) en Total Ion Chromatogrammen (TICs) voor elk monster. Een BPC laat een piek zien gebaseerd op het ion met het sterkste signaal. Een TIC laat een piek als som van alle ionen zien. In de 'chromatogram()' function staat het 'aggregationFun' argument op 'max' of 'sum' voor respectievelijk een BPC of TIC.
+We beginnen met het plotten van de Base Peak Chromatogrammen (BPCs) en Total Ion Chromatogrammen (TICs) voor elk monster. Een BPC laat een piek zien gebaseerd op het ion met het sterkste signaal. Een TIC laat een piek als som van alle ionen zien. In de 'chromatogram()' function staat het 'aggregationFun' argument op 'max' of 'sum' voor respectievelijk een BPC of TIC [@LCMSDataPreprocessing].
 
 ```{r}
 #load("workspace.RData")?
@@ -106,16 +110,16 @@ plot(bpis_2, col = group_colors[raw_data$sample_group], main = "Total ion chroma
 legend(4000, 2100000, legend = c("ko18", "ko19", "wt18", "wt19"), lty = 1, col = c(rep("#50984EA3", 2), rep("#504DAF4A", 2)))
 ```
 
-We kijken ook naar de _ion current_ verdeling per monster om een indruk te krijgen van de kwaliteit van de runs:
+Volgens @LCMSDataPreprocessing kijk ik naar de _ion current_ verdeling per monster om een indruk te krijgen van de kwaliteit van de runs:
 
 ```{r}
 tc <- split(tic(raw_data), f = fromFile(raw_data)) ## file splitsen op total ion currents per monster
 boxplot(tc, col = group_colors[raw_data$sample_group], ylab = "intensity", main = "Total ion current per monster", names = c("wt18", "wt19", "ko18", "ko19"))
 ```
 
-De verdelingen zien er normaal uit.
+De verdelingen zien eruit zoals in de vignette.
 
-Vervolgens maken we een heatmap om een overzicht te krijgen van hoe de monsters aan elkaar gerelateerd zijn. We clusteren de monsters samen gebaseerd op hun base peak chromatogrammen.
+Vervolgens maak ik een heatmap om een overzicht te krijgen van hoe de monsters aan elkaar gerelateerd zijn. Volgens [@LCMSDataPreprocessing] cluster ik de monsters samen gebaseerd op hun base peak chromatogrammen.
 
 ```{r}
 # Groepeer intensiteiten in rt bins tegen variatie effect: 
@@ -136,27 +140,27 @@ pheatmap(cormat, annotation = ann, annotation_color = list(group = group_colors)
 
 Er lijkt een vrij sterke correlatie te zijn tussen de knock-out en wild-type monsters met index 19. _Ik ben er niet achter gekomen wat deze indexen precies betekenen, iets met de methode/meetvolgorde_. Voor de monster met index 18 lijkt dit niet het geval.
 
-De _peak detection_ wordt uitgevoerd met het centWave algoritme. Daartoe bepalen we eerst wat de peakwidth-waarde moet zijn, door het extracted ion chromatogram (EIC) van één piek te plotten. Een EIC laat het signaal zien van één geselecteerd ion a.k.a. m/z ratio.
+De _peak detection_ wordt uitgevoerd met het centWave algoritme. Daartoe bepalen we eerst wat de peakwidth-waarde moet zijn, door het _extracted ion chromatogram_ (EIC) van één piek te plotten. Een EIC laat het signaal zien van één geselecteerd ion a.k.a. m/z ratio [@LCMSDataPreprocessing].
 
 ```{r}
 rtr <- c(2700, 2900)
-mzr <- c(334.9, 335.1)
+mzr <- c(334.9, 335.1) ## zelfde als in vignette om de samples te kunnen vergelijken
 chr_raw <- chromatogram(raw_data, mz = mzr, rt = rtr)
 plot(chr_raw, col = group_colors[chr_raw$sample_group], main = "m/z ratio range: 334.9 - 335.1")
 ```
 
-De piek is ongeveer 80 seconden breedt. We stellen de 'peakwidth' in op 50 - 100.
+De piek is maximaal 80 seconden breedt. Ik stel de 'peakwidth' wederom in op '20, 80', wat volgens mij de minimale en maximale piekbreedte moet voorstellen.
 
 ```{r}
 # Voer peak detection uit op EIC: 
-cwp <- CentWaveParam(peakwidth = c(50, 100), noise = 5000, prefilter = c(6, 5000)) # noise en prefilter om de analyse tijd te verlagen
+cwp <- CentWaveParam(peakwidth = c(20, 80), noise = 5000, prefilter = c(6, 5000)) # noise en prefilter om de analyse tijd te verlagen
 xdata <- findChromPeaks(raw_data, param = cwp) 
 
 # De gevonden pieken met informatie over m/z ratio's, rt's en intensiteiten:
 head(chromPeaks(xdata))
 ```
 
-Met de 'refineChromPeaks' function kan de detectie worden verfijnd. Pieken die bijvoorbeeld niet voldoen aan een bepaalde intensiteit worden verwijderd. Hieronder worden overlappende pieken samengevoegd.
+Met de 'refineChromPeaks' function kan de detectie worden verfijnd. Pieken die bijvoorbeeld niet voldoen aan een bepaalde intensiteit worden verwijderd. Hieronder worden overlappende pieken samengevoegd [@LCMSDataPreprocessing].
 
 ```{r}
 mpp <- MergeNeighboringPeaksParam(expandRt = 4) ## check voor overlap in een rt window van vier seconden rond pieken
@@ -201,7 +205,8 @@ _Intermezzo: ontleding van samenvattende tabel_
 
 pander() = pandoc.table()
 
-We controleren de piekdetectie met de piek die hierboven is gebruikt om de 'peakwidth' te bepalen:
+Ik controleer volgens [@LCMSDataPreprocessing] de piekdetectie met de piek die hierboven is gebruikt om de 'peakwidth' te bepalen:
+
 ```{r}
 # Nogmaals de voorbeeldpiek:
 plot(chr_raw, col = group_colors[chr_raw$sample_group])
@@ -216,7 +221,7 @@ pander(chromPeaks(xdata, mz = mzr, rt = rtr), caption = paste("Identified chroma
 ```
 __Lijkt oké, maar linker hobbels niet meenemen? Heeft met 50, 100 te maken?__
 
-We ronden de _peak detection_ af door te kijken naar de distributie van piek intensiteit per monster. Hiermee controleren we, of er geen stelselmatige verschillen zijn tussen de runs van de monsters.
+Ik rond de _peak detection_ af door te kijken naar de distributie van piek intensiteit per monster. Hiermee controleren we, of er geen stelselmatige verschillen zijn tussen de runs van de monsters [@LCMSDataPreprocessing].
 
 ```{r}
 # Verkrijg piek intensiteiten per monster op een log2-schaal:
@@ -228,7 +233,7 @@ grid(nx = NA, ny = NULL)
 ```
 ## 5) Alignment
 
-De retentietijd van eenzelfde ion kan variëren tussen monsters (zie EIC voorbeeldpiek). We corrigeren hiervoor met de 'adjustRtime' function, die de pieken langs de retentie tijd as verschuift om ze te _alignen_. Hieronder wordt de obiwarp methode gebruikt die de retentietijden van de spectra _alignt_, beter bekend als _warping_.
+De retentietijd van eenzelfde ion kan variëren tussen monsters (zie EIC voorbeeldpiek). We corrigeren hiervoor met de 'adjustRtime' function, die de pieken langs de retentie tijd as verschuift om ze te _alignen_. Hieronder wordt de obiwarp methode gebruikt die de retentietijden van de spectra _alignt_, beter bekend als _warping_ [@LCMSDataPreprocessing].
 
 ```{r}
 # Align:
@@ -267,7 +272,7 @@ plot(chr_adj, col = group_colors[chr_raw$sample_group], peakType = "none")
 De laatste preprocessing-stap is het identificeren van dezelfde pieken in de monsters: de _correspondence_ analyse.
 
 Daartoe worden de pieken eerst per kleine m/z ratio-intervallen gegroepeerd in _features_ op basis van 
-de piekdichtheid over de retenie tijd. Hieronder een voorbeeld voor het m/z ratio interval 305.05 - 305.15. 'minFraction = 0.4' geeft aan dat alleen pieken gegroepeerd worden die in minstens 40% van de monsters voorkomen.
+de piekdichtheid over de retenie tijd. Hieronder een voorbeeld voor het m/z ratio interval 305.05 - 305.15. 'minFraction = 0.4' geeft aan dat alleen pieken gegroepeerd worden die in minstens 40% van de monsters voorkomen [@LCMSDataPreprocessing].
 
 ```{r}
 # Defineer interval:
@@ -285,7 +290,7 @@ plotChromPeakDensity(chr_mzr, col = sample_colors, param = pdp, peakBg = sample_
 
 Het bovenste paneel highlight de pieken in de EICs van de monsters. Het onderste paneel laat zien welke monsters bij een bepaalde retentie tijd een piek lieten zien. Zo laten alle vier de samples een piek zijn bij een retentie tijd van ~ 2900 seconden.
 
-We definieren de piekdichtheid nu voor de gehele dataset en voeren de _correspondence_ analyse uit op de verkregen _features_ met 'groupChromPeaks':
+Ik definieer nu volgens @LCMSDataPreprocessing de piekdichtheid voor de gehele dataset en voer de _correspondence_ analyse uit op de verkregen _features_ met 'groupChromPeaks':
 
 ```{r}
 pdp <- PeakDensityParam(sampleGroups = xdata$sample_group, minFraction = 0.4, bw = 30)
@@ -301,7 +306,7 @@ featureDefinitions(xdata) ## informatie over de features
 head(featureValues(xdata)) ## per monster de som van de van intensiteiten van de pieken in één feature
 ```
 
-Indien er voor een monster geen pieken van een bepaalde _feature_ zijn gevonden, zien we 'NA'. Missende intensiteiten worden ingevuld gebaseerd op de intensiteit van het feature in de andere monsters. De m/z ratio interval - retentie tijd regio van een feature wordt bepaald met de 'ChromPeakAreaParam()' function: de onderste m/z ratio en retentie tijd grenzen zijn gelijk aan de 25% quantielen van respectievelijk de laagse m/z ratio (mzmin) en laagste retentie tijd waarden (rtmin) van alle pieken, de bovenste grenzen zijn gelijk aan de 75% quantielen.
+Indien er voor een monster geen pieken van een bepaalde _feature_ zijn gevonden, zien we 'NA'. Missende intensiteiten worden ingevuld gebaseerd op de intensiteit van het feature in de andere monsters. De m/z ratio interval - retentie tijd regio van een feature wordt bepaald met de 'ChromPeakAreaParam()' function: de onderste m/z ratio en retentie tijd grenzen zijn gelijk aan de 25% quantielen van respectievelijk de laagse m/z ratio (mzmin) en laagste retentie tijd waarden (rtmin) van alle pieken, de bovenste grenzen zijn gelijk aan de 75% quantielen [@LCMSDataPreprocessing].
 
 ```{r}
 xdata <- fillChromPeaks(xdata, param = ChromPeakAreaParam())
@@ -316,7 +321,7 @@ apply(featureValues(xdata), MARGIN = 2,
       FUN = function(z) sum(is.na(z)))
 ```
 
-Als volgt gebruiken we de 'featureSummary' function voor een algemene samenvatting per _feature_. 'count' en 'perc' geven het aantal monsters aan waarin een piek van een feature is gevonden. 'multi_count' en 'multi_perc' geven het aantal monsters aan waarin meer dan één piek uit een feature is teruggevonden. Het 'group' argument verdeelt deze statistieken verder over knock-out en wildtype monsters.
+Als volgt gebruik ik de 'featureSummary' function voor een algemene samenvatting per _feature_. 'count' en 'perc' geven het aantal monsters aan waarin een piek van een feature is gevonden. 'multi_count' en 'multi_perc' geven het aantal monsters aan waarin meer dan één piek uit een feature is teruggevonden. Het 'group' argument verdeelt deze statistieken verder over knock-out en wildtype monsters [@LCMSDataPreprocessing].
 
 ```{r}
 head(featureSummary(xdata, group = xdata$sample_group))
@@ -327,7 +332,7 @@ head(assay(res, "raw"))
 head(assay(res, "raw_filled"))
 ```
 
-Met de 'featureChromatograms' function kan voor elke _feature_ een EIC gemaakt worden. Er zijn in totaal 268 _features_ ('nrow(featureValues(xdata, filled = TRUE))'), we laten de eerste vier zien. 
+Met de 'featureChromatograms' function kan voor elke _feature_ een EIC gemaakt worden [@LCMSDataPreprocessing]. Er zijn in totaal 268 _features_ ('nrow(featureValues(xdata, filled = TRUE))'), ik laat de eerste vier zien. 
 
 ```{r}
 feature_chroms <- featureChromatograms(xdata, features = 1:4)
@@ -335,7 +340,7 @@ chromPeaks(feature_chroms[1:4, ]) ## EIC informatie eerste vier features
 plot(feature_chroms, col = sample_colors, peakBg = sample_colors[chromPeaks(feature_chroms)[, "sample"]])
 ```
 
-We ronden de analyse af met een _principal component analysis_, waarmee we onderzoeken hoe de monsters in dit experiment zich tot elkaar verhouden. _Er is geen data normalisatie stap beschikbaar binnen het {xcms} package_. 
+Ik rond de analyse af met een _principal component analysis_, waarmee wordt bepaald hoe de monsters in dit experiment zich tot elkaar verhouden [@LCMSDataPreprocessing]. _Er is geen data normalisatie stap beschikbaar binnen het {xcms} package_. 
 
 ```{r}
 # Log2-transformeer de features:
@@ -358,7 +363,8 @@ grid()
 text(pc$x[, 1], pc$x[,2], labels = xdata$sample_name, col = "darkgrey",
      pos = 3, cex = 2)
 ```
-Gebaseerd op het signaal uit PC1, wat 46.8% van de variatie omvat, zien we zoals verwacht het verschil tussen knock-out monsters en wildtype monsters. Echter, het signaal uit PC2, bijna net zo sterk, verdeelt de monsters gebaseerd op hun index. Ik weet niet genoeg van het experiment af om een uitspraak te doen over de oorzaak hiervan, maar gezien er niet genormaliseerd is, is het aannemelijk dat deze verdeling veroorzaakt wordt door technische afwijking.
+
+Gebaseerd op het signaal uit PC1, wat 46.8% van de variatie omvat, zien we zoals verwacht het verschil tussen knock-out monsters en wildtype monsters. Echter, het signaal uit PC2, bijna net zo sterk, verdeelt de monsters gebaseerd op hun index. Ik weet niet genoeg van het experiment af om een uitspraak te kunnen doen over de oorzaak hiervan, maar gezien er niet genormaliseerd is, is het aannemelijk dat deze verdeling veroorzaakt wordt door technische afwijking.
 
 https://bioconductor.org/packages/3.14/bioc/html/xcms.html
 
@@ -387,6 +393,9 @@ kbl(planning, caption = "__Tabel 1: Planning voor vrij te besteden uren.__") %>%
 logboek <- tibble(Dag = c("Maandag","Dinsdag"), Stap = rep(1, 2), Gedaan = c("...", "..."), Tijd = c("...","...")) 
 
 kbl(logboek, caption = "__Tabel 2: Logboek.__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1, bold = TRUE) %>% column_spec(4, color = "red")
+
+library(rbbt)
+bbt_update_bib("05_portfolio_assignment_3.2.Rmd")
 ```
 
 45 minuten: logboek opzetten
