@@ -5,10 +5,9 @@ bibliography: portfolio.bib
 # Vrije besteding: een nieuwe _skill_ ontwikkelen
 
 ## Introductie
-
 Tijdens de DSFB2 portfolio lessen heb ik 32 uur vrij te besteden gekregen om te werken aan een nieuwe Data Science _skill_. Deze _skill_ heb ik gekozen door mijzelf af te vragen waar ik over twee jaar wil zijn. Ik zie mijzelf dan als biomedisch analist een bijdrage leveren aan onderzoek naar de ontwikkeling, bestrijding en genezing van ziekten. Specifiek zou ik graag onderzoek doen naar kanker of hersenziekten met celkweek, gentherapie en eiwit analyse technieken. Daarbij gebruik ik de vaardigheden die ik heb geleerd tijdens de _Data Science for Biology_ minor om mijn onderzoeksresultaten te analyseren en presenteren. Eiwit analyse technieken waarin ik specifiek geïnteresseerd ben, zijn _High-Performance Liquid Chromatography_ (HPLC) en massaspectrometrie (MS). Uiteindelijk wil ik doorstuderen tot microbioloog en grootschalige onderzoeken opzetten.
 
-Tijdens mijn BMR specialisatie projecticum heb ik gewerkt met een HPLC. De UV-detectie resultaten kwamen op de computer binnen via de software Clarity Lite, waarna handmatig data van interesse is gekopieerd naar een Excel bestand. Van deze data zijn tabellen gemaakt in PowerPoint en grafieken in Excel. Statistische tests zijn uitgevoerd in SPSS. Om het aantal handmatige stappen en de vatbaarheid voor fouten van deze analyse te verminderen, ben ik gaan onderzoeken of ik de ruwe _Clarity Lite_ data kan exporteren en aan een R package kan 'voeren' voor een volledige data analyse in RStudio. Al vrij snel bleek ik geen R package te kunnen vinden voor de analyse van (HP)LC data. Ik ben wel een handvol packages tegengekomen voor analyses van LC-MS of GC-MS data (zie tabel 6.1). Vloeistofchromatografie en massaspectrometrie zijn tegenwoordig vrijwel niet meer los van elkaar te denken. Daarnaast wil ik graag meer leren over massaspectrometrie, ik heb laatst mijn eerste MS run uitgevoerd tijdens een zelf-georganiseerde introductie van een docent. Om deze redenen heb ik ervoor gekozen om mij voor 32 uur te richten op het analyseren van LC-MS data met R als nieuwe _skill_.
+Tijdens mijn BMR specialisatie projecticum heb ik gewerkt met een HPLC. De UV-detectie resultaten kwamen op de computer binnen via de software Clarity Lite, waarna handmatig data van interesse is gekopieerd naar een Excel bestand. Van deze data zijn tabellen gemaakt in PowerPoint en grafieken in Excel. Statistische tests zijn uitgevoerd in SPSS. Om het aantal handmatige stappen en de vatbaarheid voor fouten van deze analyse te verminderen, ben ik gaan onderzoeken of ik de ruwe Clarity Lite data kan exporteren en aan een R package kan 'voeren' voor een volledige data analyse in RStudio. Al vrij snel bleek ik geen R package te kunnen vinden voor de analyse van (HP)LC data. Ik ben wel een handvol packages tegengekomen voor analyses van LC-MS of GC-MS data __(zie tabel 6.1)__. Vloeistofchromatografie en massaspectrometrie zijn tegenwoordig vrijwel niet meer los van elkaar te denken. Daarnaast wil ik graag meer leren over massaspectrometrie, ik heb laatst mijn eerste MS run uitgevoerd tijdens een zelf-georganiseerde introductie van een docent. Om deze redenen heb ik ervoor gekozen om mij voor 32 uur te richten op het analyseren van LC-MS data met R als nieuwe _skill_.
 
 ```{r echo = FALSE}
 packages <- tibble("Algorithm" = c("GCalignR", "amsrpm", "msInspect/AMT", "PETAL", "Podwojski", "ptw", "XCMS"), "Designed for" = c("GC-FID", "LC-MS", "LC-MS/MS", rep("LC-MS", 4)), "Used Dimensions" = c("RT", rep("RT, I, m/z", 2), "RT, m/z", "RT, I, m/z", "I, RT", "RT, I, m/z"), "Environment" = c(rep("R", 2), "Java, R", rep("R", 4)), "Visual tools" = c("Yes", rep("No", 5), "Yes"))
@@ -17,37 +16,29 @@ kbl(packages, caption = "__Gevonden R packages voor LC-MS of GC-MS data analyse_
 ```
 
 ### Plan van Aanpak
-
 Ik heb een kort plan opgesteld waarmee ik het leren van deze nieuwe _skill_ ga aanpakken. Eén week voordat het portfolio moet worden ingeleverd, ga ik echt van start.
 
 ```{r, echo = FALSE}
 library(tidyverse)
 library(kableExtra)
-knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, out.width = "120%")
 
-planning <- tibble(Stap = 1:7, Wat = c("Uitzoeken hoe data uit Clarity Lite geëxporteerd kan worden.","Oriënteren op de R packages die beschikbaar zijn voor LC-MS data analyse.","Twee á drie packages kiezen en hier verder in verdiepen.","De packages proberen te installeren.", "Eén package kiezen en een tutorial o.i.d. over deze package volgen." ,"Het package zelf proberen toe te passen op andere data.", "Eigen code duidelijk uitschrijven in portfolio."), Hoelang = c("1,5 uur","2 uur","2,5 uur","2 uur","~ 8 uur"," ~ 10 uur","max. 4 uur"), Opmerking = c("_Ik maak een afspraak met een docent voor gebruik van de HPLC computer op HL7._", "", "_Criteria: er moet tenminste één uitgebreide tutorial o.i.d. met bijbehorende dataset beschikbaar zijn voor het package, evenals nieuwe data om zelf een code voor te schrijven._", "", "", "",""))
+planning <- tibble("Stap" = 1:7, "Wat" = c("Uitzoeken hoe data uit Clarity Lite geëxporteerd kan worden.*","Oriënteren op de R packages die beschikbaar zijn voor LC-MS data analyse.","Twee á drie packages kiezen en hier verder in verdiepen.**","De packages proberen te installeren.", "Eén package kiezen en een tutorial o.i.d. over deze package volgen." ,"Het package zelf proberen toe te passen op andere data.", "Eigen code duidelijk uitschrijven in portfolio."), "Schatting tijdsbelasting" = c("1,5 uur","2 uur","2,5 uur","2 uur","~ 8 uur"," ~ 10 uur","max. 4 uur"), "Werkelijke tijdsbelasting" = c("1,5 uur","1 uur","~ 1 uur.","~ 1,5 uur","11 uur"," 12,5 uur","~ 5 uur"))
 
-kbl(planning, caption = "__Urenplanning__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1, bold = TRUE)
+kbl(planning, caption = "__Urenplanning__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1, bold = TRUE) %>% footnote(general = c("*Ik maak een afspraak met een docent voor gebruik van de HPLC computer op HL7.", "**Criteria:  er moet tenminste één uitgebreide tutorial o.i.d. met bijbehorende dataset beschikbaar zijn voor het package, evenals nieuwe data om zelf een code voor te schrijven.")) %>% col(4, color = "red")
 ```
 
 Indien er tijd over is, probeer ik een (korte) tutorial te vinden van een ander package voor LC-MS analyse. Mocht het nou allemaal nergens op uitdraaien, is mijn plan B om de analyse van mijn BMR projecticum volledig te automatiseren in R. Dit is dan geen nieuwe _skill_, maar wel een volledig zelf bedachte analyse en zelfgeschreven code.
-
-### Logboek
-```{r}
-logboek <- tibble(Dag = c("Maandag","Dinsdag"), Stap = rep(1, 2), Gedaan = c("...", "..."), Tijd = c("...","...")) 
-
-kbl(logboek, caption = "__Logboek.__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1, bold = TRUE) %>% column_spec(4, color = "red")
-```
 
 Het is me niet gelukt om het {amsrpm} package, beschikbaar als [amsrpm.tar.gz](https://www.jstatsoft.org/article/view/v018i04), te installeren. Van het {ptw} package is een publieke [repository](https://github.com/rwehrens/ptw
 ) met demo's beschikbaar, maar de meeste informatie kon ik vinden over het {xcms} package. Er bestaat een publieke [repository](https://github.com/sneumann/xcms) met verschillende vignettes waarin het package uitgebreid wordt gedemonstreerd. Belangrijk is ook dat de vignettes gebruik maken van ruwe data beschikbaar in andere 'installeerbare' packages, zoals {faahKO}. Na het kopiëren van de repository kon ik met 'install()' het package installeren. _Hiervoor moeten RStudio versie 4.2 en RTools versie 4.2 gebruikt worden. Buiten de repository om kunnen de functions uit dit package door een ieder geïnstalleerd worden met 'devtools::install("sneumann/xcms")'_. 
 
 ## Deel 1: Oefenen met de vignette 'LCMS data preprocessing and analysis with xcms'
-
 Het vignette 'LCMS data preprocessing and analysis with xcms', te vinden op [BioConductor](https://bioconductor.org/packages/devel/bioc/vignettes/xcms/inst/doc/xcms.html#4_Chromatographic_peak_detection) of
-onder 'xcms/vignettes/xcms.Rmd' in de repository, demonstreert hoe het {xcms} package gebruikt kan worden voor de import, inspectie, preproccesing en eigenlijke analyse van de LC-MS data. Daarvoor maakt het gebruik van data uit een [studie](https://www.scripps.edu/cravatt/pdf/SaghatelianTrauger2004.pdf) van Alan Saghatelian et al. uit 2004, beschikbaar als {faahKO} package. Deze onderzoekers zijn opzoek gegaan naar lipiden in het zoogdier brein die gereguleerd worden door het enzym _fatty acid amide hydrolase_ (FAAH). Daartoe hebben ze met LC-MS het metaboloom in kaart gebracht van wild-type muizen en van knock-out muizen met een inactief FAAH gen [@saghatelianAssignmentEndogenousSubstrates2004]. In het {faahKO} package is in NetCDF format de ruwe, positive ion en _[centroid](https://blog.acdlabs.com/elucidation/2008/03/what-is-the-dif.html) mode_ LC-MS data aanwezig van ruggengraatmonsters van wild-type (WT) en knock-out (KO) muizen. Het vignette beperkt de analyse tot zes WT muizen en zes KO muizen [@LCMSDataPreprocessing]. 
+onder 'xcms/vignettes/xcms.Rmd' in de repository, demonstreert hoe het {xcms} package gebruikt kan worden voor de import, inspectie, preproccesing en eigenlijke analyse van LC-MS data. Daarvoor maakt het gebruik van data uit een [studie](https://www.scripps.edu/cravatt/pdf/SaghatelianTrauger2004.pdf) van Alan Saghatelian et al. uit 2004, beschikbaar als {faahKO} package. Deze onderzoekers zijn opzoek gegaan naar lipiden in het zoogdier brein die gereguleerd worden door het enzym _fatty acid amide hydrolase_ (FAAH). Daartoe hebben ze met LC-MS het metaboloom in kaart gebracht van wild-type muizen en van knock-out muizen met een inactief FAAH gen [@saghatelianAssignmentEndogenousSubstrates2004]. In het {faahKO} package is in NetCDF format de ruwe, positive ion en _[centroid mode](https://blog.acdlabs.com/elucidation/2008/03/what-is-the-dif.html)_ LC-MS data aanwezig van ruggengraatmonsters van wild-type (WT) en knock-out (KO) muizen. Het vignette beperkt de analyse tot zes WT muizen en zes KO muizen [@LCMSDataPreprocessing]. Ik heb deze vignette grondig bestudeerd en de code gereproduceerd om te oefenen met het package, evenals om te checken of alle functions ook echt werken op mijn laptop.
 
-BOVENSTAANDE AANPASSEN, EIGEN DRAAI AAN GEGEVEN
+## Deel 2: xcms gebruiken voor een eigen analyse van de {faahKO} monsters
+De nieuwgeleerde analyse heb ik toegepast op de monsters ko18, ko19, wt18 en wt19 uit het {faahKO} package. Deze monsters zijn niet meegenomen in de voorbeeld analyse. __Ik begin met het inladen van een _workspace_ met alle benodigde _objects_, omdat bepaalde _functions_ tijdens het bouwen van dit gitbook BiocParallel errors kunnen geven (bekend voor het {xcms} package). Deze _functions_ zijn uitgezet met een '#'.__
 
 ### 1) Data import
 ```{r}
@@ -60,6 +51,9 @@ library(magrittr)
 library(pheatmap)
 library(SummarizedExperiment)
 
+# Laad workspace in omdat sommige functies nog wel eens een BiocParallel error gooien (bekend voor het {xcms} package):
+load("workspace_eigen_code.RData")
+
 # Maak een variabele met de paden naar de vier te analyseren files:
 cdfs <- dir(system.file("cdf", package = "faahKO"), full.names = TRUE, recursive = TRUE)[c(3, 4, 9, 10)] ## full.names en recursive voor paden i.p.v. bestandsnamen
 
@@ -71,64 +65,50 @@ pd
 raw_data <- readMSData(files = cdfs, pdata = new("NAnnotatedDataFrame", pd), mode = "onDisk") ## het pdata argument vraagt naar een AnnotatedDataFrame met metadata, onDisk zodat de ruwe data niet opgeslagen wordt in het geheugen (i.v.m. analyse snelheid)
 ```
 
-Het phenodata dataframe functioneert als beschrijving van de experimentele opzet. _Voor een echt experiment wordt een tabel aangemaakt met een beschrijving van elk sample_. 'raw_data' is een 'OnDiskMSnExp' object dat per [spectrum](https://en.wikipedia.org/wiki/Mass_spectrum) de gemeten retentietijden, m/z ratio's, intensiteiten en _total ion currents_ bevat voor alle monsters [@LCMSDataPreprocessing]. 
+Het phenodata dataframe functioneert als beschrijving van de experimentele opzet. _Voor een echt experiment wordt een tabel aangemaakt met een beschrijving van elk sample_. 'raw_data' is een 'OnDiskMSnExp' _object_ dat per [spectrum](https://en.wikipedia.org/wiki/Mass_spectrum) de gemeten retentie tijden, m/z ratio's, intensiteiten en _total ion currents_ bevat voor alle monsters [@LCMSDataPreprocessing]. 
 
 ### 2) Data inspectie
-```{r}
-#View(raw_data)
-head(rtime(raw_data))
-#head(intensity(raw_data), 2) ## output te groot
-#head(mz(raw_data), 2) ## output te groot
-
-per_file <- split(c( rtime(raw_data), mz(raw_data), intensity(raw_data)), f = fromFile(raw_data))
-length(per_file) ## met fromFile kunnen we de rt's, m/z ratio's en intensiteiten per monster organiseren.
-#View(per_file)
-```
-
-We beginnen met het plotten van de Base Peak Chromatogrammen (BPCs) en Total Ion Chromatogrammen (TICs) voor elk monster. Een BPC laat een piek zien gebaseerd op het ion met het sterkste signaal. Een TIC laat een piek als som van alle ionen zien. In de 'chromatogram()' function staat het 'aggregationFun' argument op 'max' of 'sum' voor respectievelijk een BPC of TIC [@LCMSDataPreprocessing].
+Ik begin met het plotten van de _base peak chromatograms_ (BPCs) en _total ion chromatograms_ (TICs) voor elk monster. Een BPC laat een piek zien gebaseerd op het ion met het sterkste signaal. Een TIC laat een piek als som van alle ionen zien. In de 'chromatogram()' _function_ staat het 'aggregationFun' argument op 'max' of 'sum' voor respectievelijk een BPC of TIC [@LCMSDataPreprocessing].
 
 ```{r}
-#load("workspace.RData")?
-
-# Verkrijg BPC:
+# Verkrijg BPCs:
 bpis <- chromatogram(raw_data, aggregationFun = "max")  
-group_colors <- c("#50984EA3", "#504DAF4A") ## geef KO een paarse kleur en WT een groene kleur. Beide doorzichtig voor plots
+group_colors <- c("#60984EA3", "#604DAF4A") ## geef KO een paarse kleur en WT een groene kleur. Beide doorzichtig voor plots
 names(group_colors) <- c("KO", "WT")
-# bpis bevat de chromatogrammen van alle monsters. Bekijk er één met bijvoorbeeld:
+# bpis bevat de BPCs van alle monsters. Bekijk er één met bijvoorbeeld:
 head(rtime(bpis[1, 1]))
 head(mz(bpis[1, 1]))
 head(intensity(bpis[1, 1]))
 
-# Verkrijg TIC:
+# Verkrijg TICs:
 bpis_2 <- chromatogram(raw_data, aggregationFun = "sum")
 
 # Plot chromatogrammen:
-plot(bpis, col = group_colors[raw_data$sample_group], main = "Base peak chromatogram per monster: m/z ratio range: 200 - 600")
-legend(4000, 1000000, legend = c("ko18", "ko19", "wt18", "wt19"), lty = 1, col = c(rep("#50984EA3", 2), rep("#504DAF4A", 2)))
+plot(bpis, col = group_colors[raw_data$sample_group], main = "BPC per sample: m/z ratio range: 200 - 600")
+legend(4100, 1050000, legend = c("wt", "ko"), lty = 1, col = c("#60984EA3", "#604DAF4A"))
 
-plot(bpis_2, col = group_colors[raw_data$sample_group], main = "Total ion chromatogram per monster: m/z ratio range: 200 - 600")
-legend(4000, 2100000, legend = c("ko18", "ko19", "wt18", "wt19"), lty = 1, col = c(rep("#50984EA3", 2), rep("#504DAF4A", 2)))
+plot(bpis_2, col = group_colors[raw_data$sample_group], main = "TIC per sample: m/z ratio range: 200 - 600")
+legend(4100, 2250000, legend = c("wt", "ko"), lty = 1, col = c("#60984EA3", "#604DAF4A"))
 ```
 
-Volgens @LCMSDataPreprocessing kijk ik naar de _ion current_ verdeling per monster om een indruk te krijgen van de kwaliteit van de runs:
+Net als in de vignette kijk ik naar de _ion current_ verdeling per monster om een indruk te krijgen van de kwaliteit van de runs:
 
 ```{r}
 tc <- split(tic(raw_data), f = fromFile(raw_data)) ## file splitsen op total ion currents per monster
-boxplot(tc, col = group_colors[raw_data$sample_group], ylab = "intensity", main = "Total ion current per monster", names = c("wt18", "wt19", "ko18", "ko19"))
+boxplot(tc, col = group_colors[raw_data$sample_group], main = "Total ion current per sample", names = c("wt18", "wt19", "ko18", "ko19"))
 ```
-
 De verdelingen zien eruit zoals in de vignette.
 
-Vervolgens maak ik een heatmap om een overzicht te krijgen van hoe de monsters aan elkaar gerelateerd zijn. Volgens [@LCMSDataPreprocessing] cluster ik de monsters samen gebaseerd op hun base peak chromatogrammen.
+Vervolgens maak ik een heatmap om een overzicht te krijgen van hoe de monsters aan elkaar gerelateerd zijn. Net als in de vignette cluster ik de monsters samen gebaseerd op hun BPCs.
 
 ```{r}
-# Groepeer intensiteiten in rt bins tegen variatie effect: 
+# Groepeer intensiteiten in retentie tijd bins tegen variatie effect: 
 bpis_bin <- MSnbase::bin(bpis, binSize = 2)
 
-# Bereken de correlatie gebaseerd op log2-genormaliseerde intensiteiten (zie DAUR2):
+# Bereken de correlatie coëfficiënten gebaseerd op log2-genormaliseerde bins:
 cormat <- cor(log2(do.call(cbind, lapply(bpis_bin, intensity))))
-cormat
 colnames(cormat) <- rownames(cormat) <- raw_data$sample_name ## zet monsters horizontaal en verticaal
+cormat
 
 # Geef phenodata op voor annotatie in heatmap:
 ann <- data.frame(group = raw_data$sample_group)
@@ -138,9 +118,11 @@ ann
 pheatmap(cormat, annotation = ann, annotation_color = list(group = group_colors))
 ```
 
-Er lijkt een vrij sterke correlatie te zijn tussen de knock-out en wild-type monsters met index 19. _Ik ben er niet achter gekomen wat deze indexen precies betekenen, iets met de methode/meetvolgorde_. Voor de monster met index 18 lijkt dit niet het geval.
+Er lijkt een vrij sterke correlatie te zijn tussen de knock-out en wild-type monsters met index 19. _Ik ben er niet achter gekomen wat deze indexen precies betekenen, iets met de methode/meetvolgorde_. Voor de monsters met index 18 lijkt dit niet het geval.
 
-De _peak detection_ wordt uitgevoerd met het centWave algoritme. Daartoe bepalen we eerst wat de peakwidth-waarde moet zijn, door het _extracted ion chromatogram_ (EIC) van één piek te plotten. Een EIC laat het signaal zien van één geselecteerd ion a.k.a. m/z ratio [@LCMSDataPreprocessing].
+### 3) Peak detection
+
+De _peak detection_ wordt uitgevoerd met het centWave algoritme. Daartoe bepaal ik eerst wat de peakwidth-waarde moet zijn, door het _extracted ion chromatogram_ (EIC) van één piek te plotten. Een EIC laat het signaal zien van één geselecteerd ion a.k.a. m/z ratio [@LCMSDataPreprocessing].
 
 ```{r}
 rtr <- c(2700, 2900)
@@ -149,40 +131,40 @@ chr_raw <- chromatogram(raw_data, mz = mzr, rt = rtr)
 plot(chr_raw, col = group_colors[chr_raw$sample_group], main = "m/z ratio range: 334.9 - 335.1")
 ```
 
-De piek is maximaal 80 seconden breedt. Ik stel de 'peakwidth' wederom in op '20, 80', wat volgens mij de minimale en maximale piekbreedte moet voorstellen.
+De piek is maximaal 80 seconden breedt. Net als in de vignette stel ik de 'peakwidth' in op '20, 80', wat volgens mij de minimale en maximale piekbreedte moet voorstellen.
 
 ```{r}
 # Voer peak detection uit op EIC: 
 cwp <- CentWaveParam(peakwidth = c(20, 80), noise = 5000, prefilter = c(6, 5000)) # noise en prefilter om de analyse tijd te verlagen
 xdata <- findChromPeaks(raw_data, param = cwp) 
 
-# De gevonden pieken met informatie over m/z ratio's, rt's en intensiteiten:
+# De gevonden pieken per sample met informatie over m/z ratio's, retentie tijden en intensiteiten:
 head(chromPeaks(xdata))
 ```
 
-Met de 'refineChromPeaks' function kan de detectie worden verfijnd. Pieken die bijvoorbeeld niet voldoen aan een bepaalde intensiteit worden verwijderd. Hieronder worden overlappende pieken samengevoegd [@LCMSDataPreprocessing].
+Met de 'refineChromPeaks' _function_ kan de detectie worden verfijnd. Pieken die bijvoorbeeld niet voldoen aan een bepaalde intensiteit worden verwijderd. Hieronder worden overlappende pieken samengevoegd [@LCMSDataPreprocessing].
 
 ```{r}
-mpp <- MergeNeighboringPeaksParam(expandRt = 4) ## check voor overlap in een rt window van vier seconden rond pieken
-xdata_pp <- refineChromPeaks(xdata, mpp)
-xdata <- xdata_pp
+## de volgende codes zijn uitgezet met '#' omdat ze BiocParallel errors geven tijdens het builden:
+#mpp <- MergeNeighboringPeaksParam(expandRt = 4) ## check voor overlap in een rt window van vier seconden rond pieken
+#xdata_pp <- refineChromPeaks(xdata, mpp)
 ```
 
 De resultaten van de _peak detection_ kunnen op verschillende manieren worden samengevat: 
 
 ```{r}
-# Overzicht van het aantal geïdentificeerde pieken per monster en hun breedtes: 
+# A Overzicht van het aantal geïdentificeerde pieken per monster en hun breedtes: 
 summary_fun <- function(z)
     c(peak_count = nrow(z), rt = quantile(z[, "rtmax"] - z[, "rtmin"])) ## voor elk monster
 
 T <- lapply(split.data.frame(
-    chromPeaks(xdata), f = chromPeaks(xdata)[, "sample"]),
+    chromPeaks(xdata_pp), f = chromPeaks(xdata_pp)[, "sample"]),
     FUN = summary_fun)
 T
 T <- do.call(rbind, T)
 T
 
-rownames(T) <- basename(fileNames(xdata))
+rownames(T) <- basename(fileNames(xdata_pp))
 pandoc.table(
     T,
     caption = paste0("Summary statistics on identified chromatographic",
@@ -190,69 +172,70 @@ pandoc.table(
                      " sample and widths/duration of chromatographic ",
                      "peaks."))
 
-# Per monster de 'locatie' van pieken in de m/z - retentietijd dimensie:
-plotChromPeaks(xdata, file = 1)
-plotChromPeaks(xdata, file = 2)
-plotChromPeaks(xdata, file = 3)
-plotChromPeaks(xdata, file = 4)
+# B Per monster de 'locatie' van pieken in de m/z ratio - retentie tijd dimensie:
+plotChromPeaks(xdata_pp, file = 1)
+plotChromPeaks(xdata_pp, file = 2)
+plotChromPeaks(xdata_pp, file = 3)
+plotChromPeaks(xdata_pp, file = 4)
 
-# Piekdichtheid, oftewel het aantal pieken, over de retentietijd:
-plotChromPeakImage(xdata) ## lichter van kleur = hogere dichtheid
+# C Piekdichtheid, oftewel het aantal pieken, over de retentie tijd:
+plotChromPeakImage(xdata_pp) ## lichter van kleur = hogere dichtheid
 ```
 
 _Intermezzo: ontleding van samenvattende tabel_
-'split.data.frame(chromPeaks(xdata), f = chromPeaks(xdata)[, "sample"])' maakt één list van per monster één vector met de geïdentificeerde pieken. Met lapply() wordt op elke vector in deze list de summary_fun function uitgevoerd, die het aantal pieken en de quantielen van de retentietijd verdeling teruggeeft. Deze worden opgeslagen als list 'T' en do.call() roept vervolgens de function 'rbind' aan, die de pieken en quantielen combineert in een array. De rijnamen worden vervangen en er wordt een tabel gemaakt volgens Pandoc's markdown style.
+
+'split.data.frame(chromPeaks(xdata_pp), f = chromPeaks(xdata_pp)[, "sample"])' maakt één list van per monster één vector met de geïdentificeerde pieken. Met lapply() wordt op elke vector in deze list de summary_fun _function_ uitgevoerd, die het aantal pieken en de quantielen van de retentietijd verdeling teruggeeft. Deze worden opgeslagen als list 'T' en do.call() roept vervolgens de _function_ 'rbind' aan, die de pieken en quantielen combineert in een array. De rijnamen worden vervangen en er wordt een tabel gemaakt volgens Pandoc's markdown style.
 
 pander() = pandoc.table()
 
-Ik controleer volgens [@LCMSDataPreprocessing] de piekdetectie met de piek die hierboven is gebruikt om de 'peakwidth' te bepalen:
+Ik controleer net als in de vignette de piekdetectie met de piek die hierboven is gebruikt om de 'peakwidth' te bepalen:
 
 ```{r}
 # Nogmaals de voorbeeldpiek:
-plot(chr_raw, col = group_colors[chr_raw$sample_group])
+plot(chr_raw, col = group_colors[chr_raw$sample_group], main = "m/z ratio range: 334.9 - 335.1")
 
 # Maak het EIC opnieuw, ditmaal bevat het ook de geïdentificeerde pieken van het ion:
-chr_ex <- chromatogram(xdata, mz = mzr, rt = rtr)
+chr_ex <- chromatogram(xdata_pp, mz = mzr, rt = rtr)
 sample_colors <- group_colors[chr_ex$sample_group]
-plot(chr_ex, col = group_colors[chr_raw$sample_group], lwd = 2, peakBg = sample_colors[chromPeaks(chr_ex)[, "sample"]]) ## highlight de geïdentificeerde pieken
+plot(chr_ex, col = group_colors[chr_raw$sample_group], lwd = 2, peakBg = sample_colors[chromPeaks(chr_ex)[, "sample"]], main = "m/z ratio range: 334.9 - 335.1") ## highlight de geïdentificeerde pieken
 
-# Verkrijg informatie over de pieken in deze regio:
-pander(chromPeaks(xdata, mz = mzr, rt = rtr), caption = paste("Identified chromatographic peaks in a selected ", "m/z and retention time range.")) ## haalt pandoc.table() aan
+# Verkrijg info over de pieken in deze regio:
+pander(chromPeaks(xdata_pp, mz = mzr, rt = rtr), caption = paste("Identified chromatographic peaks in a selected ", "m/z and retention time range.")) ## haalt pandoc.table() aan
 ```
-__Lijkt oké, maar linker hobbels niet meenemen? Heeft met 50, 100 te maken?__
 
-Ik rond de _peak detection_ af door te kijken naar de distributie van piek intensiteit per monster. Hiermee controleren we, of er geen stelselmatige verschillen zijn tussen de runs van de monsters [@LCMSDataPreprocessing].
+Ik rond de _peak detection_ af door te kijken naar de distributie van piek intensiteit per monster. Hiermee controleren ik volgens de vignette of er geen stelselmatige verschillen zijn tussen de runs van de monsters [@LCMSDataPreprocessing].
 
 ```{r}
 # Verkrijg piek intensiteiten per monster op een log2-schaal:
-ints <- split(log2(chromPeaks(xdata)[, "into"]),
-              f = chromPeaks(xdata)[, "sample"])
-boxplot(ints, varwidth = TRUE, col = group_colors[xdata$sample_group],
-        ylab = expression(log[2]~intensity), main = "Peak intensities", names = c("wt18", "wt19", "ko18", "ko19"))
+ints <- split(log2(chromPeaks(xdata_pp)[, "into"]),
+              f = chromPeaks(xdata_pp)[, "sample"])
+boxplot(ints, varwidth = TRUE, col = group_colors[xdata_pp$sample_group],
+        ylab = expression(log[2]~intensity), main = "Peak intensities per sample", names = c("wt18", "wt19", "ko18", "ko19"))
 grid(nx = NA, ny = NULL)
 ```
-## 5) Alignment
 
-De retentietijd van eenzelfde ion kan variëren tussen monsters (zie EIC voorbeeldpiek). We corrigeren hiervoor met de 'adjustRtime' function, die de pieken langs de retentie tijd as verschuift om ze te _alignen_. Hieronder wordt de obiwarp methode gebruikt die de retentietijden van de spectra _alignt_, beter bekend als _warping_ [@LCMSDataPreprocessing].
+### 4) Alignment
+De retentie tijd van eenzelfde ion kan variëren tussen monsters (zie EIC voorbeeldpiek). Ik corrigeer hiervoor met de 'adjustRtime' _function_, die de pieken langs de retentie tijd as verschuift om ze te _alignen_. Hieronder wordt de obiwarp methode gebruikt die de retentie tijden van de spectra _alignt_, beter bekend als _warping_ [@LCMSDataPreprocessing].
 
 ```{r}
 # Align:
-xdata <- adjustRtime(xdata, param = ObiwarpParam(binSize = 0.6))
-head(rtime(xdata, adjusted = FALSE)) ## vergelijk retentie tijden
-head(rtime(xdata))
+xdata_adj <- adjustRtime(xdata_pp, param = ObiwarpParam(binSize = 0.6))
+head(rtime(xdata_adj, adjusted = FALSE)) ## vergelijk retentie tijden
+head(rtime(xdata_adj))
 
 # BPCs vóór alignment:
-plot(bpis, col = group_colors[raw_data$sample_group], main = "Base peak chromatogram per monster: m/z ratio range: 200 - 600")
-legend(4000, 1000000, legend = c("ko18", "ko19", "wt18", "wt19"), lty = 1, col = c(rep("green", 2), rep("purple", 2)))
+plot(bpis, col = group_colors[raw_data$sample_group], main = "BPC per sample: m/z ratio range: 200 - 600")
+legend(4100, 1050000, legend = c("wt", "ko"), lty = 1, col = c("#60984EA3", "#604DAF4A"))
 
 # BPCs ná alignment:
-bpis_adj <- chromatogram(xdata, aggregationFun = "max", include = "none")
+## de volgende function geeft in deze context BiocParallel errors tijdens het builden:
+#bpis_adj <- chromatogram(xdata_adj, aggregationFun = "max", include = "none")
 par(mfrow = c(2, 1), mar = c(4.5, 4.2, 1, 0.5))
-plot(bpis_adj, col = group_colors[bpis_adj$sample_group], main = "BPC per monster na alignment: m/z ratio range: 200 - 600")
-legend(4000, 1000000, legend = c("wt18", "wt19", "ko18", "ko19"), lty = 1, col = c(rep("#50984EA3", 2), rep("#504DAF4A", 2)))
+plot(bpis_adj, col = group_colors[bpis_adj$sample_group], main = "BPC per sample after alignment: m/z ratio range: 200 - 600")
+legend(4100, 1050000, legend = c("wt", "ko"), lty = 1, col = c("#60984EA3", "#604DAF4A"))
 
-# Plot het verschil tussen de ruwe en aangepaste retentietijden:
-plotAdjustedRtime(xdata, col = group_colors[xdata$sample_group])
+# Plot het verschil tussen de ruwe en aangepaste retentie tijden:
+plotAdjustedRtime(xdata_adj, col = group_colors[xdata_adj$sample_group])
 ```
 
 Het effect van de _alignment_ is goed zichtbaar op de voorbeeldpiek:
@@ -263,84 +246,83 @@ par(mfrow = c(2, 1))
 plot(chr_raw, col = group_colors[chr_raw$sample_group])
 
 # Verkrijg het EIC van de voorbeeldpiek na retentie tijd corretie:
-chr_adj <- chromatogram(xdata, rt = rtr, mz = mzr)
+chr_adj <- chromatogram(xdata_adj, rt = rtr, mz = mzr)
 plot(chr_adj, col = group_colors[chr_raw$sample_group], peakType = "none")
 ```
 
-## 6) Correspondence
-
-De laatste preprocessing-stap is het identificeren van dezelfde pieken in de monsters: de _correspondence_ analyse.
-
-Daartoe worden de pieken eerst per kleine m/z ratio-intervallen gegroepeerd in _features_ op basis van 
-de piekdichtheid over de retenie tijd. Hieronder een voorbeeld voor het m/z ratio interval 305.05 - 305.15. 'minFraction = 0.4' geeft aan dat alleen pieken gegroepeerd worden die in minstens 40% van de monsters voorkomen [@LCMSDataPreprocessing].
+### 5) Correspondence
+De laatste preprocessing-stap is het identificeren van dezelfde pieken in de monsters: de _correspondence_ analyse. Daartoe worden de pieken eerst per kleine m/z ratio-intervallen gegroepeerd in _features_ op basis van 
+de piekdichtheid over de retenie tijd. Hieronder een voorbeeld voor het m/z ratio interval 305.05 - 305.15. [@LCMSDataPreprocessing].
 
 ```{r}
 # Defineer interval:
 mzr <- c(305.05, 305.15)
 
 # Verkrijg bijbehorend EIC:
-chr_mzr <- chromatogram(xdata, mz = mzr)
+## deze function geeft BiocParallel errors tijdens het builden:
+#chr_mzr <- chromatogram(xdata_adj, mz = mzr)
 
-# Voer methode uit:
-pdp <- PeakDensityParam(sampleGroups = xdata$sample_group, minFraction = 0.4, bw = 30) ## 'minFraction = 0.4' geeft aan dat alleen pieken gegroepeerd worden die in minstens 40% van de monsters voorkomen, 'bw = 30' geeft de SD van de Kernel lijnsmoothing methode
+# Groepeer pieken:
+pdp <- PeakDensityParam(sampleGroups = xdata_adj$sample_group, minFraction = 0.4, bw = 30) ## 'minFraction = 0.4' geeft aan dat alleen pieken gegroepeerd worden die in minstens 40% van de monsters voorkomen, 'bw = 30' geeft de SD van de Kernel lijnsmoothing methode
 
 # Plot resultaat:
-plotChromPeakDensity(chr_mzr, col = sample_colors, param = pdp, peakBg = sample_colors[chromPeaks(chr_mzr)[, "sample"]], peakCol = sample_colors[chromPeaks(chr_mzr)[, "sample"]], peakPch = 16)
+plotChromPeakDensity(chr_mzr, col = sample_colors, param = pdp, peakBg = sample_colors[chromPeaks(chr_mzr)[, "sample"]], peakCol = sample_colors[chromPeaks(chr_mzr)[, "sample"]], peakPch = 16, main = "m/z ratio range: 305.05 - 305.15")
 ```
 
-Het bovenste paneel highlight de pieken in de EICs van de monsters. Het onderste paneel laat zien welke monsters bij een bepaalde retentie tijd een piek lieten zien. Zo laten alle vier de samples een piek zijn bij een retentie tijd van ~ 2900 seconden.
+Het bovenste paneel highlight de pieken in de EICs van de monsters. Het onderste paneel laat zien welke monsters (y-as) bij een bepaalde retentie tijd een piek lieten zien. Zo laten alle vier de samples een piek zijn bij retentie tijden van ~ 2900 en 3500 seconden.
 
-Ik definieer nu volgens @LCMSDataPreprocessing de piekdichtheid voor de gehele dataset en voer de _correspondence_ analyse uit op de verkregen _features_ met 'groupChromPeaks':
+Ik definieer nu volgens de vignette de _features_ van de gehele dataset en voer hier de _correspondence_ analyse op uit met de 'groupChromPeaks' _function_:
 
 ```{r}
-pdp <- PeakDensityParam(sampleGroups = xdata$sample_group, minFraction = 0.4, bw = 30)
-xdata <- groupChromPeaks(xdata, param = pdp)
+pdp <- PeakDensityParam(sampleGroups = xdata_adj$sample_group, minFraction = 0.4, bw = 30)
+xdata_cor <- groupChromPeaks(xdata_adj, param = pdp)
 ```
 
-De resultaten van de preprocessing wordt met de 'quantify' function samengevat tot een 'SummarizedExperiment' object: 
-
+De resultaten van de preprocessing worden met de 'quantify' _function_ samengevat tot een 'SummarizedExperiment' _object_: 
 ```{r}
-res <- quantify(xdata, value = "into") ## value = "into" zodat ...
+res <- quantify(xdata_cor)
 colData(res) ## informatie over de monsters
-featureDefinitions(xdata) ## informatie over de features
-head(featureValues(xdata)) ## per monster de som van de van intensiteiten van de pieken in één feature
+featureDefinitions(xdata_cor) ## informatie over de features
+head(featureValues(xdata_cor)) ## per monster per feature de som van de intensiteiten van de feature pieken
 ```
 
-Indien er voor een monster geen pieken van een bepaalde _feature_ zijn gevonden, zien we 'NA'. Missende intensiteiten worden ingevuld gebaseerd op de intensiteit van het feature in de andere monsters. De m/z ratio interval - retentie tijd regio van een feature wordt bepaald met de 'ChromPeakAreaParam()' function: de onderste m/z ratio en retentie tijd grenzen zijn gelijk aan de 25% quantielen van respectievelijk de laagse m/z ratio (mzmin) en laagste retentie tijd waarden (rtmin) van alle pieken, de bovenste grenzen zijn gelijk aan de 75% quantielen [@LCMSDataPreprocessing].
+Indien er voor een monster geen pieken van een bepaalde _feature_ zijn gevonden, zien we 'NA'. 
+
+Missende intensiteiten worden ingevuld gebaseerd op de intensiteit van het _feature_ in de andere monsters. De m/z ratio interval - retentie tijd regio van een _feature_ wordt daartoe bepaald met de 'ChromPeakAreaParam()' _function_: de onderste grenzen van m/z ratio en retentie tijd zijn gelijk aan de 25% quantielen van respectievelijk de laagste m/z ratio (mzmin) en de laagste retentie tijd (rtmin) van alle pieken. De bovenste grenzen zijn gelijk aan de 75% quantielen van de hoogste m/z ratio (mzmax) en de hoogste retentie tijd (rtmax). [@LCMSDataPreprocessing].
 
 ```{r}
-xdata <- fillChromPeaks(xdata, param = ChromPeakAreaParam())
-head(featureValues(xdata))
+xdata_fill <- fillChromPeaks(xdata_cor, param = ChromPeakAreaParam())
+head(featureValues(xdata_fill))
 
 # NA's vóór invullen:
-apply(featureValues(xdata, filled = FALSE), MARGIN = 2, 
-      FUN = function(z) sum(is.na(z))) # 'MARGIN = 2' geeft aan dat de functie wordt toegepast op de kolommen van 'xdata'
+apply(featureValues(xdata_fill, filled = FALSE), MARGIN = 2, 
+      FUN = function(z) sum(is.na(z))) # 'MARGIN = 2' geeft aan dat de functie wordt toegepast op de kolommen van 'xdata_fill'
 
 # NA's ná invullen:
-apply(featureValues(xdata), MARGIN = 2,
+apply(featureValues(xdata_fill), MARGIN = 2,
       FUN = function(z) sum(is.na(z)))
 ```
 
-Als volgt gebruik ik de 'featureSummary' function voor een algemene samenvatting per _feature_. 'count' en 'perc' geven het aantal monsters aan waarin een piek van een feature is gevonden. 'multi_count' en 'multi_perc' geven het aantal monsters aan waarin meer dan één piek uit een feature is teruggevonden. Het 'group' argument verdeelt deze statistieken verder over knock-out en wildtype monsters [@LCMSDataPreprocessing].
+Als volgt gebruik ik de 'featureSummary' _function_ voor een algemene samenvatting per _feature_. 'count' en 'perc' geven het aantal monsters aan waarin een _feature_ is gevonden. 'multi_count' en 'multi_perc' geven het aantal monsters aan waarin meer dan één piek uit een _feature_ is teruggevonden. Het 'group' argument verdeelt deze statistieken verder over knock-out en wildtype monsters [@LCMSDataPreprocessing].
 
 ```{r}
-head(featureSummary(xdata, group = xdata$sample_group))
+head(featureSummary(xdata_fill, group = xdata_fill$sample_group))
 
 # Voeg de samenvatting met ingevulde pieken toe aan 'res':
-assays(res)$raw_filled <- featureValues(xdata, filled = TRUE)
+assays(res)$raw_filled <- featureValues(xdata_fill, filled = TRUE)
 head(assay(res, "raw"))
 head(assay(res, "raw_filled"))
 ```
 
-Met de 'featureChromatograms' function kan voor elke _feature_ een EIC gemaakt worden [@LCMSDataPreprocessing]. Er zijn in totaal 268 _features_ ('nrow(featureValues(xdata, filled = TRUE))'), ik laat de eerste vier zien. 
+Met de 'featureChromatograms' _function_ kan voor elke _feature_ een EIC gemaakt worden [@LCMSDataPreprocessing]. Er zijn in totaal 268 _features_ ('nrow(featureValues(xdata_fill, filled = TRUE))'), ik laat de pieken van de eerste vier zien: 
 
 ```{r}
-feature_chroms <- featureChromatograms(xdata, features = 1:4)
+feature_chroms <- featureChromatograms(xdata_fill, features = 1:4)
 chromPeaks(feature_chroms[1:4, ]) ## EIC informatie eerste vier features
 plot(feature_chroms, col = sample_colors, peakBg = sample_colors[chromPeaks(feature_chroms)[, "sample"]])
 ```
 
-Ik rond de analyse af met een _principal component analysis_, waarmee wordt bepaald hoe de monsters in dit experiment zich tot elkaar verhouden [@LCMSDataPreprocessing]. _Er is geen data normalisatie stap beschikbaar binnen het {xcms} package_. 
+Ik rond de analyse af met een _principal component analysis_, waarmee wordt bepaald hoe de monsters in dit experiment zich tot elkaar verhouden. _Er is geen data normalisatie stap beschikbaar binnen het {xcms} package_. 
 
 ```{r}
 # Log2-transformeer de features:
@@ -351,7 +333,7 @@ pc <- prcomp(t(na.omit(ft_ints)), center = TRUE) ## negeer missende waarden met 
 summary(pc)
 
 # Plot de PCA resultaten:
-cols <- group_colors[xdata$sample_group]
+cols <- group_colors[xdata_fill$sample_group]
 pcSummary <- summary(pc)
 plot(pc$x[, 1], pc$x[,2], pch = 21, main = "",
      xlab = paste0("PC1: ", format(pcSummary$importance[2, 1] * 100,
@@ -360,201 +342,11 @@ plot(pc$x[, 1], pc$x[,2], pch = 21, main = "",
                                    digits = 3), " % variance"),
      col = "darkgrey", bg = cols, cex = 2)
 grid()
-text(pc$x[, 1], pc$x[,2], labels = xdata$sample_name, col = "darkgrey",
-     pos = 3, cex = 2)
+text(pc$x[, 1], pc$x[,2], labels = xdata_fill$sample_name, col = "darkgrey",
+     pos = c(4, 3, 1, 2), cex = 1)
 ```
-
-Gebaseerd op het signaal uit PC1, wat 46.8% van de variatie omvat, zien we zoals verwacht het verschil tussen knock-out monsters en wildtype monsters. Echter, het signaal uit PC2, bijna net zo sterk, verdeelt de monsters gebaseerd op hun index. Ik weet niet genoeg van het experiment af om een uitspraak te kunnen doen over de oorzaak hiervan, maar gezien er niet genormaliseerd is, is het aannemelijk dat deze verdeling veroorzaakt wordt door technische afwijking.
-
-https://bioconductor.org/packages/3.14/bioc/html/xcms.html
-
-https://www.uab.edu/proteomics/metabolomics/workshop/2017/day3/intro_to_XCMS_in_R.pdf
-
-https://bioconductor.org/packages/devel/bioc/vignettes/xcms/inst/doc/xcms.html
-
-
-PLAN:
-INTRODUCTIE SCHRIJVEN, WAT MIJN PLAN WAS EN WAT HET UITEINDELIJK IS GEWORDEN EN DE MOTIVATIE DAARVOOR
-INTRO SCHRIJVEN OP DE DATA DIE GEBRUIKT IS VOOR HET VIGNETTE VOORBEELD
-ANALYSE KOPIEËREN EN PLAKKEN, WELLICHT WAT DINGEN AANPASSEN ZOALS KLEURTJES EN SAMPLES VAN PLOTS
-BIJ ELKE ANALYSE STAP OPSCHRIJVEN WAT IK DOE EN WAAROM
-
-
-
-```{r planning en logboek, echo = FALSE}
-library(tidyverse)
-library(kableExtra)
-library(DT)
-
-planning <- tibble(Stap = 1:10, Wat = c(" Oriënteren op de (R) packages e.d. die beschikbaar zijn voor chromatografie data analyse in RStudio.","Uitzoeken in welke formats de data uit Clarity Lite geëxporteerd kan worden.","Afspraak maken om op de HPLC computer op HL7 te mogen snuffelen.","Helder maken: wat wil ik precies dat de packages doen?","Twee packages o.i.d. kiezen om verder uit te diepen.","Installeren van packages, werkzaamheid krijgen.","Packages testen met nep data of data geëxporteerd uit Clarity Lite.","Verder verdiepen in het gebruik van de packages.","...","..."), Wanneer = c("?","?","?","?","?","?","?","?","?","?"), Hoelang = c("2,5 uur","1,5 uur","2 uur","1,5 uur","x","2 uur","2 uur","~","...","..."))
-
-kbl(planning, caption = "__Tabel 1: Planning voor vrij te besteden uren.__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1, bold = TRUE) %>% column_spec(4, color = "red")
-
-logboek <- tibble(Dag = c("Maandag","Dinsdag"), Stap = rep(1, 2), Gedaan = c("...", "..."), Tijd = c("...","...")) 
-
-kbl(logboek, caption = "__Tabel 2: Logboek.__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1, bold = TRUE) %>% column_spec(4, color = "red")
-
-library(rbbt)
-bbt_update_bib("05_portfolio_assignment_3.2.Rmd")
-```
-
-45 minuten: logboek opzetten
-
-45 minuten - 1 uur: data van HPLC computer gehaald
-
- 
-
-Plan: één dag oriënteren, als ik dan niet op een package uitkom ga ik de data analyse dupliceren in R.
-
- 
-
-21:52 - 22:20
-
- 
-
-Beste optie tot nu toe gevonden: GCalignR
-
-https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0198311
-
- 
-
-22:31 overzicht gevonden van packages beschikbaar voor LC-MS data. Er is niks voor alleen LC data. Package leren uitvoeren op neppe dataset?
-
-https://bioconductor.org/packages/devel/bioc/vignettes/xcms/inst/doc/xcms.html
-
- 
-
-22:39
-
-file:///C:/Users/steph/Downloads/v18i04.pdf
-
- 
-
-21:51 verder gaan
-
-23:26: niet gelukt om amsrpm.tar.gz package te downloaden met install.packages("amsrpm_1.2.tar.gz", repos=NULL, type="source") in Rtools28 of R Console of met install.packages("amsrpm_1.2.tar.gz", repos=NULL, type="source") in R Terminal. Package wordt niet herkend.
-
-http://www.ryantmoore.org/files/ht/htrtargz.pdf
-
-https://stat.ethz.ch/pipermail/r-help/2008-August/169599.html
-
- 
-
-Kan geen andere link naar amsrpm package vinden
-
- 
-
-23:42 nieuwe optie: ptw package.
-
-https://github.com/rwehrens/ptw
-
-https://www.yumpu.com/en/document/read/54160321/package-ptw
-
- 
-
-XCMS
-
-https://bioconductor.org/packages/3.14/bioc/html/xcms.html
-
-https://www.uab.edu/proteomics/metabolomics/workshop/2017/day3/intro_to_XCMS_in_R.pdf
-
-https://bioconductor.org/packages/devel/bioc/vignettes/xcms/inst/doc/xcms.html
-
- 
-
-00:16 mijn R versie is te oud dus mijn BioConductor versie is te oud en ik kan deze sowieso niet updaten want is steeds 'in gebruik'? BioConducter versie te oud dus kan faaK0 enzo niet installeren.
-
-Heb nu een oude versie van xcms, 3.15 ofzo.
-
- 
-
-00:48 nog steeds gigantisch aan het kutten. Heb een laptop met R 4.2, devtools::install("sneumann/xcms") aborts op het laatste moment. Install() na kopiëren van repo werkt ook niet. Hopelijk heeft het te maken met een erouderde versie van RTools.
-
- 
-
-01:07 Nadat RTools 4.2 was geïnstalleerd, kon ik met install() xcms downloaden in repo. Met BiocManager faahKO geinstalleerd.
-
- 
-
-13:10 - 14:16, verder gegaan met XCMS analyse van faahKO samples
-
- 
-
-14:18
-
-14:36 random crash van sessie, alles opnieuw uitvoeren voor environment. History en Environment leeg.
-
-14:50 verdergaan
-
-16:17 bijna op de helft?
-
-~16:30 verder
-
-17:11 bij Alignment aangekomen
-
- 
-
-22:10 verdergaan
-
-22:25 error met adjustRtime
-
-22:48 er zijn blijkbaar vaker problemen met biocparralel met dit package, nog 2x runnen gaf ineens resultaat
-
-23:15 net over helft
-
- 
-
-23:25 - 23:35 faahKO artikel gezocht
-
-00:23 gezocht naar een vervolg op vignette? faahKO artikel zo-zo gelezen, opzoek naar een conclusie xD
-
- 
-
-00:39
-
-01:54 afgemaakt en kan workspace delen
-
- 
-
-11:00 proberen book te builden op laptop dave
-
-11:47 gelukt, setwd moeten veranderen, dir_tree en hero image link.
-
- 
-
-11:53 committen hangt vast
-
-12:11 probleem met committen opgelost
-
-12:59 verdergaan
-14:20 pauze
-14:30 verder
-15:00 pauze
-15:07 verder
-15:43 pauze
-15:55 verder
-16:15 pauze
-16:31 verder
-17:23 stop
-
-22:00 verder
-00:40 bezig geweest met reproduceren van analyse op andere monsters
-00:53 verder
-02:20 slapen
-
-10:45 verder
-11:16 pauze
-11:53 verder
-12:26 pauze
-13:31 pauze
-13:40 verder
-14:23 pauze
-14:36 verder
-16:40 pauze
-
-21:02 verder
-
-Wat te doen:
-* welke monster welke kleur aanpassen
-* tabellen veranderen naar iets wat ik ken?
-* oefenen met knitten
+Volgens PC1, wat 48,5% van de variatie omvat, is er een duidelijk verschil tussen de monsters gebaseerd op het FAAH gen. Volgens PC2, met 39,6% variatie ook een aanzienlijk signaal, worden de monsters ook verdeeld gebaseerd op hun index. Omdat er niet van te voren genormaliseerd is, zou dit verschil veroorzaakt kunnen worden door een afwijking in de methode. Bijvoorbeeld: de dag waarop is gemeten heeft het resultaat beïnvloedt.
+
+## Afronding
+15:51 - 16:47
+Wat hebben de afgelopen 32 uur mij gebracht? Het meest heb ik opgestoken van de hindernissen die ik tegenkwam tijdens de installatie van nieuwe R packages. Van verouderde RTools versies tot missende _function_ beschrijvingen en errors in een package zelf. Ik vind het waardevol om alle stappen, van het bedenken wat voor een package je nodig hebt tot je eigen analyse schrijven, doorlopen te hebben. Daarnaast heb ik geleerd wat voor _preprocessing_ stappen er nodig zijn om van ruwe MS data te komen tot een vergelijking van samenstellingen tussen monsters. Ik verwacht niet dat mijn ervaring met het {xcms} package mij direct gaat helpen tijdens mijn stage of werk; wanneer ik met een massaspectrometer ga werken verwacht ik dat de metingen geanalyseerd worden in een speciaal programma dat geen aanvulling nodig heeft van een dergelijk package. Desalniettemin verwacht ik wel dat ik nu beter kan inschatten en begrijpen wat er achter de schermen van zo'n programma allemaal moet gebeuren. Daarnaast zou ik met behulp van dit package mijn ruwe data en gebruikte analyse wel openbaar kunnen maken, waarmee ik anderen kan helpen of om hulp en feedback kan vragen. De komende tijd zal ik verder werken aan mijn _skill_ door te oefenen met andere R packages, zoals {ptw}. Ik hoop daarmee mijn algemene begrip van MS data, preprocessing en analyses te vergroten. Op school zijn een aantal mooie massaspectrometers aanwezig. Ik heb al een keer een introductie van een docent gekregen op een UPLC-MS en zal ook zeker om een vervolg vragen. Daarbij zal ik Chemie docenten en studenten vragen hoe zij de MS data precies analyseren en me gaan verdiepen in de door hun gebruikte programma's. Ik weet zeker dat ik daarmee goed voorbereid ben op mijn droomstage en een bedrijf zelfs kan helpen in de richting van een betere analyse _workflow_, _something more data science and Open Source_.
