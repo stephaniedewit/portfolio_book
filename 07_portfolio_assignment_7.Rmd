@@ -24,12 +24,12 @@ gapminder_df <- as.data.frame(gapminder)
 head(gapminder_df, 3)
 
 #Tabel 2: 
-flu_df <- as.data.frame(read.csv(here::here(
+flu_df <- as.data.frame(read.csv(here::here("data_raw", "data03_assignment_7",
   "flu_data.csv"), skip = 11))
 head(flu_df, 3)
 
 #Tabel 3:
-dengue_df <- as.data.frame(read.csv(here::here(
+dengue_df <- as.data.frame(read.csv(here::here("data_raw", "data03_assignment_7",
   "dengue_data.csv"), skip = 11))
 head(dengue_df, 3)
 ```

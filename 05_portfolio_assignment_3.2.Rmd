@@ -1,16 +1,12 @@
----
-bibliography: portfolio.bib
----
-
 # Vrije besteding: een nieuwe _skill_ ontwikkelen
 
 ## Introductie
-Tijdens de DSFB2 portfolio lessen heb ik 32 uur vrij te besteden gekregen om te werken aan een nieuwe Data Science _skill_. Deze _skill_ heb ik gekozen door mijzelf af te vragen waar ik over twee jaar wil zijn. Ik zie mijzelf dan als biomedisch analist een bijdrage leveren aan onderzoek naar de ontwikkeling, bestrijding en genezing van ziekten. Specifiek zou ik graag onderzoek doen naar kanker of hersenziekten met celkweek, gentherapie en eiwit analyse technieken. Daarbij gebruik ik de vaardigheden die ik heb geleerd tijdens de _Data Science for Biology_ minor om mijn onderzoeksresultaten te analyseren en presenteren. Eiwit analyse technieken waarin ik specifiek geïnteresseerd ben, zijn _High-Performance Liquid Chromatography_ (HPLC) en massaspectrometrie (MS). Uiteindelijk wil ik doorstuderen tot microbioloog en grootschalige onderzoeken opzetten.
+Tijdens de DSFB2 portfolio lessen heb ik 32 uur vrij te besteden gekregen om te werken aan een nieuwe Data Science _skill_. Deze _skill_ heb ik gekozen door mijzelf af te vragen waar ik over twee jaar wil zijn. Ik zie mijzelf dan als biomedisch analist een bijdrage leveren aan onderzoek naar de ontwikkeling, bestrijding en genezing van ziekten. Specifiek zou ik graag onderzoek doen naar kanker of hersenziekten met celkweek, gentherapie en eiwit analyse technieken. Daarbij gebruik ik de vaardigheden die ik heb geleerd tijdens de DSFB2 minor om mijn onderzoeksresultaten te analyseren en presenteren. Eiwit analyse technieken waarin ik specifiek geïnteresseerd ben, zijn _High-Performance Liquid Chromatography_ (HPLC) en massaspectrometrie (MS). Uiteindelijk wil ik doorstuderen tot moleculair bioloog en grootschalige onderzoeken opzetten.
 
-Tijdens mijn BMR specialisatie projecticum heb ik gewerkt met een HPLC. De UV-detectie resultaten kwamen op de computer binnen via de software Clarity Lite, waarna handmatig data van interesse is gekopieerd naar een Excel bestand. Van deze data zijn tabellen gemaakt in PowerPoint en grafieken in Excel. Statistische tests zijn uitgevoerd in SPSS. Om het aantal handmatige stappen en de vatbaarheid voor fouten van deze analyse te verminderen, ben ik gaan onderzoeken of ik de ruwe Clarity Lite data kan exporteren en aan een R package kan 'voeren' voor een volledige data analyse in RStudio. Al vrij snel bleek ik geen R package te kunnen vinden voor de analyse van (HP)LC data. Ik ben wel een handvol packages tegengekomen voor analyses van LC-MS of GC-MS data __(zie tabel 6.1)__. Vloeistofchromatografie en massaspectrometrie zijn tegenwoordig vrijwel niet meer los van elkaar te denken. Daarnaast wil ik graag meer leren over massaspectrometrie, ik heb laatst mijn eerste MS run uitgevoerd tijdens een zelf-georganiseerde introductie van een docent. Om deze redenen heb ik ervoor gekozen om mij voor 32 uur te richten op het analyseren van LC-MS data met R als nieuwe _skill_.
+Tijdens mijn BMR specialisatie projecticum heb ik gewerkt met een HPLC. De UV-detectie resultaten kwamen op de computer binnen via de software Clarity Lite, waarna handmatig data van interesse is gekopieerd naar een Excel bestand. Van deze data zijn tabellen gemaakt in PowerPoint en grafieken in Excel. Statistische tests zijn uitgevoerd in SPSS. Om het aantal handmatige stappen en de vatbaarheid voor fouten van deze analyse te verminderen, ben ik gaan onderzoeken of ik de ruwe Clarity Lite data kan exporteren en aan een R _package_ kan 'voeren' voor een volledige data analyse in RStudio. Al vrij snel bleek ik geen R _package_ te kunnen vinden voor de analyse van (HP)LC data. Ik ben wel een handvol _packages_ tegengekomen voor analyses van LC-MS data __(zie tabel 6.1)__. Vloeistofchromatografie en massaspectrometrie zijn tegenwoordig vrijwel niet meer los van elkaar te denken. Daarnaast wil ik üperhaupt meer ervaring opdoen met massaspectrometrie. Hierom heb ik ervoor gekozen om mij voor 32 uur te richten op het analyseren van LC-MS data met R als nieuwe _skill_.
 
 ```{r echo = FALSE}
-packages <- tibble("Algorithm" = c("GCalignR", "amsrpm", "msInspect/AMT", "PETAL", "Podwojski", "ptw", "XCMS"), "Designed for" = c("GC-FID", "LC-MS", "LC-MS/MS", rep("LC-MS", 4)), "Used Dimensions" = c("RT", rep("RT, I, m/z", 2), "RT, m/z", "RT, I, m/z", "I, RT", "RT, I, m/z"), "Environment" = c(rep("R", 2), "Java, R", rep("R", 4)), "Visual tools" = c("Yes", rep("No", 5), "Yes"))
+packages <- tibble("Algorithm" = c("amsrpm", "msInspect/AMT", "PETAL", "Podwojski", "ptw", "XCMS"), "Designed for" = c("LC-MS", "LC-MS/MS", rep("LC-MS", 4)), "Used Dimensions" = c(rep("RT, I, m/z", 2), "RT, m/z", "RT, I, m/z", "I, RT", "RT, I, m/z"), "Environment" = c("R", "Java, R", rep("R", 4)), "Visual tools" = c(rep("No", 5), "Yes"))
 
 kbl(packages, caption = "__Gevonden R packages voor LC-MS of GC-MS data analyse__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1, bold = TRUE) %>% footnote(general = "Deze tabel is een onderdeel van de tabel '_S1. Summary of published algorithms implemented ... datasets._' uit [M. Ottensmann et al., 2018](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0198311). De packages waar ik me verder in heb verdiept, zijn groen gekleurd.") %>% row_spec(c(2, 6, 7), color = "green")
 ```
@@ -23,19 +19,19 @@ library(tidyverse)
 library(kableExtra)
 knitr::opts_chunk$set(message = FALSE, warning = FALSE, out.width = "120%")
 
-planning <- tibble("Stap" = 1:7, "Wat" = c("Uitzoeken hoe data uit Clarity Lite geëxporteerd kan worden.*","Oriënteren op de R packages die beschikbaar zijn voor LC-MS data analyse.","Twee á drie packages kiezen en hier verder in verdiepen.**","De packages proberen te installeren.", "Eén package kiezen en een tutorial o.i.d. over deze package volgen." ,"Het package zelf proberen toe te passen op andere data.", "Eigen code duidelijk uitschrijven in portfolio."), "Schatting tijdsbelasting" = c("1,5 uur","2 uur","2,5 uur","2 uur","~ 8 uur"," ~ 10 uur","max. 4 uur"), "Werkelijke tijdsbelasting" = c("1,5 uur","1 uur","~ 1 uur.","~ 1,5 uur","11 uur"," 12,5 uur","~ 5 uur"))
+planning <- tibble("Stap" = 1:6, "Wat" = c("Oriënteren op de R packages die beschikbaar zijn voor LC-MS data analyse.","Twee á drie packages kiezen en hier verder in verdiepen.**","De packages proberen te installeren.", "Eén package kiezen en een tutorial o.i.d. over deze package volgen." ,"Het package zelf proberen toe te passen op andere data.", "Eigen code duidelijk uitschrijven in portfolio."), "Schatting tijdsbelasting" = c("2 uur","2,5 uur","2 uur","~ 8 uur"," ~ 10 uur","max. 4 uur"), "Werkelijke tijdsbelasting" = c("~ 1,5 uur","~ 1,5 uur","2 uur","11 uur"," 12,5 uur","~ 5 uur"))
 
-kbl(planning, caption = "__Urenplanning__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1, bold = TRUE) %>% footnote(general = c("*Ik maak een afspraak met een docent voor gebruik van de HPLC computer op HL7.", "**Criteria:  er moet tenminste één uitgebreide tutorial o.i.d. met bijbehorende dataset beschikbaar zijn voor het package, evenals nieuwe data om zelf een code voor te schrijven.")) %>% col(4, color = "red")
+kbl(planning, caption = "__Urenplanning__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1, bold = TRUE) %>% footnote(general = c("*Ik maak een afspraak met een docent voor gebruik van de HPLC computer op HL7.", "**Criteria:  er moet tenminste één uitgebreide tutorial o.i.d. met bijbehorende dataset beschikbaar zijn voor het package, evenals nieuwe data om zelf een code voor te schrijven."))  %>% column_spec(4, color = "red")
 ```
 
-Indien er tijd over is, probeer ik een (korte) tutorial te vinden van een ander package voor LC-MS analyse. Mocht het nou allemaal nergens op uitdraaien, is mijn plan B om de analyse van mijn BMR projecticum volledig te automatiseren in R. Dit is dan geen nieuwe _skill_, maar wel een volledig zelf bedachte analyse en zelfgeschreven code.
+Indien er tijd over is, probeer ik een (korte) tutorial te vinden van een ander _package_ voor LC-MS analyse. Mocht het nou allemaal nergens op uitdraaien, is mijn plan B om de analyse van mijn BMR projecticum volledig te automatiseren in R. Dit is dan geen nieuwe _skill_, maar wel een volledig zelf bedachte analyse en zelfgeschreven code.
 
 Het is me niet gelukt om het {amsrpm} package, beschikbaar als [amsrpm.tar.gz](https://www.jstatsoft.org/article/view/v018i04), te installeren. Van het {ptw} package is een publieke [repository](https://github.com/rwehrens/ptw
-) met demo's beschikbaar, maar de meeste informatie kon ik vinden over het {xcms} package. Er bestaat een publieke [repository](https://github.com/sneumann/xcms) met verschillende vignettes waarin het package uitgebreid wordt gedemonstreerd. Belangrijk is ook dat de vignettes gebruik maken van ruwe data beschikbaar in andere 'installeerbare' packages, zoals {faahKO}. Na het kopiëren van de repository kon ik met 'install()' het package installeren. _Hiervoor moeten RStudio versie 4.2 en RTools versie 4.2 gebruikt worden. Buiten de repository om kunnen de functions uit dit package door een ieder geïnstalleerd worden met 'devtools::install("sneumann/xcms")'_. 
+) met demo's beschikbaar, maar de meeste informatie kon ik vinden over het {xcms} _package_. Er bestaat een publieke _[repository](https://github.com/sneumann/xcms) met verschillende_ vignettes waarin het _package_ uitgebreid wordt gedemonstreerd. Belangrijk is ook dat de vignettes gebruik maken van ruwe data beschikbaar in andere 'installeerbare' _packages_, zoals {faahKO}. Na het kopiëren van de _repository_ kon ik met 'install()' het _package_ installeren. _Hiervoor moeten RStudio versie 4.2 en RTools versie 4.2 gebruikt worden. Buiten de repository om kunnen de functions uit dit package door een ieder geïnstalleerd worden met 'devtools::install("sneumann/xcms")'_. 
 
 ## Deel 1: Oefenen met de vignette 'LCMS data preprocessing and analysis with xcms'
 Het vignette 'LCMS data preprocessing and analysis with xcms', te vinden op [BioConductor](https://bioconductor.org/packages/devel/bioc/vignettes/xcms/inst/doc/xcms.html#4_Chromatographic_peak_detection) of
-onder 'xcms/vignettes/xcms.Rmd' in de repository, demonstreert hoe het {xcms} package gebruikt kan worden voor de import, inspectie, preproccesing en eigenlijke analyse van LC-MS data. Daarvoor maakt het gebruik van data uit een [studie](https://www.scripps.edu/cravatt/pdf/SaghatelianTrauger2004.pdf) van Alan Saghatelian et al. uit 2004, beschikbaar als {faahKO} package. Deze onderzoekers zijn opzoek gegaan naar lipiden in het zoogdier brein die gereguleerd worden door het enzym _fatty acid amide hydrolase_ (FAAH). Daartoe hebben ze met LC-MS het metaboloom in kaart gebracht van wild-type muizen en van knock-out muizen met een inactief FAAH gen [@saghatelianAssignmentEndogenousSubstrates2004]. In het {faahKO} package is in NetCDF format de ruwe, positive ion en _[centroid mode](https://blog.acdlabs.com/elucidation/2008/03/what-is-the-dif.html)_ LC-MS data aanwezig van ruggengraatmonsters van wild-type (WT) en knock-out (KO) muizen. Het vignette beperkt de analyse tot zes WT muizen en zes KO muizen [@LCMSDataPreprocessing]. Ik heb deze vignette grondig bestudeerd en de code gereproduceerd om te oefenen met het package, evenals om te checken of alle functions ook echt werken op mijn laptop.
+onder 'xcms/vignettes/xcms.Rmd' in de _repository_, demonstreert hoe het {xcms} _package_ gebruikt kan worden voor de import, inspectie, _preproccesing_ en eigenlijke analyse van LC-MS data. Daarvoor maakt het gebruik van data uit een [studie](https://www.scripps.edu/cravatt/pdf/SaghatelianTrauger2004.pdf) van Alan Saghatelian et al. uit 2004, beschikbaar als {faahKO} _package._ Deze onderzoekers zijn opzoek gegaan naar lipiden in het zoogdier brein die gereguleerd worden door het enzym _fatty acid amide hydrolase_ (FAAH). Daartoe hebben ze met LC-MS het metaboloom in kaart gebracht van wildtype muizen en van knock-out muizen met een inactief FAAH gen [@saghatelianAssignmentEndogenousSubstrates2004]. In het {faahKO} _package_ is in NetCDF format de ruwe, _positive ion_ en _[centroid mode](https://blog.acdlabs.com/elucidation/2008/03/what-is-the-dif.html)_ LC-MS data aanwezig van ruggengraatmonsters van wild-type (WT) en knock-out (KO) muizen. Het vignette beperkt de analyse tot zes WT muizen en zes KO muizen [@LCMSDataPreprocessing]. Ik heb deze vignette grondig bestudeerd en de code gereproduceerd om te oefenen met het _package_, evenals om te checken of alle functions ook echt werken op mijn laptop.
 
 ## Deel 2: xcms gebruiken voor een eigen analyse van de {faahKO} monsters
 De nieuwgeleerde analyse heb ik toegepast op de monsters ko18, ko19, wt18 en wt19 uit het {faahKO} package. Deze monsters zijn niet meegenomen in de voorbeeld analyse. __Ik begin met het inladen van een _workspace_ met alle benodigde _objects_, omdat bepaalde _functions_ tijdens het bouwen van dit gitbook BiocParallel errors kunnen geven (bekend voor het {xcms} package). Deze _functions_ zijn uitgezet met een '#'.__
@@ -118,11 +114,11 @@ ann
 pheatmap(cormat, annotation = ann, annotation_color = list(group = group_colors))
 ```
 
-Er lijkt een vrij sterke correlatie te zijn tussen de knock-out en wild-type monsters met index 19. _Ik ben er niet achter gekomen wat deze indexen precies betekenen, iets met de methode/meetvolgorde_. Voor de monsters met index 18 lijkt dit niet het geval.
+Er lijkt een vrij sterke correlatie te zijn tussen de KO en WT monsters met index 19. _Ik ben er niet achter gekomen wat deze indexen precies betekenen, iets met de methode/meetvolgorde_. Voor de monsters met index 18 lijkt dit niet het geval.
 
 ### 3) Peak detection
 
-De _peak detection_ wordt uitgevoerd met het centWave algoritme. Daartoe bepaal ik eerst wat de peakwidth-waarde moet zijn, door het _extracted ion chromatogram_ (EIC) van één piek te plotten. Een EIC laat het signaal zien van één geselecteerd ion a.k.a. m/z ratio [@LCMSDataPreprocessing].
+De _peak detection_ wordt uitgevoerd met het centWave algoritme. Daartoe bepaal ik eerst wat de peakwidth-waarde moet zijn, door het _extracted ion chromatogram_ (EIC) van één piek te plotten. Een EIC laat het signaal zien van één geselecteerd ion oftewel één m/z ratio [@LCMSDataPreprocessing].
 
 ```{r}
 rtr <- c(2700, 2900)
@@ -174,9 +170,7 @@ pandoc.table(
 
 # B Per monster de 'locatie' van pieken in de m/z ratio - retentie tijd dimensie:
 plotChromPeaks(xdata_pp, file = 1)
-plotChromPeaks(xdata_pp, file = 2)
 plotChromPeaks(xdata_pp, file = 3)
-plotChromPeaks(xdata_pp, file = 4)
 
 # C Piekdichtheid, oftewel het aantal pieken, over de retentie tijd:
 plotChromPeakImage(xdata_pp) ## lichter van kleur = hogere dichtheid
@@ -243,11 +237,11 @@ Het effect van de _alignment_ is goed zichtbaar op de voorbeeldpiek:
 ```{r}
 par(mfrow = c(2, 1))
 # Nogmaals ruwe EIC voorbeeldpiek:
-plot(chr_raw, col = group_colors[chr_raw$sample_group])
+plot(chr_raw, col = group_colors[chr_raw$sample_group], main = "m/z ratio range: 334.9 - 335.1")
 
 # Verkrijg het EIC van de voorbeeldpiek na retentie tijd corretie:
 chr_adj <- chromatogram(xdata_adj, rt = rtr, mz = mzr)
-plot(chr_adj, col = group_colors[chr_raw$sample_group], peakType = "none")
+plot(chr_adj, col = group_colors[chr_raw$sample_group], peakType = "none", main = "m/z ratio range: 334.9 - 335.1")
 ```
 
 ### 5) Correspondence
@@ -345,8 +339,7 @@ grid()
 text(pc$x[, 1], pc$x[,2], labels = xdata_fill$sample_name, col = "darkgrey",
      pos = c(4, 3, 1, 2), cex = 1)
 ```
-Volgens PC1, wat 48,5% van de variatie omvat, is er een duidelijk verschil tussen de monsters gebaseerd op het FAAH gen. Volgens PC2, met 39,6% variatie ook een aanzienlijk signaal, worden de monsters ook verdeeld gebaseerd op hun index. Omdat er niet van te voren genormaliseerd is, zou dit verschil veroorzaakt kunnen worden door een afwijking in de methode. Bijvoorbeeld: de dag waarop is gemeten heeft het resultaat beïnvloedt.
+Volgens PC1, wat 48,5% van de variatie omvat, is er een duidelijk verschil tussen de monsters gebaseerd op het FAAH gen. Volgens PC2, met 39,6% variatie ook een aanzienlijk signaal, worden de monsters ook verdeeld gebaseerd op hun index. Omdat er niet van te voren genormaliseerd is, zou dit verschil veroorzaakt kunnen worden door een afwijking in de methode. Bijvoorbeeld: de dag waarop is gemeten heeft het resultaat beïnvloedt [@LCMSDataPreprocessing].
 
 ## Afronding
-15:51 - 16:47
 Wat hebben de afgelopen 32 uur mij gebracht? Het meest heb ik opgestoken van de hindernissen die ik tegenkwam tijdens de installatie van nieuwe R packages. Van verouderde RTools versies tot missende _function_ beschrijvingen en errors in een package zelf. Ik vind het waardevol om alle stappen, van het bedenken wat voor een package je nodig hebt tot je eigen analyse schrijven, doorlopen te hebben. Daarnaast heb ik geleerd wat voor _preprocessing_ stappen er nodig zijn om van ruwe MS data te komen tot een vergelijking van samenstellingen tussen monsters. Ik verwacht niet dat mijn ervaring met het {xcms} package mij direct gaat helpen tijdens mijn stage of werk; wanneer ik met een massaspectrometer ga werken verwacht ik dat de metingen geanalyseerd worden in een speciaal programma dat geen aanvulling nodig heeft van een dergelijk package. Desalniettemin verwacht ik wel dat ik nu beter kan inschatten en begrijpen wat er achter de schermen van zo'n programma allemaal moet gebeuren. Daarnaast zou ik met behulp van dit package mijn ruwe data en gebruikte analyse wel openbaar kunnen maken, waarmee ik anderen kan helpen of om hulp en feedback kan vragen. De komende tijd zal ik verder werken aan mijn _skill_ door te oefenen met andere R packages, zoals {ptw}. Ik hoop daarmee mijn algemene begrip van MS data, preprocessing en analyses te vergroten. Op school zijn een aantal mooie massaspectrometers aanwezig. Ik heb al een keer een introductie van een docent gekregen op een UPLC-MS en zal ook zeker om een vervolg vragen. Daarbij zal ik Chemie docenten en studenten vragen hoe zij de MS data precies analyseren en me gaan verdiepen in de door hun gebruikte programma's. Ik weet zeker dat ik daarmee goed voorbereid ben op mijn droomstage en een bedrijf zelfs kan helpen in de richting van een betere analyse _workflow_, _something more data science and Open Source_.
