@@ -1,0 +1,34 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# paratests
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+__Author__: Stephanie de Wit
+
+__Date__: June 2022 
+
+__GitHub Pages created with this Gitbook__: https://stephaniedewit.github.io/ 
+
+This Gitbook was built with the CRAN R package {bookdown}, based on a minimal example in GitHub user yihui's [bookdown-minimal repository](https://github.com/yihui/bookdown-minimal). 
+
+The Gitbook consists of RMarkdown files with portfolio assignments that show the skills I gained during the _Data Sciences for Biology_ minor at Hogeschool Utrecht, The Netherlands. This Gitbook is linked to a GitHub Pages website, which is my final product for the DSFB2 Workflows course.
+
+## Build Gitbook
+The 'portfolio_book.Rproj' project must be opened to render this Gitbook via the 'Build' panel --> 'Build book' or with 'bookdown::render_book('index.Rmd', 'all')' 
+
+NOTE BEFORE BUILDING: this Gitbook uses the {xcms} package, installed by `BiocManager::install("xcms")`, which requires __R version 4.2 and RTools version 4.2__. Open every assignment RMarkdown and install the missing required packages (they will be suggested by a pop up at the top of the Rmarkdown).
