@@ -150,7 +150,7 @@ knitr::include_graphics(here::here("images", "queries3.png"))
 De output tabel van bovenstaande querie is opgeslagen als een CSV file: flu_dengue_gapminder.csv.
 
 ```{r}
-flu_dengue_gapminder <- read_csv(here::here("flu_dengue_gapminder.csv"))
+flu_dengue_gapminder <- read_csv(here::here("data", "data01_assignment_7", "flu_dengue_gapminder.csv"))
 
 #kbl(head(flu_dengue_gapminder, 10), caption = "__De gapminder dataset samengevoegd met de Influenza en \nKnokkelkoorts activiteit data__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1:5, bold = TRUE)
 

@@ -8,7 +8,7 @@ Tijdens mijn BMR specialisatie projecticum heb ik gewerkt met een HPLC. De UV-de
 ```{r echo = FALSE}
 packages <- tibble("Algorithm" = c("amsrpm", "msInspect/AMT", "PETAL", "Podwojski", "ptw", "XCMS"), "Designed for" = c("LC-MS", "LC-MS/MS", rep("LC-MS", 4)), "Used Dimensions" = c(rep("RT, I, m/z", 2), "RT, m/z", "RT, I, m/z", "I, RT", "RT, I, m/z"), "Environment" = c("R", "Java, R", rep("R", 4)), "Visual tools" = c(rep("No", 5), "Yes"))
 
-kbl(packages, caption = "__Gevonden R packages voor LC-MS of GC-MS data analyse__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1, bold = TRUE) %>% footnote(general = "Deze tabel is een onderdeel van de tabel '_S1. Summary of published algorithms implemented ... datasets._' uit [M. Ottensmann et al., 2018](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0198311). De packages waar ik me verder in heb verdiept, zijn groen gekleurd.") %>% row_spec(c(2, 6, 7), color = "green")
+kbl(packages, caption = "__Gevonden R packages voor LC-MS of GC-MS data analyse__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1, bold = TRUE) %>% footnote(general = "Deze tabel is een onderdeel van de tabel '_S1. Summary of published algorithms implemented ... datasets._' uit [M. Ottensmann et al., 2018](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0198311). De packages waar ik me verder in heb verdiept, zijn groen gekleurd.") %>% row_spec(c(1, 5, 6), color = "green")
 ```
 
 ### Plan van Aanpak

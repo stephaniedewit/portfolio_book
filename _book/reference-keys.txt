@@ -5,11 +5,11 @@ tab:unnamed-chunk-8
 fig:unnamed-chunk-11
 tab:unnamed-chunk-16
 tab:unnamed-chunk-17
+fig:unnamed-chunk-47
 fig:unnamed-chunk-48
 fig:unnamed-chunk-49
 fig:unnamed-chunk-50
-fig:unnamed-chunk-51
-introductie
+over-mij
 vaardigheid-1-semi-reproduceerbare-data-analyseren
 c.-elegans-kweekplaat-experiment
 normalisatie-met-het-drc-package
@@ -19,7 +19,7 @@ analyse-reproduceren
 vaardigheid-3-folder-structuur-gebruiken-volgens-de-guerilla-principles
 vaardigheid-4-opmaken-met-rmarkdown-en-html-syntax
 vrije-besteding-een-nieuwe-skill-ontwikkelen
-introductie-1
+introductie
 plan-van-aanpak
 deel-1-oefenen-met-de-vignette-lcms-data-preprocessing-and-analysis-with-xcms
 deel-2-xcms-gebruiken-voor-een-eigen-analyse-van-de-faahko-monsters
@@ -28,6 +28,7 @@ data-inspectie
 peak-detection
 alignment
 correspondence
+afronding
 vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager
 dsfb2-2022-project-regenwormen-introductie
 vaardigheid-6-werken-met-relational-databases
@@ -35,4 +36,4 @@ samenvoegen-van-virus-activiteit-dummy-data-met-gapminder-dataset
 vaardigheid-7-een-r-package-maken
 vaardigheid-8-rmarkdowns-parameteriseren
 ecdc-data-nieuwgemelde-covid-19-gevallen-en--doden
-deel-2
+referenties

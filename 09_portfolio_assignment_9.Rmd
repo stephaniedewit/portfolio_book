@@ -1,6 +1,6 @@
 # Vaardigheid 8: RMarkdowns parameteriseren
 
-Vaak wilt men de parameters binnen een analyse kunnen variëren, zoals de dataset waarop de analyse wordt uitgevoerd. Hieronder laat ik met een voorbeeld zien, dat ik RMarkdown parameterisatie kan gebruiken om soepel te switchen tussen parameters.
+Vaak wilt men de parameters binnen één analyse kunnen variëren, zoals de dataset waarop de analyse wordt uitgevoerd. Hieronder laat ik met een voorbeeld zien, dat ik RMarkdown parameterisatie kan gebruiken om soepel te switchen tussen parameters.
 
 ## ECDC data nieuwgemelde COVID-19-gevallen en -doden
 
@@ -18,3 +18,5 @@ In een R chunk wordt een parameter aangehaald met: __params$parameter_naam__.
 Klik [hier](https://github.com/stephaniedewit/stephaniedewit.github.io/blob/main/parameterized_Rmd_COVID.pdf) voor een voorbeeld van het rapport voor Nederland in februari, maart en april 2022. _Het is onmogelijk gebleken om parameters toe te voegen aan een gitbook RMarkdown_.
 
 _Het is onmogelijk gebleken om een numerieke range op te geven als parameter, bijvoorbeeld maand 3 t/m 5. Daarom heb ik besloten om een code te schrijven die voor elke opgegeven maand ook de gevallen en doden van de maand ervoor en erna laat zien._
+
+# Referenties
