@@ -29,7 +29,8 @@ deel-1-oefenen-met-de-vignette-lcms-data-preprocessing-and-analysis-with-xcms
 deel-2-xcms-gebruiken-voor-een-eigen-analyse-van-de-faahko-monsters
 data-import
 data-inspectie
-peak-detection
+piekdetectie
+alignment
 correspondence
 afronding
 vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager
