@@ -99,14 +99,14 @@ Op data zoals bovenstaande wordt gewoonlijk een dosis-response analyse uitgevoer
 
 _Generalized log-logistic function_: __f(x, (b, c, d, e)) = c + (d - c)/(1 + exp(b(logx) - log(e))).__
 
-1. _Fit_ het _log-logistic_ model van 'llogistic()' met 'drm()' volgens __'drm(a, b = , c = llogistic(), d = , ...)'__ [@ThreeparameterLoglogisticFunction; @LLThreeparameterLoglogistic]
+1. _Fit_ het _log-logistic_ model van 'llogistic()' met 'drm()' volgens __'drm(a, b = , c = llogistic(), d = , ...)'__ [@ThreeparameterLoglogisticFunction; @LLThreeparameterLoglogistic].
 
-2. Verkrijg een schatting van de het maximum, het minimum, de ED50 en de richtingscoëfficient met hun bijbehorende standaard errors, t-waarden en p-waarden met __'summary(drm_model)'__ [@ThreeparameterLoglogisticFunction; @LLThreeparameterLoglogistic; @RPubsFourparameterLoglogistic]
+2. Verkrijg een schatting van de het maximum, het minimum, de ED50 en de richtingscoëfficient met hun bijbehorende standaard errors, t-waarden en p-waarden met __'summary(drm_model)'__ [@ThreeparameterLoglogisticFunction; @LLThreeparameterLoglogistic; @RPubsFourparameterLoglogistic].
 
-3. Test de _fit_ van het model met bijv. de _goodness-of-fit_ test __'modelFit(drm_model)'__.  [@ThreeparameterLoglogisticFunction; @LLThreeparameterLoglogistic; @RPubsFourparameterLoglogistic]
+3. Test de _fit_ van het model met bijv. de _goodness-of-fit_ test __'modelFit(drm_model)'__ [@ThreeparameterLoglogisticFunction; @LLThreeparameterLoglogistic; @RPubsFourparameterLoglogistic].
 
-4. Verkrijg de betrouwbaarheidsintervallen voor bovengenoemde vier parameters met __'confint(drm_model)'__. [@RPubsFourparameterLoglogistic]
+4. Verkrijg de betrouwbaarheidsintervallen voor bovengenoemde vier parameters met __'confint(drm_model)'__ [@RPubsFourparameterLoglogistic].
 
-5. Bereken m.b.v. de bovengenoemde vier parameters de IC50. [@RPubsFourparameterLoglogistic]
+5. Bereken m.b.v. de bovengenoemde vier parameters de IC50 [@RPubsFourparameterLoglogistic].
 
-6. Plot de dosis-respons curve met __'plot(drm_model)'__. Argument 'log = ""' schakelt de default logaritmische x-as uit, 'broken = TRUE' geeft ook de dosis 0 weer en er kan genormaliseerd worden: 'norm = TRUE' en 'normref = 1'. [@ThreeparameterLoglogisticFunction; @LLThreeparameterLoglogistic; @RPubsFourparameterLoglogistic; @ritzDoseResponseAnalysisUsing2015] _Voor het C. elegans experiment is het gemiddelde aantal nakomelingen binnen de negatieve controle ook gelijk gesteld aan 1 en het aantal nakomelingen uitgedrukt als fractie daarvan._
+6. Plot de dosis-respons curve met __'plot(drm_model)'__. Argument 'log = ""' schakelt de default logaritmische x-as uit, 'broken = TRUE' geeft ook de dosis 0 weer en er kan genormaliseerd worden: 'norm = TRUE' en 'normref = 1' [@ThreeparameterLoglogisticFunction; @LLThreeparameterLoglogistic; @RPubsFourparameterLoglogistic; @ritzDoseResponseAnalysisUsing2015]. _Voor het C. elegans experiment is het gemiddelde aantal nakomelingen binnen de negatieve controle ook gelijk gesteld aan 1 en het aantal nakomelingen uitgedrukt als fractie daarvan._

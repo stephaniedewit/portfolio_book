@@ -11,7 +11,7 @@ knitr::opts_chunk$set(message=FALSE, warning=FALSE)
 
 ## Ripeta criteria
 
-De reproduceerbaarheid van een artikel wordt gescored aan de hand van de Ripeta criteria. Ik heb het volgende _Open Source_ artikel van Pubmed Central op reproduceerbaarheid beoordeeld: __[Chaimayo, C., Kaewnaphan, B., Tanlieng, N. et al. Rapid SARS-CoV-2 antigen detection assay in comparison with real-time RT-PCR assay for laboratory diagnosis of COVID-19 in Thailand. Virol J 17, 177 (2020)](https://doi.org/10.1186/s12985-020-01452-5)__ 
+De reproduceerbaarheid van een artikel wordt gescored aan de hand van de Ripeta criteria. Ik heb het volgende _Open Source_ artikel van Pubmed Central op reproduceerbaarheid beoordeeld: __[Chaimayo, C., Kaewnaphan, B., Tanlieng, N. et al. Rapid SARS-CoV-2 antigen detection assay in comparison with real-time RT-PCR assay for laboratory diagnosis of COVID-19 in Thailand. Virol J 17, 177 (2020)](https://doi.org/10.1186/s12985-020-01452-5) (zie tabel 3.2)__. 
 
 Dit artikel vergelijkt de prestaties van een SARS-CoV-2 antigeen sneltest, de Standard™ Q COVID-19 Ag kit van Biosensor®, met die van een RT-qPCR, specifiek de Allplex™ 2019-nCoV Assay van Seegene®. Een RT-qPCR vormde op het moment van publicatie als de gouden standaard voor het diagnosticeren van SARS-CoV-2 infecties. Er zijn 454 neus-keel monsters afgenomen bij participanten die mogelijk besmet waren met COVID-19. Elk monster is gebruikt voor een RT-qPCR en een antigeen sneltest. De antigeen sneltest liet een gevoeligheid en specificiteit zien vergelijkbaar aan de RT-qPCR en kan gebruikt worden voor screening op SARS-CoV-2 [@chaimayoRapidSARSCoV2Antigen2020].
 

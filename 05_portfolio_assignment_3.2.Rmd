@@ -115,7 +115,7 @@ pheatmap(cormat, annotation = ann, annotation_color = list(group = group_colors)
 
 Er lijkt een vrij sterke correlatie te zijn tussen de KO en WT monsters met index 19. _Ik ben er niet achter gekomen wat deze indexen precies betekenen, iets met de methode/meetvolgorde_. Voor de monsters met index 18 lijkt dit niet het geval.
 
-### 3) Peak detection
+### 3) Piekdetectie
 
 De _peak detection_ wordt uitgevoerd met het centWave algoritme. Daartoe bepaal ik eerst wat de 'peakwidth'-waarde moet zijn, door het _extracted ion chromatogram_ (EIC) van één piek te plotten. Een EIC laat het signaal zien van één geselecteerd ion oftewel één m/z ratio [@LCMSDataPreprocessing].
 
@@ -172,7 +172,7 @@ plotChromPeakImage(xdata_pp) ## lichter van kleur = hogere dichtheid
 ```
 
 _Intermezzo: ontleding van samenvattende tabel_<br>
-'split.data.frame(chromPeaks(xdata_pp), f = chromPeaks(xdata_pp)[, "sample"])' maakt één _list_ van per monster één vector met de geïdentificeerde pieken. Met lapply() wordt op elke vector in deze list de summary_fun _function_ uitgevoerd, die het aantal pieken en de quantielen van de retentietijd verdeling teruggeeft. Deze worden opgeslagen als list 'T' en do.call() roept vervolgens de _function_ 'rbind' aan, die de pieken en quantielen combineert in een array. De rijnamen worden vervangen en er wordt een tabel gemaakt.
+'split.data.frame(chromPeaks(xdata_pp), f = chromPeaks(xdata_pp)[, "sample"])' maakt één _list_ van per monster één _vector_ met de geïdentificeerde pieken. Met 'lapply()' wordt op elke _vector_ in deze _list_ de 'summary_fun' _function_ uitgevoerd, die het aantal pieken en de quantielen van de retentie tijd verdeling teruggeeft. Deze worden opgeslagen als _list_ 'T' en 'do.call()' roept vervolgens de _function_ 'rbind' aan, die de pieken en quantielen combineert in een array. De rijnamen worden vervangen en er wordt een tabel gemaakt.
 
 Ik controleer net als in de vignette de piekdetectie met de piek die hierboven is gebruikt om de 'peakwidth' te bepalen:
 
@@ -189,7 +189,7 @@ plot(chr_ex, col = group_colors[chr_raw$sample_group], lwd = 2, peakBg = sample_
 kbl(chromPeaks(xdata_pp, mz = mzr, rt = rtr), caption = "__Identified chromatographic peaks in a selected m/z and retention time range__.") %>% kable_styling(full_width = FALSE, bootstrap_options = "striped", position = "left", latex_options = "scale_down") %>% column_spec(1, bold = TRUE)
 ```
 
-Ik rond de _peak detection_ af door te kijken naar de distributie van piek intensiteit per monster. Hiermee controleren ik volgens de vignette of er geen stelselmatige verschillen zijn tussen de runs van de monsters [@LCMSDataPreprocessing].
+Ik rond de piekdetectie af door te kijken naar de distributie van piek intensiteit per monster. Hiermee controleren ik volgens de vignette of er geen stelselmatige verschillen zijn tussen de runs van de monsters [@LCMSDataPreprocessing].
 
 ```{r}
 # Verkrijg piek intensiteiten per monster op een log2-schaal:
@@ -200,7 +200,8 @@ boxplot(ints, varwidth = TRUE, col = group_colors[xdata_pp$sample_group],
         ylab = expression(log[2]~intensity), main = "Peak intensities per sample", names = c("wt18", "wt19", "ko18", "ko19"))
 grid(nx = NA, ny = NULL)
 ```
-### 4) Alignment
+
+### 4) _Alignment_
 De retentie tijd van eenzelfde ion kan variëren tussen monsters (zie EIC voorbeeldpiek). Ik corrigeer hiervoor met de 'adjustRtime' _function_, die de pieken langs de retentie tijd as verschuift om ze te _alignen_. Hieronder wordt de obiwarp methode gebruikt die de retentie tijden van de spectra _alignt_, beter bekend als _warping_ [@LCMSDataPreprocessing].
 
 ```{r}
@@ -219,7 +220,6 @@ legend(4100, 1050000, legend = c("wt", "ko"), lty = 1, col = c("#60984EA3", "#60
 ## de volgende function geeft in deze context BiocParallel errors tijdens het builden:
 #bpis_adj <- chromatogram(xdata_adj, aggregationFun = "max", include = "none")
 
-par(mfrow = c(2, 1), mar = c(4.5, 4.2, 1, 0.5))
 plot(bpis_adj, col = group_colors[bpis_adj$sample_group], main = "BPC per sample after alignment: m/z ratio range: 200 - 600")
 legend(4100, 1050000, legend = c("wt", "ko"), lty = 1, col = c("#60984EA3", "#604DAF4A"))
 
@@ -238,9 +238,9 @@ chr_adj <- chromatogram(xdata_adj, rt = rtr, mz = mzr)
 plot(chr_adj, col = group_colors[chr_raw$sample_group], peakType = "none", main = "m/z ratio range: 334.9 - 335.1")
 ```
 
-### 5) Correspondence
+### 5) _Correspondence_
 De laatste _preprocessing_-stap is het identificeren van dezelfde pieken in de monsters: de _correspondence analysis_. Daartoe worden de pieken eerst per kleine m/z ratio-intervallen gegroepeerd in _features_ op basis van 
-de piekdichtheid over de retenie tijd. Hieronder een voorbeeld voor het m/z ratio interval 305.05 - 305.15. [@LCMSDataPreprocessing].
+de piekdichtheid over de retenie tijd. Hieronder een voorbeeld voor het m/z ratio interval 305.05 - 305.15 [@LCMSDataPreprocessing].
 
 ```{r}
 # Defineer interval:
@@ -315,7 +315,7 @@ feature_chroms <- featureChromatograms(xdata_fill, features = 1:4)
 # EIC informatie eerste vier features:
 chromPeaks(feature_chroms[1:4, ])
 
-# EICs::
+# EICs:
 plot(feature_chroms, col = sample_colors, peakBg = sample_colors[chromPeaks(feature_chroms)[, "sample"]])
 ```
 
@@ -343,7 +343,7 @@ text(pc$x[, 1], pc$x[,2], labels = xdata_fill$sample_name, col = "darkgrey",
      pos = c(4, 3, 1, 2), cex = 1)
 ```
 __Conclusie__<br>
-Volgens PC1, wat 48,5% van de variatie omvat, is er een duidelijk verschil tussen de monsters gebaseerd op het FAAH gen. Volgens PC2, met 39,6% variatie ook een aanzienlijk signaal, worden de monsters ook verdeeld gebaseerd op hun index. Omdat er niet van te voren genormaliseerd is, zou dit verschil veroorzaakt kunnen worden door een afwijking in de methode. Bijvoorbeeld: de dag waarop is gemeten heeft het resultaat beïnvloedt [@LCMSDataPreprocessing].
+Volgens PC1, wat 48,5% van de variatie omvat, is er een duidelijk verschil tussen de monsters gebaseerd op aanwezigheid van het werkzame FAAH gen. Volgens PC2, met 39,6% variatie ook een aanzienlijk signaal, worden de monsters ook verdeeld gebaseerd op hun index. Omdat er niet van te voren genormaliseerd is, zou dit verschil veroorzaakt kunnen worden door een afwijking in de methode. Bijvoorbeeld: de dag waarop is gemeten heeft het resultaat beïnvloedt [@LCMSDataPreprocessing].
 
 ## Afronding
 Wat hebben de afgelopen 32 uur mij gebracht? Het meest heb ik opgestoken van de hindernissen die ik tegenkwam tijdens de installatie van nieuwe R _packages._ Van een verouderde RTools versie tot missende _function_ beschrijvingen en errors in een _package_ zelf. Ik vind het waardevol om alle stappen, van het bedenken wat voor een _package_ je nodig hebt tot je eigen analyse schrijven, doorlopen te hebben. Daarnaast heb ik geleerd wat voor _preprocessing_ stappen er nodig zijn om van ruwe MS data te komen tot een vergelijking van samenstellingen tussen monsters. Ik verwacht niet dat mijn ervaring met het {xcms} _package_ mij direct gaat helpen tijdens mijn stage of werk; wanneer ik met een massaspectrometer ga werken verwacht ik dat de metingen geanalyseerd worden in een speciaal programma dat geen aanvulling nodig heeft van een dergelijk _package_. Desalniettemin verwacht ik wél dat ik nu beter kan inschatten en begrijpen wat er achter de schermen van zo'n programma allemaal moet gebeuren. Daarnaast zou ik met behulp van dit _package_ mijn ruwe data en gebruikte analyse wel openbaar kunnen maken, waarmee ik anderen kan helpen of om hulp en feedback kan vragen. De komende tijd zal ik verder werken aan mijn _skill_ door te oefenen met andere R _packages_, zoals {ptw}. Ik hoop daarmee mijn algemene begrip van MS data, _preprocessing_ en analyses te vergroten. Op school zijn een aantal mooie massaspectrometers aanwezig. Ik heb al een keer een introductie van een docent gekregen op een UPLC-MS en zal ook zeker om een vervolg vragen. Daarbij zal ik Chemie docenten en studenten vragen hoe zij de MS data precies analyseren en me gaan verdiepen in de door hun gebruikte programma's. Ik weet zeker dat ik daarmee goed voorbereid ben op mijn droomstage en een bedrijf zelfs kan helpen in de richting van een betere analyse _workflow_.

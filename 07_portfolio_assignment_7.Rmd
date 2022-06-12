@@ -152,8 +152,8 @@ De output tabel van bovenstaande _querie_ is opgeslagen als een CSV bestand (flu
 flu_dengue_gapminder <- read_csv(here::here("data", "data01_assignment_7", "flu_dengue_gapminder.csv"))
 
 # Voorbeeld met eerste 10 rijen:
+## Om één of andere reden verhelpt 'latex_options = "scale_down"', afgekeken van https://stackoverflow.com/questions/49044753/scale-kable-table-to-fit-page-width, NIET het buiten de marges vallen van de tabel...
 kbl(head(flu_dengue_gapminder, 10), caption = "__De gapminder dataset samengevoegd met de Influenza en \nKnokkelkoorts activiteit data__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left", latex_options = "scale_down") %>% column_spec(1:5, bold = TRUE)
-## Om één of andere reden verhelpt 'latex_options = "scale_down"', afgekeken van https://stackoverflow.com/questions/49044753/scale-kable-table-to-fit-page-width, NIET het buiten de marges vallen van de tabel... 
 
 summary(flu_dengue_gapminder)
 ```
@@ -175,8 +175,8 @@ POPU <- flu_dengue_gapminder %>% group_by(Country, Year) %>% summarise(Gem_popul
 desc_stat <- flu_dengue_gapminder %>% select(Country, Year) %>% unique %>% mutate(FLU, DENG, MORT, LIFE, FERT, POPU) %>% arrange(Year)
 
 # Voorbeeld van laatste 10 rijen:
-kbl(tail(desc_stat, 10), caption = "__Per jaar, per land de gemiddelden van de gemeten variabelen__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left", latex_options = "scale_down") %>% column_spec(1:2, bold = TRUE)
 ## Om één of andere reden verhelpt 'latex_options = "scale_down"' niet het buiten de marges vallen van de tabel...
+kbl(tail(desc_stat, 10), caption = "__Per jaar, per land de gemiddelden van de gemeten variabelen__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left", latex_options = "scale_down") %>% column_spec(1:2, bold = TRUE)
 ```
 
 Ik ben A) geïnteresseerd in de trends van Influenza en Knokkelkoorts activiteit door de jaren heen en wil B) het verband tussen deze activiteit en kindersterfte toetsen.
