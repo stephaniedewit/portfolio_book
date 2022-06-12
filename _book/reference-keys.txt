@@ -5,12 +5,14 @@ tab:unnamed-chunk-8
 fig:unnamed-chunk-11
 tab:unnamed-chunk-16
 tab:unnamed-chunk-17
-tab:unnamed-chunk-45
+tab:unnamed-chunk-25
+tab:unnamed-chunk-27
 tab:unnamed-chunk-46
-fig:unnamed-chunk-47
+tab:unnamed-chunk-47
 fig:unnamed-chunk-48
-fig:unnamed-chunk-50
-fig:unnamed-chunk-52
+fig:unnamed-chunk-49
+fig:unnamed-chunk-51
+fig:unnamed-chunk-53
 over-mij
 vaardigheid-1-semi-reproduceerbare-data-analyseren
 c.-elegans-kweekplaat-experiment
@@ -28,7 +30,6 @@ deel-2-xcms-gebruiken-voor-een-eigen-analyse-van-de-faahko-monsters
 data-import
 data-inspectie
 peak-detection
-alignment
 correspondence
 afronding
 vaardigheid-5-correct-refereren-m.b.v.-een-reference-manager
@@ -39,5 +40,3 @@ vaardigheid-7-een-r-package-maken
 vaardigheid-8-rmarkdowns-parameteriseren
 ecdc-data-nieuwgemelde-covid-19-gevallen-en--doden
 referenties
-portfolio_book
-build-gitbook
