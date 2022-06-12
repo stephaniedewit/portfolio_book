@@ -17,7 +17,7 @@ De belangrijkste variabelen in de gekregen dataset (CE.LIQ.FLOW.062_Tidydata.xls
 * __compName__: de generieke naam van de stof.
 * __compConcentration__: de concentratie van de stof.
 
-Gebruikte CRAN packages voor de analyse: {ggplot2}
+Gebruikte CRAN _packages_ voor de analyse: {ggplot2}
 
 ```{r, include = FALSE}
 #install.packages("tidyverse")

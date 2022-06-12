@@ -13,7 +13,7 @@ over-mij
 vaardigheid-1-semi-reproduceerbare-data-analyseren
 c.-elegans-kweekplaat-experiment
 normalisatie-met-het-drc-package
-vaardigheid-2-open-source-analyse-reproduceren
+vaardigheid-2-een-open-source-analyse-reproduceren
 ripeta-criteria
 analyse-reproduceren
 vaardigheid-3-folder-structuur-gebruiken-volgens-de-guerilla-principles
@@ -37,3 +37,5 @@ vaardigheid-7-een-r-package-maken
 vaardigheid-8-rmarkdowns-parameteriseren
 ecdc-data-nieuwgemelde-covid-19-gevallen-en--doden
 referenties
+portfolio_book
+build-gitbook
