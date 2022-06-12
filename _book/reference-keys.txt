@@ -5,10 +5,12 @@ tab:unnamed-chunk-8
 fig:unnamed-chunk-11
 tab:unnamed-chunk-16
 tab:unnamed-chunk-17
+tab:unnamed-chunk-45
+tab:unnamed-chunk-46
 fig:unnamed-chunk-47
 fig:unnamed-chunk-48
-fig:unnamed-chunk-49
 fig:unnamed-chunk-50
+fig:unnamed-chunk-52
 over-mij
 vaardigheid-1-semi-reproduceerbare-data-analyseren
 c.-elegans-kweekplaat-experiment

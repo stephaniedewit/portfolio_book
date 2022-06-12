@@ -1,6 +1,6 @@
 # Vaardigheid 6: Werken met _relational databases_
 
-Tijdens een data analyse wordt vaak de informatie uit verschillende databases gecombineerd. Een gemeenschappelijk gebruikte taal voor het ophalen, beheren en opslaan van data uit gerelateerde databases is __SQL__. In dergelijke databases is data georganiseerd in tabellen die aan elkaar gekoppeld kunnen worden gebaseerd op gemeenschappelijke eigenschappen.
+Tijdens een data analyse wordt vaak de informatie uit verschillende _databases_ gecombineerd. Een gemeenschappelijk gebruikte taal voor het ophalen, beheren en opslaan van data uit gerelateerde _databases_ is SQL. In dergelijke _databases_ is data georganiseerd in tabellen die aan elkaar gekoppeld kunnen worden gebaseerd op gemeenschappelijke eigenschappen.
 
 Met het onderstaande voorbeeld laat ik zien, dat ik met SQL de informatie uit drie verschillende tabellen in DBeaver kan samenvoegen.
 
@@ -16,7 +16,7 @@ library(kableExtra)
 library(dslabs) #package met gapminder dataset
 ```
 
-Ik maak eerst drie tabellen aan in RStudio: één met de gapminder dataset van het {dslabs} package en twee tabellen met datasets waarin voor verschillende landen de Influenza of Knokkelkoorts activiteit meerdere keren per jaar gemeten is.
+Ik maak eerst drie tabellen aan in RStudio: één met de gapminder dataset van het {dslabs} _package_ en twee tabellen met datasets waarin voor verschillende landen de Influenza of Knokkelkoorts activiteit meerdere keren per jaar gemeten is.
 
 ```{r}
 #Tabel 1: 
@@ -34,14 +34,14 @@ dengue_df <- as.data.frame(read.csv(here::here("data_raw", "data03_assignment_7"
 head(dengue_df, 3)
 ```
 
-De Influenza en Knokkelkoorts data is niet tidy. Ik maak de tabellen zelf tidy met:
+De Influenza en Knokkelkoorts data is niet _tidy._ Ik maak de tabellen zelf _tidy_ met:
 
 ```{r}
 flu_df <- pivot_longer(data = flu_df, cols=c(2:30), names_to = "country", values_to = "influenza_activity")
 dengue_df <- pivot_longer(data = dengue_df, cols=c(2:11), names_to = "country", values_to = "dengue_activity")
 ```
 
-Voordat ik de tabellen ga samenvoegen in DBeaver, zorg ik er eerst voor dat de variabelen waarop ik de tabellen wil samenvoegen, land en datum, hetzelfde zijn. In de gapminder tabel is de datum aanwezig als jaartallen in een kolom year, In de andere tabellen is de datum aanwezig als jaar-maand-dag in een kolom Date. Tevens is het belangrijk dat de land en datum kolommen dezelfde titel hebben en van hetzelfde datatype zijn.
+Voordat ik de tabellen ga samenvoegen in DBeaver, zorg ik er eerst voor dat de variabelen waarop ik de tabellen wil samenvoegen, land en datum, hetzelfde zijn. In de gapminder tabel is de datum aanwezig als jaartallen in een kolom 'year', In de andere tabellen is de datum aanwezig als jaar-maand-dag in een kolom 'Date.' Tevens is het belangrijk dat de land en datum kolommen dezelfde titel hebben en van hetzelfde datatype zijn.
 
 ```{r}
 # Zorg dat er in de Influenza en Knokkelkoorts tabel een kolom aanwezig is met de jaartallen, net als in de gapminder tabel:
@@ -95,7 +95,7 @@ dbWriteTable(con, "gapminder_df", gapminder_df)
 dbDisconnect(con)
 ```
 
-Om de data(overdracht) te inspecteren, heb ik in DBeaver de Data, Properties en ER Diagram tabs van de tabellen bekeken. Daarnaast heb ik de volgende SQL queries uitgevoerd, waarmee ik specifieke data uit de tabellen opvraag en controleer of dit correct werkt:
+Om de data(overdracht) te inspecteren, heb ik in DBeaver de 'Data', 'Properties' en 'ER Diagram' _tabs_ van de tabellen bekeken. Daarnaast heb ik de volgende SQL _queries_ uitgevoerd, waarmee ik specifieke data uit de tabellen opvraag en controleer of dit correct werkt:
 
 ```{r, out.width = "300px", echo = FALSE}
 knitr::include_graphics(here::here("images", "queries1.png"))
@@ -103,7 +103,7 @@ knitr::include_graphics(here::here("images", "queries1.png"))
 knitr::include_graphics(here::here("images", "queries2.png"))
 ```
 
-De queries gaven de verwachtte output. Ze zijn vertaald naar een zelfde inspectie in R:
+Deze _queries_ gaven de verwachtte output. Ze zijn vertaald naar een zelfde inspectie in R:
 
 ```{r}
 str(dengue_df)
@@ -124,8 +124,7 @@ head(gapminder_df %>% select(country, infant_mortality, year) %>% arrange(infant
 gapminder_df %>% select(year) %>% arrange() %>% unique() %>% as.character()
 ```
 
-De inspectie in R gaf dezelfde resultaten als de queries. De tabellen kunnen nu samengevoegd worden gebaseerd op de _compound key_ van de tabellen country en year. Ik doe dit eerst in R...:
-
+De inspectie in R gaf dezelfde, correcte resultaten als de _queries_. De tabellen kunnen nu samengevoegd worden gebaseerd op de _compound key_ 'country' en 'year' van de tabellen. Ik doe dit eerst in R...:
 
 ```{r}
 #readRDS(here::here("gapminder_df.rds"))
@@ -147,22 +146,21 @@ head(flu_dengue_gapminder_R, 5)
 knitr::include_graphics(here::here("images", "queries3.png"))
 ```
 
-De output tabel van bovenstaande querie is opgeslagen als een CSV file: flu_dengue_gapminder.csv.
+De output tabel van bovenstaande _querie_ is opgeslagen als een CSV bestand (flu_dengue_gapminder.csv) en kan gebruikt worden in R:
 
 ```{r}
 flu_dengue_gapminder <- read_csv(here::here("data", "data01_assignment_7", "flu_dengue_gapminder.csv"))
 
-#kbl(head(flu_dengue_gapminder, 10), caption = "__De gapminder dataset samengevoegd met de Influenza en \nKnokkelkoorts activiteit data__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1:5, bold = TRUE)
-
-library(DT)
-DT::datatable(head(flu_dengue_gapminder, 10))
+# Voorbeeld met eerste 10 rijen:
+kbl(head(flu_dengue_gapminder, 10), caption = "__De gapminder dataset samengevoegd met de Influenza en \nKnokkelkoorts activiteit data__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left", latex_options = "scale_down") %>% column_spec(1:5, bold = TRUE)
+## Om één of andere reden verhelpt 'latex_options = "scale_down"', afgekeken van https://stackoverflow.com/questions/49044753/scale-kable-table-to-fit-page-width, NIET het buiten de marges vallen van de tabel... 
 
 summary(flu_dengue_gapminder)
 ```
 
-Tijd om de daadwerkelijke data te gaan analyseren. Ik wil eerst een overzicht van per jaar, per land de gemiddelde Influenza activiteit, Knokkelkoorts activiteit, kindersterfte, levensverwachting, geboorten en populatie over de periode van 2002 - 2015. 
+Tijd om de daadwerkelijke data te gaan analyseren. Ik wil eerst een overzicht van per jaar, per land de gemiddelde Influenza activiteit, Knokkelkoorts activiteit, kindersterfte, levensverwachting, geboorten en populatie over de periode van 2002 tot 2015. 
 
-Ik vermoed dat Knokkelkoorts over het algemeen vooral voorkwam in (sub)tropische gebieden én dat er meer kindersterfte heeft plaatsgevonden in landen waarin in een bepaald jaar de Influenza of Knokkelkoorts activiteit zeer hoog was.
+Ik verwacht dat er meer kindersterfte heeft plaatsgevonden in landen waarin in een bepaald jaar de Influenza of Knokkelkoorts activiteit hoog was.
 
 ```{r}
 # Bereken de gemiddelden van de variabelen per jaar en land:
@@ -176,13 +174,12 @@ POPU <- flu_dengue_gapminder %>% group_by(Country, Year) %>% summarise(Gem_popul
 # Voeg de gemiddelden samen tot een tabel:
 desc_stat <- flu_dengue_gapminder %>% select(Country, Year) %>% unique %>% mutate(FLU, DENG, MORT, LIFE, FERT, POPU) %>% arrange(Year)
 
-#kbl(tail(desc_stat, 58), caption = "__Per jaar, per land de gemiddelden van de gemeten variabelen__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% column_spec(1:2, bold = TRUE)
-
-library(DT)
-DT::datatable(tail(desc_stat,58))
+# Voorbeeld van laatste 10 rijen:
+kbl(tail(desc_stat, 10), caption = "__Per jaar, per land de gemiddelden van de gemeten variabelen__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left", latex_options = "scale_down") %>% column_spec(1:2, bold = TRUE)
+## Om één of andere reden verhelpt 'latex_options = "scale_down"' niet het buiten de marges vallen van de tabel...
 ```
 
-Ik ben geïnteresseerd in de trends van Influenza en Knokkelkoorts activiteit door de jaren heen en wil het verband tussen deze activiteit en kindersterfte toetsen.
+Ik ben A) geïnteresseerd in de trends van Influenza en Knokkelkoorts activiteit door de jaren heen en wil B) het verband tussen deze activiteit en kindersterfte toetsen.
 
 ```{r, fig.cap = "__Influenza activiteit door de jaren heen.__ Voor 29 landen het aantal Influenza gevallen van 2002 tot en met 2015.", echo = FALSE}
 # Plot 1: Influenza activiteit door de jaren heen
@@ -194,7 +191,7 @@ ggplot(data = fdg, aes(x = Year, y = Influenza_activity)) +
   theme_bw()
 ```
 
-```{r, fig.cap = "__Knokkelkoorts activiteit door de jaren heen__. Voor 4 landen het aantal Knokkelkoorts gevallen van 2002 tot en met 2015."}
+```{r, fig.cap = "__Knokkelkoorts activiteit door de jaren heen__. Voor 4 landen het aantal Knokkelkoorts gevallen van 2002 tot en met 2015.", echo = FALSE}
 # Plot 2: Knokkelkoorts activiteit door de jaren heen
 fdg2 <- flu_dengue_gapminder %>% filter(Dengue_activity > 0)
 
@@ -204,12 +201,19 @@ ggplot(data = fdg2, aes(x = Year, y = Dengue_activity)) +
   theme_bw()
 ```
 
-```{r, fig.cap = "__Per land het verband tussen Influenza activiteit en kindersterfte door de jaren heen__. Voor 29 landen is van 2002 tot en met 2015 per jaar het aantal Influenza gevallen en de sterfte onder kinderen gemeten."}
-# Plot 3: Verband tussen Influenza_activity en infant_mortality per land door de jaren heen
+Figuur 8.1 laat voor vrijwel alle landen twee grote pieken in Influenza activiteit zien in 2009 en 2014. Figuur 8.2 laat één grote piek in Knokkelkoorts activiteit zien in 2009 voor de vier bijgehouden landen.
+
+```{r}
+# Verband tussen Influenza activiteit en kindersterfte
+# Filter missende waarden weg:
 fdg3 <- flu_dengue_gapminder %>% filter(Influenza_activity > 0 & infant_mortality > 0)
 
+# Voer correlatie test uit:
 cor.test(fdg3$Influenza_activity, fdg3$infant_mortality, method=c("pearson")) #p-value = 0.6713, geen stat. sig. verband
+```
 
+```{r, fig.cap = "__Per land het verband tussen Influenza activiteit en kindersterfte door de jaren heen__. Voor 29 landen is van 2002 tot en met 2015 per jaar het aantal Influenza gevallen en de sterfte onder kinderen gemeten.", echo = FALSE}
+# Plot 3: Verband tussen Influenza_activity en infant_mortality per land door de jaren heen
 cor_coefficient <- round(cor.test(fdg3$Influenza_activity, fdg3$infant_mortality, method=c("pearson"))$estimate,2)
 
 ggplot(data = fdg3, aes(x = Influenza_activity, y = infant_mortality)) +
@@ -220,16 +224,28 @@ ggplot(data = fdg3, aes(x = Influenza_activity, y = infant_mortality)) +
   annotate("text", x = 112500, y = 45, size = 4, color = "red", label = paste("Pearson's r = ", cor_coefficient))
 ```
 
-```{r, fig.cap = "__Per land het verband tussen Knokkelkoorts acitviteit en kindersterfte door de jaren heen__. Voor 29 landen is van 2002 tot en met 2015 per jaar het aantal Knokkelkoorts gevallen en de sterfte onder kinderen gemeten."}
-# Plot 4: Verband tussen Dengue_activity en infant_mortality per land door de jaren heen
+```{r}
+# Verband tussen Knokkelkoorts activiteit en kindersterfte
+# Filter missende waarden weg:
 fdg4 <- flu_dengue_gapminder %>% filter(Dengue_activity > 0 & infant_mortality > 0)
+
+# Voer correlatie test uit:
+cor.test(fdg4$Dengue_activity, fdg4$infant_mortality, method=c("pearson")) #p-value = 0.0008, wel stat. sig. verband
+```
+
+```{r, fig.cap = "__Per land het verband tussen Knokkelkoorts acitviteit en kindersterfte door de jaren heen__. Voor 29 landen is van 2002 tot en met 2015 per jaar het aantal Knokkelkoorts gevallen en de sterfte onder kinderen gemeten.", echo = FALSE}
+# Plot 4: Verband tussen Dengue_activity en infant_mortality per land door de jaren heen
+cor_coefficient2 <- round(cor.test(fdg4$Dengue_activity, fdg4$infant_mortality, method=c("pearson"))$estimate,2)
 
 ggplot(data = fdg4, aes(x = Dengue_activity, y = infant_mortality)) +
   geom_point(aes(color = Country), size = 1, alpha = 0.8) +
   geom_smooth(se = F, color = "red") +
   labs(y = "Kindersterfte (aantal)", x = "Knokkelkoorts activiteit (gevallen)") +
   theme_bw() +
-  annotate("text", x = 10, y = 50, size = 4, color = "red", label = paste("Pearson's r = ", cor_coefficient))
+  annotate("text", x = 10, y = 50, size = 4, color = "red", label = paste("Pearson's r = ", cor_coefficient2))
 ```
 
-__CONCLUSIE__
+__Conclusie__<br>
+Figuren 8.1 en 8.2 laten een min of meer overeenkomend patroon zien, misschien wordt de activiteit van de virussen door één of meerdere dezelfde parameters beïnvloed. 
+
+Gebaseerd op de correlatie coëfficienten van 0.02 en -0.45 voor respectievelijk een verband tussen kindersterfte en Inlfuenza activiteit en kindersterfte en Knokkelkoorts activiteit, lijkt er geen positief (of negatief) verband te zijn tussen uitbraken van deze virussen en kindersterfte. 

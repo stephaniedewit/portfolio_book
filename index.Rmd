@@ -1,6 +1,6 @@
 ---
 title: "Mijn Data Sciences portfolio"
-subtitle: "Door: Stephanie de Wit <br> Datum: 15-05-22 <br><br> Welkom! Tijdens het tweede deel van de _Data Sciences for Biology_ minor te Hogeschool Utrecht, heb ik gewerkt aan een portfolio van mijn vaardigheden tot nu toe. Dit portfolio is gebouwd met het CRAN {bookdown} R package en wordt hier gepubliceerd via GitHub Pages."
+subtitle: "Door: Stephanie de Wit <br> Datum: 12-06-2022 <br><br> Welkom! Tijdens het tweede deel van de _Data Sciences for Biology_ minor te Hogeschool Utrecht, heb ik gewerkt aan een portfolio van mijn vaardigheden tot nu toe. Dit portfolio is gebouwd met het CRAN {bookdown} R package en wordt hier gepubliceerd via GitHub Pages."
 site: bookdown::bookdown_site
 documentclass: book
 output:

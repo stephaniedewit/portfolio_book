@@ -1,5 +1,5 @@
-# Vaardigheid 7: Een R package maken
+# Vaardigheid 7: Een R _package_ maken
 
 R _packages_ zijn collecties van _functions_ en datasets die gebruikt worden om _tools_ te delen binnen de _community_. Van het inlezen van ruwe data tot het maken van tabellen en grafieken: overal worden _packages_ voor gebruikt.
 
-Ik heb zelf ook een R _package_ gemaakt: {paratests}. Dit _package_ dient om het uitvoeren van (non)-parametrische toetsen makkelijker en beter reproduceerbaar te maken. Op dit moment bestaat het _package_ uit vier _functions_: één voor een staafdiagram van een variabele gemiddelde per groep, één voor een Shapiro Wilk test, één voor een one-way ANOVA en één voor een puntgrafiek van variabelen met hun correlatie test resultaten. Lees in de README via [deze](https://github.com/stephaniedewit/paratests) _repository_ hoe dit _package_ geïnstalleerd en gebruikt moet worden.
+Ik heb zelf ook een R _package_ gemaakt: {paratests}. Dit _package_ dient om het uitvoeren van (non)-parametrische toetsen makkelijker en beter reproduceerbaar te maken. Op dit moment bestaat het _package_ uit vier _functions_: één voor een staafdiagram van een variabele gemiddelde per groep, één voor een Shapiro Wilk test, één voor een _one-way_ ANOVA en één voor een puntgrafiek van variabelen met hun correlatie test resultaten. Lees in de README via [deze](https://github.com/stephaniedewit/paratests) _repository_ hoe dit _package_ geïnstalleerd en gebruikt moet worden.
