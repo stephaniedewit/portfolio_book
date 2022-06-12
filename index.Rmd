@@ -14,7 +14,7 @@ bibliography: portfolio.bib
 ---
 
 # Over mij
-Ik ben een nieuwsgierige, scherpe en gedreven _Life Sciences_ studente van 24 jaar oud. Momenteel rond ik mijn derde studiejaar af met een Data Sciences minor en ben ik opzoek naar een uitdagende afstudeerstage. Ik smul van studiemateriaal over genetica, immunologie en tumorcelbiologie en werk graag met recombinante DNA technieken, celkweek en eiwit analyse technieken. Het is mijn ambitie om als moleculair bioloog onderzoek te doen naar het ontstaan, voorkomen en bestrijden van ziekten. Als ik niet aan het lezen ben in _Campbell, Biology_ of documentaires kijk over het heelal, ga ik graag tafelen met vrienden, dansen in de discotheek, naar het museum en op stedentripjes.
+Ik ben een nieuwsgierige, scherpe en gedreven _Life Sciences_ studente van 24 jaar oud. Momenteel rond ik mijn derde studiejaar af met een _Data Sciences_ minor en ben ik opzoek naar een uitdagende afstudeerstage. Ik smul van studiemateriaal over genetica, immunologie en tumorcelbiologie en werk graag met moleculair biologische technieken, celkweek en eiwit analyse technieken. Het is mijn ambitie om als moleculair bioloog onderzoek te doen naar het ontstaan, voorkomen en bestrijden van ziekten. Als ik niet aan het lezen ben in _Campbell, Biology_ of documentaires kijk over het heelal, ga ik graag tafelen met vrienden en familie, naar het museum en op stedentripjes.
 
 <br>
 __Header afbeelding: afkomstig uit een online artikel van [The Economist](https://www.economist.com/science-and-technology/2020/02/22/mapping-cells-to-build-a-complete-atlas-of-the-human-body)__

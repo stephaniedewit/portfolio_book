@@ -32,4 +32,4 @@ NOTE BEFORE BUILDING: this Gitbook uses the {xcms} package, installed by
 `BiocManager::install("xcms")`, which requires **R version 4.2 and
 RTools version 4.2**. Open every assignment RMarkdown and install the
 missing required packages (they will be suggested by a pop up at the top
-of the Rmarkdown).
+of the Rmarkdown). It takes \~ 10 minutes to build.

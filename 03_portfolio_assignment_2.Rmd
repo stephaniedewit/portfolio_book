@@ -1,16 +1,15 @@
-# Vaardigheid 3: Folder structuur gebruiken volgens de Guerilla Principles
+# Vaardigheid 3: Folder structuur gebruiken volgens de _Guerilla Principles_
 
-Hieronder demonstreer ik met een folder tree van de _Data Sciences for Biology 1_ DAUR2 lessen, hoe een goede folder structuur eruit ziet. In een notendop:
+Hieronder demonstreer ik met een _folder tree_ van de _Data Sciences for Biology 1_ DAUR2 lessen, hoe een goede folder structuur er volgens de _Guerilla Principles_ uit ziet. De principes opgesomt:
 
-* De RMarkdown files van een project staan in de folder '__Rmd__'.
-* Geschreven functies die worden aangehaald in de RMarkdown files staan in de folder '__R__'.
-* Scripts met overige code die aangehaald worden in de RMarkdown files staan in de folder '__code__'.
-* Ruwe data staan in de folder '__data_raw__'. Binnen deze folder heeft elke dataset een eigen folder In deze folder staat een README file met informatie over hoe de dataset tot stand is gekomen, een folder '__supporting__' voor benodigdheden en eventueel een folder '__v01__' voor een oudere versie van de dataset.
-* Opgeschoonde en/of tidy gemaakte, ruwe data staan in sub-folders in de folder '__data__'. In deze folder is ook een Excel bestand aanwezig met een overzicht van aanwezige data, genaamd "data-log".
-* In de folder '__images__' staan de afbeeldingen die gebruikt worden in de RMarkdown files.
+* De RMarkdown bestanden van een project staan in de folder '__Rmd__'.
+* Geschreven _functions_ die worden aangehaald in de RMarkdowns staan in de folder '__R__'.
+* _Scripts_ met overige code die aangehaald worden in de RMarkdowns staan in de folder '__code__'.
+* Ruwe data staan in de folder '__data_raw__'. Binnen deze folder heeft elke dataset een eigen folder In deze folder staat een README bestand met informatie over hoe de dataset tot stand is gekomen, een folder '__supporting__' voor benodigdheden en eventueel een folder '__v01__' voor een oudere versie van de dataset.
+* Opgeschoonde en/of _tidy_ gemaakte, ruwe data staan in sub-folders in de folder '__data__'. In deze folder is ook een Excel bestand aanwezig met een overzicht van aanwezige data, genaamd 'data-log'.
+* In de folder '__images__' staan de afbeeldingen die gebruikt worden in de RMarkdowns.
 * In de folder '__doc__' worden overige documenten opgeslagen.
-
-
+<br>
 ```{r}
 #install.packages("fs")
 library(fs)

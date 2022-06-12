@@ -176,9 +176,8 @@ plotChromPeaks(xdata_pp, file = 3)
 plotChromPeakImage(xdata_pp) ## lichter van kleur = hogere dichtheid
 ```
 
-_Intermezzo: ontleding van samenvattende tabel_
-
-'split.data.frame(chromPeaks(xdata_pp), f = chromPeaks(xdata_pp)[, "sample"])' maakt één list van per monster één vector met de geïdentificeerde pieken. Met lapply() wordt op elke vector in deze list de summary_fun _function_ uitgevoerd, die het aantal pieken en de quantielen van de retentietijd verdeling teruggeeft. Deze worden opgeslagen als list 'T' en do.call() roept vervolgens de _function_ 'rbind' aan, die de pieken en quantielen combineert in een array. De rijnamen worden vervangen en er wordt een tabel gemaakt volgens Pandoc's markdown style.
+_Intermezzo: ontleding van samenvattende tabel_<br>
+'split.data.frame(chromPeaks(xdata_pp), f = chromPeaks(xdata_pp)[, "sample"])' maakt één _list_ van per monster één vector met de geïdentificeerde pieken. Met lapply() wordt op elke vector in deze list de summary_fun _function_ uitgevoerd, die het aantal pieken en de quantielen van de retentietijd verdeling teruggeeft. Deze worden opgeslagen als list 'T' en do.call() roept vervolgens de _function_ 'rbind' aan, die de pieken en quantielen combineert in een array. De rijnamen worden vervangen en er wordt een tabel gemaakt volgens Pandoc's markdown style.
 
 pander() = pandoc.table()
 
@@ -235,11 +234,11 @@ plotAdjustedRtime(xdata_adj, col = group_colors[xdata_adj$sample_group])
 Het effect van de _alignment_ is goed zichtbaar op de voorbeeldpiek:
 
 ```{r}
-par(mfrow = c(2, 1))
+par(mfrow = c(2,2))
 # Nogmaals ruwe EIC voorbeeldpiek:
 plot(chr_raw, col = group_colors[chr_raw$sample_group], main = "m/z ratio range: 334.9 - 335.1")
 
-# Verkrijg het EIC van de voorbeeldpiek na retentie tijd corretie:
+# Verkrijg het EIC van de voorbeeldpiek na retentie tijd correctie:
 chr_adj <- chromatogram(xdata_adj, rt = rtr, mz = mzr)
 plot(chr_adj, col = group_colors[chr_raw$sample_group], peakType = "none", main = "m/z ratio range: 334.9 - 335.1")
 ```

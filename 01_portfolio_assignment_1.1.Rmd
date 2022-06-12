@@ -4,7 +4,7 @@
 knitr::opts_chunk$set(class.output="watch-out")
 ```
 
-De _Reproducible Research_ beweging streeft ernaar dat onderzoekers al hun data, gebruikte methodes en codes openbaar maken. Dit verhoogt de reproduceerbaarheid van hun onderzoek en daarmee de kwaliteit ervan, evenals het algehele vertrouwen in de wetenschap. Hieronder laat ik zien dat ik overweg kan met data die verkregen is volgens een niet- of semi-reproduceerbare workflow.
+De _Reproducible Research_ beweging streeft ernaar dat onderzoekers al hun data, gebruikte methodes en codes openbaar maken. Dit verhoogt de reproduceerbaarheid van hun onderzoek en daarmee de kwaliteit ervan, evenals het algehele vertrouwen in de wetenschap. Hieronder laat ik zien dat ik overweg kan met data die verkregen is volgens een niet- of semi-reproduceerbare _workflow_.
 
 ## _C. elegans_ kweekplaat experiment
 
@@ -13,13 +13,9 @@ Volwassen _C. elegans_ nematoden zijn blootgesteld aan verschillende concentrati
 De belangrijkste variabelen in de gekregen dataset (CE.LIQ.FLOW.062_Tidydata.xlsx) zijn:
 
 * __expType__: de behandelconditie.
-
 * __RawData__: het aantal nakomelingen geteld na de incubatietijd.
-  
 * __compName__: de generieke naam van de stof.
-  
 * __compConcentration__: de concentratie van de stof.
-  
 
 Gebruikte CRAN packages voor de analyse: {ggplot2}
 
@@ -32,27 +28,28 @@ library(readxl)
 knitr::opts_chunk$set(message=FALSE, warning=FALSE)
 ```
 
-Het Excel bestand heeft een tidy opmaak, maar bevat verschillende, onnodige variabelen die voor elke onderzochte vial dezelfde waarde aannemen zijn. De stof concentraties worden gegeven in nM maar de concentratie ethanol wordt gegeven in procent. Verder missen vijf RawData waarden. Het bestand bevat één sheet waarin de aanpassingen aan de parameter levels zijn gedocumenteerd en één sheet met alle unieke level opties per parameter. Er mist wel een exacte beschrijven van de parameters en hun levels: zijn de graden in Celsius? Betekent het pct 'level' van compConcentration procent? 
+Het Excel bestand heeft een _tidy_ opmaak, maar bevat verschillende, onnodige variabelen die voor elke onderzochte _vial_ dezelfde waarde aannemen zijn. De stof concentraties worden gegeven in nanomolair maar de concentratie ethanol wordt gegeven in procent. Verder missen vijf 'RawData' waarden. Het bestand bevat één sheet waarin de aanpassingen aan de parameter levels zijn gedocumenteerd en één sheet met alle unieke level opties per parameter. Er mist wel een exacte beschrijven van de parameters en hun levels: zijn de graden in Celsius? Betekent het 'pct' level van 'compConcentration' procent? 
 
 ```{r}
 #Lees het bestand in in R als tibble:
 elegans<-read_excel(here::here("data_raw", "data01_assignment_1.1", "CE.LIQ.FLOW.062_Tidydata.xlsx"))
-summary(elegans)
+#view(elegans)
+#summary(elegans)
 ```
 
-_De vijf missende waarden kunnen uit de tabel verwijderd worden, maar {ggplot2} grafieken negeren ze automatisch_.
+_De vijf missende 'RawData' waarden kunnen uit de tabel verwijderd worden, maar {ggplot2} grafieken negeren ze automatisch_.
 
-Er moet het een en ander aangepast worden aan de ingelezen data voordat een fatsoenlijke grafiek gemaakt kan worden: 
+Er moet het één en ander aangepast worden aan de ingelezen data voordat een fatsoenlijke grafiek gemaakt kan worden: 
 
-__A)__ Na het importeren van de data naar R, zijn de variabelen van data type veranderd. RawData is van het data type double geworden, dit moet integer zijn. Als de compConcentration variabele, nu van het data type character, niet als double wordt opgegeven, ontstaat een foute X-as. De variabele compName moet tot factor gemaakt worden voor gebruik in een {ggplot2} grafiek.
+__A)__ Na het importeren van de data naar R, zijn de variabelen van data type veranderd. 'RawData' is van het data type _double_ geworden, dit moet _integer_ zijn. Als de 'compConcentration' variabele, nu van het data type _character_, niet als _double_ wordt opgegeven, ontstaat een foute X-as. De variabele 'compName' moet tot factor gemaakt worden voor gebruik in een {ggplot2} grafiek.
 
-__B)__ Het percentage ethanol moet als volgt omgerekend worden naar nM: __nMol/L = (percentage ethanol * dichtheid in g/L ) / (molaire massa in g/mol * 100) * 1000000__
+__B)__ Het percentage ethanol moet als volgt omgerekend worden naar nanomolair: __nMol/L = (percentage ethanol * dichtheid in g/L ) / (molaire massa in g/mol * 100) * 1.000.000__
 
-1.5% ethanol = 256891.686564 nmol/L
+1.5% ethanol = 256891.7 nmol/L
 
-0.5% ethanol = 85630.562188 nmol/L
+0.5% ethanol = 85630.6 nmol/L
 
-_De dichtheid van het gebruikte ethanol is nodig om de percentages om te rekenen naar nM, maar niet gegeven. Daarom wordt uitgegaan van de standaard 789 g/L_.
+_De dichtheid van het gebruikte ethanol is nodig om de percentages om te rekenen naar nanomolair, maar niet gegeven. Daarom wordt uitgegaan van de standaard 789 g/L_.
 
 ```{r}
 #Verander de ethanol concentraties van procent naar nM:
@@ -62,7 +59,7 @@ elegans_nM$compConcentration <- elegans_nM$compConcentration %>% str_replace_all
 elegans_nM$compUnit <- elegans_nM$compUnit %>% str_replace_all("pct","nM")
 ```
 
-Zet de stof concentraties op een log10-schaal en voeg variatie toe aan de punten tegen overlap.
+Verder: zet de stof concentraties op een log10-schaal en voeg variatie toe aan de punten tegen overlap.
 
 ```{r, fig.cap = "__Aantal _C. elegans_ nakomelingen na verschillende blootstellingen (versie 1).__ Het aantal nakomelingen is geteld na incubatie voor een onbekende tijd van nematoden in S-medium en bij verschillende concentraties naftaleen, 2,6-di-isopropylnaftaleen, decaan en ethanol."}
 elegans_nM %>% ggplot(aes(x = log10(as.double(compConcentration)), y = as.integer(RawData))) +
@@ -71,14 +68,16 @@ elegans_nM %>% ggplot(aes(x = log10(as.double(compConcentration)), y = as.intege
   theme_bw()
 ```
 
-De negatieve controle S-medium is gelijk gesteld aan een compConcentration van 0 pct, vandaar dat S-medium niet in de grafiek verschijnt. De log10 van 0 bestaat niet.
+De negatieve controle S-medium is gelijk gesteld aan een 'compConcentration' van 0 'pct', vandaar dat S-medium niet in de grafiek verschijnt. De log10 van 0 bestaat niet.
 
-Wat nog resteert is het normaliseren van de data. We zijn geïnteresseerd in hoeveel nematoden er _meer_ of _minder_ worden geboren na incubatie met een stof ten opzichte van de normale situatie. Dit is niet aftelezen aan de bovenstaande grafiek, omdat het aantal nakomelingen van de negatieve controle wegvallen. Ik normaliseer door van elke meting het aantal nakomelingen uit te drukken als fractie van het gemiddelde aantal nakomelingen na incubatie in S-medium.
+Wat nog resteert is het normaliseren van de data. We zijn geïnteresseerd in hoeveel nematoden er meer of minder worden geboren na incubatie met een stof ten opzichte van de normale situatie. Dit is niet aftelezen aan de bovenstaande grafiek, omdat het aantal nakomelingen van de negatieve controle wegvallen. Ik normaliseer door van elke meting het aantal nakomelingen uit te drukken als fractie van het gemiddelde aantal nakomelingen na incubatie in S-medium.
 
 ```{r fig.cap = "__Fracties _C. elegans_ nakomelingen na verschillende blootstellingen.__ Voor elke blootstelling aan één van de stoffen in een bepaalde concentratie is de fractie nakomelingen berekend, relatief een het aantal nakomelingen binnen de negatieve controle."}
+# Gemiddeld aantal nakomelingen negatieve controle berekenen:
 controlNegative <- elegans_nM %>% filter(expType == "controlNegative") %>% select(RawData) %>% as_vector()
 mean(controlNegative)
 
+# Normaliseer hiermee de rest:
 elegans_norm <- elegans_nM %>% mutate(RawData_normalized = RawData / mean(controlNegative))
 
 elegans_norm %>% ggplot(aes(x = log10(as.double(compConcentration)), y = as.integer(RawData_normalized))) +
@@ -87,27 +86,27 @@ elegans_norm %>% ggplot(aes(x = log10(as.double(compConcentration)), y = as.inte
   theme_bw()
 ```
 
-Er zijn alleen negatieve fracties aanwezig door de jitter optie.
+_Er zijn alleen negatieve fracties aanwezig door de jitter optie_.
 
 __Conclusie__<br>
-Voor de positieve controle geldt, dat er duidelijk minder nematoden geboren worden na incubatie in 1,5% ethanol ten opzichte van in S-medium (fractie << 1). Bij stof concentraties lager dan ~ 0.06 nM (oftewel log10's lager dan -1.25) worden er evenveel, minder of meer nematoden geboren als binnen de negatieve controle. Bij deze concentraties is er dus geen effect op het aantal nakomelingen. Voor incubatie bij hogere concentraties van de drie geteste stoffen geldt dat er minder nematoden geboren worden als binnen de negatieve controle (fractie << 1).
+Voor de positieve controle geldt, dat er duidelijk minder nematoden geboren worden na incubatie in 1,5% ethanol ten opzichte van in S-medium (fractie << 1). Bij stof concentraties lager dan ~ 0.06 nM (oftewel log10's lager dan -1.25) worden er evenveel, minder of meer nematoden geboren als binnen de negatieve controle. Bij deze concentraties is er dus geen effect op het aantal nakomelingen. Voor incubatie bij hogere concentraties van de drie geteste stoffen geldt, dat er minder nematoden geboren worden dan binnen de negatieve controle (fractie << 1).
 
-### Normalisatie met het {drc} package
+## Normalisatie met het {drc} package
 
-Op data zoals bovenstaande wordt gewoonlijk een dosis-response analyse uitgevoerd. Dit kan met het [{drc} package](https://cran.r-project.org/web/packages/drc/index.html). Hieronder volgt een versimpelde workflow voor een analyse met het __log-logistic model__.
+Op data zoals bovenstaande wordt gewoonlijk een dosis-response analyse uitgevoerd. Dit kan met het CRAN _package_ [{drc}](https://cran.r-project.org/web/packages/drc/index.html). Hieronder volgt een versimpelde _workflow_ voor een analyse met het _log-logistic_ model.
 
-@RPubsFourparameterLoglogistic beschrijft het modelleren met het {drc} package alsvolgt: De gemiddelde response (y) wordt gekarakteriseerd met een functie (f), die afhankelijk is van de dosis (x) en het type respons (β). Het type respons is afhankelijk van de distributie van de data. Dus: voor een dosis x zullen de responses y gedistributeerd zijn rond functie f volgens β. 
+@RPubsFourparameterLoglogistic beschrijft het modelleren met het {drc} _package_ alsvolgt: De gemiddelde respons (y) wordt gekarakteriseerd met een functie (f), die afhankelijk is van de dosis (x) en het type respons (β). Het type respons is afhankelijk van de distributie van de data. Dus: voor een dosis x zullen de responsen y gedistributeerd zijn rond functie f volgens β. 
 
-Generalized log-logistic function: __f(x, (b, c, d, e)) = c + (d - c)/(1 + exp(b(logx) - log(e))).__
+_Generalized log-logistic function_: __f(x, (b, c, d, e)) = c + (d - c)/(1 + exp(b(logx) - log(e))).__
 
-1. Fit het log-logistic model van llogistic() met drm() volgens __drm(a, b = , c = llogistic(), d = , ...)__ [@ThreeparameterLoglogisticFunction, @LLThreeparameterLoglogistic, p. 3]
+1. _Fit_ het _log-logistic_ model van 'llogistic()' met 'drm()' volgens __'drm(a, b = , c = llogistic(), d = , ...)'__ [@ThreeparameterLoglogisticFunction; @LLThreeparameterLoglogistic]
 
-2. Verkrijg een schatting van de het maximum, het minimum, de ED50 en de richtingscoëfficient met hun bijbehorende standaard errors, t-waarden en p-waarden met __summary(drm_model)__ [@ThreeparameterLoglogisticFunction; @LLThreeparameterLoglogistic; @RPubsFourparameterLoglogistic]
+2. Verkrijg een schatting van de het maximum, het minimum, de ED50 en de richtingscoëfficient met hun bijbehorende standaard errors, t-waarden en p-waarden met __'summary(drm_model)'__ [@ThreeparameterLoglogisticFunction; @LLThreeparameterLoglogistic; @RPubsFourparameterLoglogistic]
 
-3. Test de fit van het model met bijv. de goodness-of-fit test __modelFit(drm_model).__  [@ThreeparameterLoglogisticFunction; @LLThreeparameterLoglogistic; @RPubsFourparameterLoglogistic]
+3. Test de _fit_ van het model met bijv. de _goodness-of-fit_ test __'modelFit(drm_model)'__.  [@ThreeparameterLoglogisticFunction; @LLThreeparameterLoglogistic; @RPubsFourparameterLoglogistic]
 
-4. Verkrijg de betrouwbaarheidsintervallen voor bovengenoemde vier parameters met __confint(drm_model)__. [@RPubsFourparameterLoglogistic]
+4. Verkrijg de betrouwbaarheidsintervallen voor bovengenoemde vier parameters met __'confint(drm_model)'__. [@RPubsFourparameterLoglogistic]
 
 5. Bereken m.b.v. de bovengenoemde vier parameters de IC50. [@RPubsFourparameterLoglogistic]
 
-6. Plot de dosis-respons curve met __plot(drm_model)__. Argument log = "" schakelt de default logaritmische x-as uit, broken = TRUE geeft ook de dosis 0 weer en er kan genormaliseerd worden: norm = TRUE en normref = 1. @ThreeparameterLoglogisticFunction; @LLThreeparameterLoglogistic, p. 3; @RPubsFourparameterLoglogistic; @ritzDoseResponseAnalysisUsing2015] _Voor het C. elegans experiment is het gemiddelde aantal nakomelingen binnen de negatieve controle gelijk gesteld aan 1 en het aantal nakomelingen uitgedrukt als fractie daarvan._
+6. Plot de dosis-respons curve met __'plot(drm_model)'__. Argument 'log = ""' schakelt de default logaritmische x-as uit, 'broken = TRUE' geeft ook de dosis 0 weer en er kan genormaliseerd worden: 'norm = TRUE' en 'normref = 1'. [@ThreeparameterLoglogisticFunction; @LLThreeparameterLoglogistic; @RPubsFourparameterLoglogistic; @ritzDoseResponseAnalysisUsing2015] _Voor het C. elegans experiment is het gemiddelde aantal nakomelingen binnen de negatieve controle ook gelijk gesteld aan 1 en het aantal nakomelingen uitgedrukt als fractie daarvan._

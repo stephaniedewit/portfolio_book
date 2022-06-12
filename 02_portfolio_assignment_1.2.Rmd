@@ -1,6 +1,6 @@
-# Vaardigheid 2: Open Source analyse reproduceren
+# Vaardigheid 2: Een _Open Source_ analyse reproduceren
 
-Met onderstaande uitwerkingen wil ik laten zien, dat ik artikelen op reproduceerbaarheid kan beoordelen en (een stukje van) een analyse kan nabootsen waarvan de gebruikte code openbaar is.
+Met onderstaande uitwerkingen wil ik laten zien, dat ik artikelen op reproduceerbaarheid kan beoordelen en (een stukje van) een analyse kan nabootsen waarvan de gebruikte code openbaar is gemaakt.
 
 ```{r setup, include = FALSE}
 library(tidyverse)
@@ -11,16 +11,16 @@ knitr::opts_chunk$set(message=FALSE, warning=FALSE)
 
 ## Ripeta criteria
 
-De reproduceerbaarheid van een artikel wordt gescored aan de hand van de Ripeta criteria. Ik heb hier het volgende Open Source artikel van Pubmed Central beoordeeld: __[Chaimayo, C., Kaewnaphan, B., Tanlieng, N. et al. Rapid SARS-CoV-2 antigen detection assay in comparison with real-time RT-PCR assay for laboratory diagnosis of COVID-19 in Thailand. Virol J 17, 177 (2020)](https://doi.org/10.1186/s12985-020-01452-5)__ 
+De reproduceerbaarheid van een artikel wordt gescored aan de hand van de Ripeta criteria. Ik heb het volgende _Open Source_ artikel van Pubmed Central op reproduceerbaarheid beoordeeld: __[Chaimayo, C., Kaewnaphan, B., Tanlieng, N. et al. Rapid SARS-CoV-2 antigen detection assay in comparison with real-time RT-PCR assay for laboratory diagnosis of COVID-19 in Thailand. Virol J 17, 177 (2020)](https://doi.org/10.1186/s12985-020-01452-5)__ 
 
-Dit artikel vergelijkt de prestaties van een SARS-CoV-2 antigeen sneltest, de Standard™ Q COVID-19 Ag kit van Biosensor®, met die van een RT-qPCR, specifiek de Allplex™ 2019-nCoV Assay van Seegene®. Een RT-qPCR vormde op het moment van publiatie als de gouden standaard voor het diagnosticeren van SARS-CoV-2 infecties. Er zijn 454 neus-keel monsters afgenomen bij participanten die mogelijk besmet waren met COVID-19. Elk monster is gebruikt voor een RT-qPCR en een antigeen sneltest. De antigeen sneltest liet een gevoeligheid en specificiteit zien vergelijkbaar aan de RT-qPCR en kan gebruikt worden voor screening op SARS-CoV-2 [@chaimayoRapidSARSCoV2Antigen2020].
+Dit artikel vergelijkt de prestaties van een SARS-CoV-2 antigeen sneltest, de Standard™ Q COVID-19 Ag kit van Biosensor®, met die van een RT-qPCR, specifiek de Allplex™ 2019-nCoV Assay van Seegene®. Een RT-qPCR vormde op het moment van publicatie als de gouden standaard voor het diagnosticeren van SARS-CoV-2 infecties. Er zijn 454 neus-keel monsters afgenomen bij participanten die mogelijk besmet waren met COVID-19. Elk monster is gebruikt voor een RT-qPCR en een antigeen sneltest. De antigeen sneltest liet een gevoeligheid en specificiteit zien vergelijkbaar aan de RT-qPCR en kan gebruikt worden voor screening op SARS-CoV-2 [@chaimayoRapidSARSCoV2Antigen2020].
 
-Onderstaande tabel is overgenomen uit het artikel en laat zien hoe voor zes participanten de (ruwe) uitslagen van de PCR en antigeen sneltest niet overenkomen.
+Onderstaande tabel is overgenomen uit het artikel en laat zien dat voor zes participanten de (ruwe) uitslagen van de PCR en antigeen sneltest niet overeenkwamen.
 
 ```{r, echo = FALSE}
 tabel <- tibble("Gender" = c("F", "F", "M", "F", "F", "F"), "Age" = c(33, 67, 75, 61, 83, 64), "Initial diagnosis" = c("Pneumonia", rep("Pre-operative", 5)), "Specimen type" = rep("NP swab + throat swab", 6), "PCR Ct-value E" = c("31.18", rep("> 40", 5)), "PCR Ct-value RdRP" = c("39.20", rep("> 40", 5)), "PCR Ct-value N" = c("35.54", rep("> 40", 5)), "Rapid Ag test result" = c("Negative", rep("Positive", 2), rep("Positive (weakly)", 3)), "Interpretation" = c("False negative", rep("False positive", 5)))
 
-kbl(tabel, caption = "__Participanten waarvoor de PCR en antigeen uitslagen niet overeen komen__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% footnote(general_title = "Data letterlijk overgenomen van @chaimayoRapidSARSCoV2Antigen2020") %>% column_spec(9, bold = TRUE)
+kbl(tabel, caption = "__Participanten met tegenstrijdige PCR en sneltest uitslagen__") %>% kable_styling(full_width = F, bootstrap_options = "striped", position = "left") %>% footnote(general_title = "Data letterlijk overgenomen van @chaimayoRapidSARSCoV2Antigen2020") %>% column_spec(9, bold = TRUE)
 ```
 
 <br>
@@ -32,15 +32,13 @@ kbl(ripeta, caption = "__Ripeta criteria scores voor Chutikarn et al. 2020__")
 
 ## Analyse reproduceren
 
-Ik heb een Open Source paper gekozen uit een [gegeven studie](https://www.r-bloggers.com/2022/03/newish-paper-share-the-code-not-just-the-data-a-case-study-of-the-reproducibility-of-jml-articles-published-under-the-open-data-policy/) die heeft onderzocht hoe reproduceerbaar papers gepubliceerd onder het Open Source beleid nou écht zijn. Van dit paper heb ik een stuk code gereproduceerd.
+Voor de reproductie heb ik een _Open Source_ _paper_ gekozen uit een [gegeven studie](https://www.r-bloggers.com/2022/03/newish-paper-share-the-code-not-just-the-data-a-case-study-of-the-reproducibility-of-jml-articles-published-under-the-open-data-policy/) die heeft onderzocht hoe reproduceerbaar _papers_ gepubliceerd onder het _Open Source_ beleid nou écht zijn. Van dit _paper_ heb ik een stuk code gereproduceerd.
 
-Het gekozen artikel uit de gegeven studie (Paper06): __[Arthur G. Samuel, Psycholinguists should resist the allure of linguistic units as perceptual units, Journal of Memory and Language (2020)](https://doi.org/10.1016/j.jml.2019.104070)__ 
+Het gekozen _paper_ uit de gegeven studie (Paper06): __[Arthur G. Samuel, Psycholinguists should resist the allure of linguistic units as perceptual units, Journal of Memory and Language (2020)](https://doi.org/10.1016/j.jml.2019.104070)__ 
 
 De bijbehorende code (Reproducing.Rmd) en dataset (osfstorage-archive/Exp2_Final_Adaptors_CVtestitems) zijn te vinden op [OSF](https://osf.io/s794v/).
 
-De codes in deze RMarkdown zijn gebruikt om de figuren te maken die in dit paper weergegeven worden. Op een schaal van 1 (zeer slecht) tot 5 (zeer goed) geef ik de leesbaarheid van de codes in dit bestand een 2.
-
-Hieronder reproduceer ik een deel van de data om figuur 2 uit het artikel na te maken. Het koste me moeite om dit figuur te reproduceren, met een score van 3 op een schaal van 1 (zeer moeilijk) tot 5 (zeer makkelijk).
+De codes in deze RMarkdown zijn gebruikt om de figuren te maken die in dit _paper_ weergegeven worden. Op een schaal van 1 (zeer slecht) tot 5 (zeer goed) geef ik de leesbaarheid van de codes in dit bestand een 2. Hieronder reproduceer ik een deel van de data om figuur 2 uit het _paper_ na te maken. Het koste me moeite om dit figuur te reproduceren, met een score van 3 op een schaal van 1 (zeer moeilijk) tot 5 (zeer makkelijk).
 
 Een stuk code met een helperfunctie van de RMarkdown auteur voor het inlezen van de data:
 
@@ -50,8 +48,7 @@ rm(list=ls())
 if(!require(tidyverse)){install.packages('tidyverse')}
 if(!require(lme4)){install.packages('lme4')}
 if(!require(readr)){install.packages('readr')}
-# 
-# A helper function for reading in the unconventionally structured data files
+
 read_exp_data <- function(filenames_BF_ID, to_skip){
   BF_ID <- NULL
   for (i in filenames_BF_ID){
@@ -100,7 +97,7 @@ read_exp_data <- function(filenames_BF_ID, to_skip){
 } 
 ```
 
-Een stuk code voor het berekenen van het aantal participanten in (waarschijnlijk) de No-Release conditie:
+Een stuk code voor het berekenen van het aantal participanten in (waarschijnlijk) de 'No-Release' conditie:
 
 ```{r aantal participanten in conditie ?, message=FALSE, warning=FALSE}
 wd <- here::here("data_raw", "data02_assignment_1.2")
@@ -113,7 +110,7 @@ ID <- read_exp_data(filenames_ID, to_skip =4) %>%
 nlevels(as.factor(ID$participant.id))
 ```
 
-Een stuk code voor het berekenen van het aantal participanten in (waarschijnlijk) de adaptation condition:
+Een stuk code voor het berekenen van het aantal participanten in (waarschijnlijk) de 'adaptation' conditie:
 
 ```{r aantal participanten in adaptation condition, message=FALSE, warning=FALSE}
 setwd(wd)
@@ -123,7 +120,7 @@ FAD <- read_exp_data(filenames_FAD, to_skip =6)
 nlevels(as.factor(FAD$participant.id))
 ```
 
-Een stuk code voor het filteren van participanten uit de (waarschijnlijk) No-Release conditie:
+Een stuk code voor het filteren van participanten uit de (waarschijnlijk) 'No-Release' conditie:
 
 ```{r participanten wegfilteren, message=FALSE, warning=FALSE}
 setwd(wd)
@@ -148,7 +145,7 @@ to_filter <- ID %>%
 to_filter
 ```
 
-Deze codes geven mij dezelfde uitkomst als de RMarkdown auteur. Nu kan ik een figuur, figuur 2 uit het artikel, reproduceren:
+Deze codes geven mij dezelfde uitkomst als de RMarkdown auteur. Nu kan ik een figuur, figuur 2 uit het _paper_, reproduceren:
 
 ```{r}
 wd <- here::here("data_raw", "data02_assignment_1.2")
@@ -173,7 +170,7 @@ FAD %>%
   geom_point() + geom_line()
 ```
 
-Deze figuur ziet er volgens de auteur hetzelfde uit als figuur 2 in het artikel. De vormen kloppen, maar de Y-as en as titels zijn door de RMarkdown auteur anders gekozen. De Y-as laat fracties zien i.p.v. percentages. Dit kan gemakkelijk aangepast worden:
+Deze figuur ziet er volgens de auteur hetzelfde uit als figuur 2 in het _paper_ De vormen kloppen, maar de Y-as en as titels zijn door de RMarkdown auteur anders gekozen. De Y-as laat fracties zien i.p.v. percentages. Dit kan gemakkelijk aangepast worden:
 
 ```{r, fig.cap = "__Identification of the members of the /ba/-/da/ test series, as a function of the adaptation condition, for adaptors that included released final stops.__ After adaptation with final-/d/ words (red curve/squares) identification as “D” was reduced compared to adaptation with final-/b/ words (blue curve/circles)."}
 FAD %>%
@@ -189,4 +186,4 @@ FAD %>%
   ylim(0,100)
 ```
 
-_Dit onderschrift is letterlijk overgenomen uit de paper zelf._
+_Bovenstaand onderschrift is letterlijk overgenomen uit figuur 2 van het paper zelf._
