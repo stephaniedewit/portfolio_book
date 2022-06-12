@@ -1,20 +1,21 @@
 # Vaardigheid 8: RMarkdowns parameteriseren
 
-Vaak wilt men de parameters binnen een analyse kunnen variëren, zoals de dataset waarop de analyse wordt uitgevoerd. Hieronder laat ik met een voorbeeld zien, dat ik RMarkdown parameterisatie kan gebruiken om soepel te switchen tussen parameters.
+Vaak wilt men de parameters binnen één analyse kunnen variëren, zoals de dataset waarop de analyse wordt uitgevoerd. Hieronder laat ik met een voorbeeld zien, dat ik RMarkdown parameterisatie kan gebruiken om soepel te switchen tussen parameters.
 
 ## ECDC data nieuwgemelde COVID-19-gevallen en -doden
 
-Gebaseerd op [publieke data](https://www.ecdc.europa.eu/en/publications-data/data-daily-new-cases-covid-19-eueea-country) van de European Center for Disease Prevention and Control (ECDC), heb ik een [geparameteriseerd RMarkdown rapport](https://github.com/stephaniedewit/stephaniedewit.github.io/blob/main/parameterized_Rmd_COVID.Rmd) geschreven dat voor een gegeven land en periode per dag het aantal nieuwgemelde COVID-19-gevallen en -doden laat zien. 
+Gebaseerd op [publieke data](https://www.ecdc.europa.eu/en/publications-data/data-daily-new-cases-covid-19-eueea-country) van de _European Center for Disease Prevention and Control_ (ECDC), heb ik een [geparameteriseerd RMarkdown rapport](https://github.com/stephaniedewit/stephaniedewit.github.io/blob/main/parameterized_Rmd_COVID.Rmd) geschreven dat voor een gegeven land en periode per dag het aantal nieuwgemelde COVID-19-gevallen en -doden laat zien. 
 
-De te variëren parameters worden aan de YAML header toegevoegd binnen het params veld en ingesteld volgens:
+De te variëren parameters worden aan de YAML header toegevoegd binnen het 'params:' veld en ingesteld volgens bijv.:
 
-__params:__<br>
-    __parameter_1: karakter__<br>
-    __parameter_2: numerieke waarde__<br>
-    __parameter_3: numerieke waarde__<br>
+__parameter_1: karakter__<br>
+__parameter_2: numerieke waarde__<br>
+__parameter_3: numerieke waarde__<br>
 
-In een R chunk wordt een parameter aangehaald met: __params$parameter_naam__. 
+_Het is onmogelijk gebleken om een numerieke range op te geven als parameter, bijv. maand 3 t/m 5. Daarom heb ik besloten om een code te schrijven die voor elke opgegeven maand ook de gevallen en doden van de maand ervoor en erna laat zien._
 
-Klik [hier](https://github.com/stephaniedewit/stephaniedewit.github.io/blob/main/parameterized_Rmd_COVID.pdf) voor een voorbeeld van het rapport voor Nederland in februari, maart en april 2022. _Het is onmogelijk gebleken om parameters toe te voegen aan een gitbook RMarkdown_.
+In een R _chunk_ wordt een parameter aangehaald met: __params$parameter_naam__.
 
-_Het is onmogelijk gebleken om een numerieke range op te geven als parameter, bijvoorbeeld maand 3 t/m 5. Daarom heb ik besloten om een code te schrijven die voor elke opgegeven maand ook de gevallen en doden van de maand ervoor en erna laat zien._
+Klik [hier](https://github.com/stephaniedewit/stephaniedewit.github.io/blob/main/parameterized_Rmd_COVID.pdf) voor een voorbeeld van het rapport voor Nederland in februari, maart en april 2022. _Het is onmogelijk gebleken om parameters toe te voegen aan een Gitbook_.
+
+# Referenties

@@ -1,10 +1,10 @@
 # Vaardigheid 4: Opmaken met RMarkdown en HTML syntax
 
-Er zijn eindeloos veel opties om een RMarkdown file overzichtelijker en mooier te maken. Hieronder laat ik met een CV zien, dat ik overweg kan met RMarkdown syntax en een RMarkdown kan koppelen aan een CSS file met HTML syntax.
+Er zijn eindeloos veel opties om een RMarkdown bestand overzichtelijker en mooier te maken. Met een CV laat ik zien, dat ik daartoe overweg kan met RMarkdown syntax en een RMarkdown kan koppelen aan een CSS bestand.
 
-Ik heb het template 'HTML resume' van {pagedown} gebruikt om met RMarkdown een CV als [PDF bestand](https://github.com/stephaniedewit/stephaniedewit.github.io/blob/main/cv_pagedown.pdf) te genereren. _Het is niet mogelijk om dergelijke templates toe te voegen aan een gitbook als deze._ 
+Ik heb het template 'HTML resume' van het CRAN _package_ {pagedown} gebruikt om met RMarkdown een CV als [PDF bestand](https://github.com/stephaniedewit/stephaniedewit.github.io/blob/main/cv_pagedown.pdf) te genereren. _Het is niet mogelijk om dergelijke templates toe te voegen aan een Gitbook als deze._ 
 
-__YAML header:__
+__RMarkdown code voor YAML header:__
 
 ```{r}
 #---
@@ -21,7 +21,7 @@ __YAML header:__
 #---
 ```
 
-__CSS file:__
+__HTML code in CSS bestand:__
 
 ```{r}
 #* {
@@ -53,7 +53,7 @@ __CSS file:__
 #}
 ```
 
-__Body:__
+__RMarkdown code voor body:__
 
 ```{r}
 #Aside
@@ -134,5 +134,3 @@ __Body:__
 #Using _size exclusion chromatography_ we investigated whether Hexabody® antibodies have a lower tendency to hexamerize after oxidation.
 #:::
 ```
-
-
